@@ -104,8 +104,9 @@ public class UserView {
         return "user/content/pages/feed/read";
     }
 
-    @GetMapping("/product")
-    public String productPage(Model model){
+    @GetMapping("/product/{productId}")
+    public String productPage(Model model, @PathVariable Integer productId){
+        model.addAttribute("product", productService.getProductById(productId));
         model.addAttribute("disableLoading", true);
         return "user/content/pages/product/detail";
     }
