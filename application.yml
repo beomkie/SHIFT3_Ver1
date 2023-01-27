@@ -1,0 +1,26 @@
+spring:
+  mvc:
+    favicon:
+      enabled: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://shop.huni.kr/shift3?zeroDateTimeBehavior=convertToNull"
+    username: "root"
+    password: "Peneksoftsz00!"
+  jpa:
+    database: mysql
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: none #create update none
+      format_sql: true
+      use_sql_comment: true
+    show-sql: true
+  # file upload max size (파일 업로드 크기 설정)
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+
+server:
+  port: 1027
