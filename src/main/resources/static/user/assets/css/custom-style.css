@@ -33,3 +33,17 @@
 .btn-fill-dark{
     background-color: black !important;
 }
+
+/*
+body{
+    position: absolute !important;
+    overflow-y: scroll !important;
+}*/
+
+.footer_sns li {
+    display: inline-block;
+    list-style: none;
+    color: white;
+    width: 2rem;
+    margin-left: 0.8rem;
+}
