@@ -23,7 +23,7 @@ public class SecurityConfig {
             .headers().frameOptions().disable()
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("/", "/user/**").permitAll()
+            .requestMatchers("/**").permitAll()
 //            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()
             .and()

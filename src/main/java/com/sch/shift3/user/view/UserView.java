@@ -11,4 +11,9 @@ public class UserView {
         return "user/content/main";
     }
 
+    @GetMapping("/introduce")
+    public String introducePage() {
+        return "user/content/pages/introduce";
+    }
+
 }
