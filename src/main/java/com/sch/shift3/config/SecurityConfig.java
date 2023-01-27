@@ -23,9 +23,8 @@ public class SecurityConfig {
             .headers().frameOptions().disable()
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("/", "/css/**", "/images/**",
-                    "/js/**", "/h2-console/**").permitAll()
-            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
+            .requestMatchers("/", "/user/**").permitAll()
+//            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()
             .and()
             .logout()

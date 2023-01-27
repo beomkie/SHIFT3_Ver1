@@ -4,7 +4,7 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://shop.huni.kr/shift3?zeroDateTimeBehavior=convertToNull"
+    url: "jdbc:mysql://139.162.77.184/shift3?zeroDateTimeBehavior=convertToNull"
     username: "root"
     password: "Peneksoftsz00!"
   jpa:
@@ -20,6 +20,13 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  devtools:
+    livereload:
+      enable: true
+  thymeleaf:
+    cache: false
+    mode: "HTML"
+    check-template-location: true
 
 
 server:

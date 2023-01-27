@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/layout/default_layout}" lang="ko">
+	<div layout:fragment="content" class="content">
+
+	<!-- START 최근 피드 -->
+	<div class="section small_pt pb_20">
+		<div class="container">
+			<div class="row justify-content-start">
+				<div class="col-md-6">
+					<div class="heading_s3 text-start">
+						<h2>최근 피드</h2>
+					</div>
+					<div class="small_divider clearfix"></div>
+				</div>
+			</div>
+			<div class="row shop_container">
+				<div class="col-md-6 col-12">
+					<div class="product_box">
+						<div class="product_img">
+							<a href="">
+								<img th:src="@{/user/assets/images/recent_feed32.png}" class="w-100">
+							</a>
+							<div class="product_action_box d-none d-md-block">
+								<ul class="list_none pr_action_btn">
+									<li><a href="" class="popup-ajax"><i class="icon-magnifier"></i></a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="product_info">
+							<h6 class="recent_feed_title"><a href="shop-product-detail.html">컨텐츠 피드명 피드명 피드명 1111</a></h6>
+							<div class="recent_feed_subtitle">
+								공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 ...
+							</div>
+<!--							<button type="button" class="btn btn-dark">더 알아보기</button>-->
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6 col-12">
+					<div class="product_box text-start">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-6">
+								<div class="product_img">
+									<a href="shop-product-detail.html">
+										<img th:src="@{/user/assets/images/recent_feed32.png}">
+									</a>
+									<div class="product_action_box d-none d-md-block">
+										<ul class="list_none pr_action_btn">
+											<li><a href="" class="popup-ajax"><i class="icon-magnifier"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-6">
+								<div class="product_info">
+									<div class="recent_feed_category">카테고리</div>
+									<h6 class="recent_feed_title"><a href="shop-product-detail.html">컨텐츠 피드명 피드명 피드명 2222</a></h6>
+									<div class="recent_feed_subtitle">
+										공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 ...
+									</div>
+<!--									<button type="button" class="btn btn-dark d-none d-md-block">더 알아보기</button>-->
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="product_box text-start">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-6">
+								<div class="product_img">
+									<a href="shop-product-detail.html">
+										<img th:src="@{/user/assets/images/recent_feed32.png}">
+									</a>
+									<div class="product_action_box d-none d-md-block">
+										<ul class="list_none pr_action_btn">
+											<li><a href="" class="popup-ajax"><i class="icon-magnifier"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-6">
+								<div class="product_info">
+									<div class="recent_feed_category">카테고리</div>
+									<h6 class="recent_feed_title"><a href="shop-product-detail.html">컨텐츠 피드명 피드명 피드명 3333</a></h6>
+									<div class="recent_feed_subtitle">
+										공무원인 근로자는 법률이 정하는 자에 한하여 단결권·단체교섭권 ...
+									</div>
+<!--									<button type="button" class="btn btn-dark d-none d-md-block">더 알아보기</button>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END 최근 피드 -->
+
+	<!-- START 카테고리별 피드 1-->
+	<div class="section small_pt pb_20">
+		<div class="container">
+			<div class="row justify-content-start">
+				<div class="col-md-6">
+					<div class="heading_s3 text-start">
+						<h2>카테고리 1</h2>
+					</div>
+					<div class="small_divider clearfix"></div>
+				</div>
+			</div>
+			<div class="row shop_container">
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img1.jpg}" alt="furniture_img1">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">enim expedita sed</a></h6>
+							<div class="product_price">
+								<span class="price">$45.00</span>
+								<del>$55.25</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:80%"></div>
+								</div>
+								<span class="rating_num">(21)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img2.jpg}" alt="furniture_img2">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">adipisci officia libero</a></h6>
+							<div class="product_price">
+								<span class="price">$55.00</span>
+								<del>$95.00</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:68%"></div>
+								</div>
+								<span class="rating_num">(15)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img3.jpg}" alt="furniture_img3">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">Internet tend to repeat</a></h6>
+							<div class="product_price">
+								<span class="price">$68.00</span>
+								<del>$99.00</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:87%"></div>
+								</div>
+								<span class="rating_num">(25)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img4.jpg}" alt="furniture_img4">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">Many desktop publishing</a></h6>
+							<div class="product_price">
+								<span class="price">$69.00</span>
+								<del>$89.00</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:70%"></div>
+								</div>
+								<span class="rating_num">(22)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img5.jpg}" alt="furniture_img5">
+							</a>
+
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">injected humour repetition</a></h6>
+							<div class="product_price">
+								<span class="price">$45.00</span>
+								<del>$55.25</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:80%"></div>
+								</div>
+								<span class="rating_num">(21)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img6.jpg}" alt="furniture_img6">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">randomised humour words</a></h6>
+							<div class="product_price">
+								<span class="price">$55.00</span>
+								<del>$95.00</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:68%"></div>
+								</div>
+								<span class="rating_num">(15)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img7.jpg}" alt="furniture_img7">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">expedita distinctio rerum</a></h6>
+							<div class="product_price">
+								<span class="price">$68.00</span>
+								<del>$99.00</del>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:87%"></div>
+								</div>
+								<span class="rating_num">(25)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-4 col-6">
+					<div class="product_box text-center">
+						<div class="product_img">
+							<a href="shop-product-detail.html">
+								<img th:src="@{/user/assets/images/furniture_img8.jpg}" alt="furniture_img8">
+							</a>
+						</div>
+						<div class="product_info">
+							<h6 class="product_title"><a href="shop-product-detail.html">Itaque earum rerum</a></h6>
+							<div class="product_price">
+								<span class="price">$69.00</span>
+								<del>$89.00</del>
+								<div class="on_sale">
+									<span>20% Off</span>
+								</div>
+							</div>
+							<div class="rating_wrap">
+								<div class="rating">
+									<div class="product_rate" style="width:70%"></div>
+								</div>
+								<span class="rating_num">(22)</span>
+							</div>
+							<div class="pr_desc">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+							</div>
+							<div class="add-to-cart">
+								<a href="#" class="btn btn-dark btn-radius"><i class="icon-magnifier"></i>더 알아보기</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END 카테고리별 피드 1-->
+
+</div>
+
+
+</html>

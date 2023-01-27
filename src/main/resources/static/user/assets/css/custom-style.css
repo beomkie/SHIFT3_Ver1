@@ -1,0 +1,35 @@
+.recent_feed_category{
+    color: #111111;
+    font-size: 13px;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.navbar-button{
+    border: 1px solid darkgray;
+    float: right;
+    margin: 13px 0 0 3px;
+    /* font-size: 28px; */
+    color: #333;
+    transition: all 0.5s ease 0s;
+    border-radius: 0;
+    height: 35px;
+    width: 90px;
+    padding: 0;
+    line-height: 36px;
+    transition: none;
+}
+
+.btn-gray{
+    background: darkgray;
+    color: whitesmoke;
+}
+
+.navbar-login-btn:hover{
+    color: black;
+}
+
+
+.btn-fill-dark{
+    background-color: black !important;
+}
