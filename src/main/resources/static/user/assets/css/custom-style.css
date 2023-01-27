@@ -76,3 +76,12 @@ body{
     font-size: 1rem;
     font-weight: 300;
 }
+
+.sns-login div{
+    padding: 10px
+}
+
+.sns-login img {
+    width: 2rem;
+    margin-right: 0.5rem;
+}
