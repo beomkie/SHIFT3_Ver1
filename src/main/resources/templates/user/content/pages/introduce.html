@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/layout/default_layout}" lang="ko">
-<div layout:fragment="content" class="content">
 
-  <!-- START 최근 피드 -->
-  <div class="section small_pt pb_20">
-    <div class="container">
-      <div class="row justify-content-start">
+    <div layout:fragment="content" class="content">
 
-      </div>
+    <div class="intro_section">
+        <div class="container">
+            <div class="row">
+                <div class="title">서비스 소개</div>
+                <div class="subtitle">SHIFT3</div>
+            </div>
+        </div>
     </div>
+
+
+  <div class="section small_pt pb_20 mb-5">
+      <div class="container">
+          <div class="row justify-content-center text-center">
+              <div class="title">
+                SHIFT3은?
+              </div>
+              <div class="subtitle">
+                  서비스 설명 표시
+              </div>
+
+
+          </div>
+      </div>
   </div>
+
+    <div class="intro_section">
+        <div class="container">
+            <div class="row">
+                <div class="title mb-3">소개</div>
+                <img th:src="@{/user/assets/images/banner5.jpg}"/>
+            </div>
+        </div>
+    </div>
 
 </div>
 
