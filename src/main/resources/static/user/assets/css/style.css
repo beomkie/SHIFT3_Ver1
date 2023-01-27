@@ -2723,7 +2723,7 @@ input.text {
 }
 .carousel-control-next:hover, .carousel-control-prev:hover,
 .light_arrow .carousel-control-next:hover, .light_arrow .carousel-control-prev:hover{
-	background-color: #FF324D;
+	background-color: black;
 	color: #fff;
 }
 .carousel .indicators_style1,
@@ -2771,7 +2771,7 @@ input.text {
 	margin: -4px;
 }
 .carousel .indicators_style3 li {
-	background-color: #333;
+	background-color: darkslategray;
 	border-radius: 100%;
 	width: 10px;
 	height: 10px;
@@ -2782,11 +2782,11 @@ input.text {
 }
 .carousel .indicators_style1 li.active,
 .carousel .indicators_style2 li.active {
-	background-color: #FF324D;
+	background-color: black;
 }
 .carousel .indicators_style2 li.active:before,
 .carousel .indicators_style1 li.active:before {
-	border-color: #FF324D;
+	border-color: black;
 }
 .carousel .indicators_style4 li {
 	background-color: #fff;
