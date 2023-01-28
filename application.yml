@@ -30,4 +30,4 @@ spring:
 
 
 server:
-  port: 1027
+  port: 8080
