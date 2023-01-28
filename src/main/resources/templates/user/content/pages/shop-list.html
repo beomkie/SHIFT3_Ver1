@@ -14,6 +14,33 @@
         .sort_filter span{
             width: 50px !important;
         }
+
+
+        .shop_list{
+            background-color: rgba(234, 234, 234, 0.37);
+            height: 70vh;
+            color: black;
+        }
+
+        .shop_list .title{
+            font-weight: 350;
+            font-size: 2rem;
+        }
+
+        .shop_list .menu .name{
+            font-weight: 240;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+           .side{
+               height: fit-content;
+           }
+
+            .map{
+                height: 500px;
+            }
+        }
     </style>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
     <script type="text/javascript">
@@ -29,7 +56,7 @@
 
     <div class="container-fluid shop_list">
         <div class="row d-flex flex-wrap h-100">
-            <div class="col-md-3 col-sm-12 p-4">
+            <div class="col-md-3 col-sm-12 p-4 side">
                 <div class="title mb-2">지도</div>
                 <br/>
 
@@ -93,7 +120,7 @@
 
                 </div>
             </div>
-            <div class="col-md-9 col-sm-12">
+            <div class="col-md-9 col-sm-12 map">
                 <div id="naverMap" class="w-100 h-100"></div>
             </div>
         </div>

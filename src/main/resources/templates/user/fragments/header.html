@@ -51,6 +51,13 @@
               </div>
             </li>-->
             <li><a class="nav-link nav_item" href="/introduce">서비스 소개</a></li>
+
+            <li class="d-none d-sm-block d-md-none">
+<!--              모바일에서만 표시-->
+              <li><hr></li>
+              <li><a class="nav-link nav_item .d-sm-none .d-md-block" href="/login">로그인</a></li>
+              <li><a class="nav-link nav_item .d-sm-none .d-md-block" href="/signup">회원가입</a></li>
+            </li>
           </ul>
         </div>
         <ul class="navbar-nav attr-nav align-items-center">
@@ -64,13 +71,16 @@
               </form>
             </div><div class="search_overlay"></div><div class="search_overlay"></div>-->
 
-            <button class="btn btn-gray navbar-button me-1">
-              회원가입
-            </button>
+            <div class="d-none d-md-block d-xl-none d-xxl-none">
+<!--              모바일에서만 표시 안함-->
+              <button class="btn-gray navbar-button me-1">
+                회원가입
+              </button>
 
-            <button class="btn btn-white navbar-button navbar-login-btn">
-              <a href="/login">로그인</a>
-            </button>
+              <button class="btn-white navbar-button navbar-login-btn">
+                <a href="/login">로그인</a>
+              </button>
+            </div>
 
           </li>
 
