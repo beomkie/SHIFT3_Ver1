@@ -85,3 +85,30 @@ body{
     width: 2rem;
     margin-right: 0.5rem;
 }
+
+.shop_list_side{
+    background-color: white;
+}
+
+
+#naverMap img {
+    max-width: none;
+    height: auto;
+    border: 0
+}
+
+.shop_list{
+    background-color: rgba(234, 234, 234, 0.37);
+    height: 70vh;
+    color: black;
+}
+
+.shop_list .title{
+    font-weight: 350;
+    font-size: 2rem;
+}
+
+.shop_list .menu .name{
+    font-weight: 240;
+    font-size: 1rem;
+}

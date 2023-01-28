@@ -28,4 +28,10 @@ public class UserView {
         return "user/content/forgot";
     }
 
+    @GetMapping("/shop-list")
+    public String shopListPage(Model model){
+        model.addAttribute("disableLoading", true);
+        return "user/content/pages/shop-list";
+    }
+
 }

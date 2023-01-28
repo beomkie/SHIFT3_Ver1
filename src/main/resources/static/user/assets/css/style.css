@@ -5436,9 +5436,11 @@ footer .widget_title {
 	margin-bottom: 3px;
 }
 .product_size_switch span.active {
-	border-color: #FF324D;
-	background-color: #ff324d;
-	color: #fff;
+	/*edited hun*/
+	border-color: #525151;
+	background-color: rgba(141, 137, 137, 0.56);
+	font-weight: bold;
+	/*color: #fff;*/
 }
 .list_brand li {
 	list-style: none;

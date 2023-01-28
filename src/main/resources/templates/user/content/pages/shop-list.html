@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+<!--<script>-->
+
+
+<div layout:fragment="content" class="content">
+
+    <style>
+        .address_filter span{
+            width: 50px !important;
+        }
+
+        .sort_filter span{
+            width: 50px !important;
+        }
+    </style>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+    <script type="text/javascript">
+        window.initMap = function () {
+            let mapDiv = document.getElementById('naverMap');
+            window.map = new naver.maps.Map(mapDiv, {
+                zoom: 16,
+                maxZoom: 16,
+                minZoom: 6,
+            });
+        }
+    </script>
+
+    <div class="container-fluid shop_list">
+        <div class="row h-100">
+            <div class="col-3 p-4">
+                <span class="title mb-2">지도</span>
+                <br/>
+
+                <form>
+                    <div class="form-group mb-3">
+                        <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+                    </div>
+                </form>
+
+
+                <div class="menu mb-3">
+                    <span class="name mb-3">
+                        지역
+                    </span>
+
+
+                    <div class="product_size_switch address_filter">
+                        <span class="active">내위치</span>
+                        <span class="">서울</span>
+                        <span class="">경기</span>
+                        <span class="">인천</span>
+                        <span class="">강원</span>
+                        <span class="">대전</span>
+                        <span class="">세종</span>
+                        <span class="">충남</span>
+                        <span class="">충북</span>
+                        <span class="">부산</span>
+                        <span class="">울산</span>
+                        <span class="">경남</span>
+                        <span class="">경북</span>
+                        <span class="">대구</span>
+                        <span class="">광주</span>
+                        <span class="">전남</span>
+                        <span class="">전북</span>
+                        <span class="">제주</span>
+                    </div>
+
+
+                </div>
+
+
+                <div class="menu mb-3">
+                    <span class="name mb-3">
+                        필터
+                    </span>
+
+
+                    <div class="product_size_switch sort_filter">
+                        <span class="active">인기순</span>
+                        <span class="">최신순</span>
+                    </div>
+
+                </div>
+
+
+                <div class="menu mb-3">
+                    <span class="name mb-3">
+                        검색 결과
+                    </span>
+
+                </div>
+            </div>
+            <div class="col-9">
+                <div id="naverMap" class="w-100 h-100"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+</html>
