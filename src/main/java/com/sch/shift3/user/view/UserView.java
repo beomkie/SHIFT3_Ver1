@@ -23,4 +23,9 @@ public class UserView {
         return "user/content/login";
     }
 
+    @GetMapping("/forgot")
+    public String forgotPage(){
+        return "user/content/forgot";
+    }
+
 }

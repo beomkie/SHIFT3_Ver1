@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+  <div class="login_register_wrap section">
+    <div class="container">
+      <div class="row justify-content-center g-0">
+        <div class="col-xl-6 col-md-10">
+          <div class="login_wrap">
+            <div class="padding_eight_all bg-white">
+              <div class="heading_s1">
+                <h4>등록된 이메일로 비밀번호 찾기</h4>
+                <span>가입 당시 입력한 이메일을 통해 비밀번호를 변경할 수 있습니다.</span>
+              </div>
+              <form method="post">
+                <div class="row">
+                  <div class="col-12 form-group mb-3">
+                    <input type="text" required="" class="form-control" name="realName" placeholder="가입자 성함">
+                  </div>
+                  <div class="col-7 form-group mb-3">
+                    <input type="text" required="" class="form-control" name="email" placeholder="가입자 이메일">
+                  </div>
+                  <div class="col-5 form-group mb-3">
+                    <button type="submit" class="btn btn-block btn-gray" name="verifyEmail">인증번호 발송</button>
+                  </div>
+                </div>
+              </form>
+
+              <div class="row">
+                <div class="row mb-3 ps-3">
+                  <div class="col-lg-8 col-8">
+                    <span class="text-danger">입력하신 번호로 인증번호가 발송되었습니다.</span>
+                  </div>
+                  <div class="col-lg-4 col-4">
+                    <span>유효시간 : 09:35</span>
+                  </div>
+                </div>
+                <div class="col-md-12 col-8 mb-3">
+                  <input type="number" class="form-control" name="verifyCode" placeholder="인증 번호 입력">
+                </div>
+
+                <div class="col-md-12 col-4">
+                  <button type="button" class="btn btn-block btn-gray">확인</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</html>
