@@ -25,6 +25,7 @@ public class SecurityConfig {
             .headers().frameOptions().disable()
             .and()
             .authorizeHttpRequests()
+            .requestMatchers("/admin/**").hasRole(SecurityRole.ADMIN.name())
             .requestMatchers("/**").permitAll()
 //            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()
