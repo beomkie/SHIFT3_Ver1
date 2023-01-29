@@ -78,13 +78,31 @@
                 <br/>
 
                 <div class="menu">
-                    <li><a href="#"><span class="active">회원정보 수정</span></a></li>
-                    <li><a href="#"><span>찜목록</span></a></li>
-                    <li><a href="#"><span>공지사항</span></a></li>
-                    <li><a href="#"><span>고객센터</span></a></li>
-                    <li><a href="#"><span>주문내역</span></a></li>
-                    <li><a href="#"><span>쿠폰</span></a></li>
-                    <li><a href="#"><span>포인트</span></a></li>
+<!--                    <span th:text="${#strings.contains( , '')}"></span>-->
+<!--                    <li><a href="/mypage"><span th:class="${#httpServletRequest.getContextPath() == '/mypage' ? 'active' : ''}">회원정보 수정</span></a></li>-->
+                    <li>
+                        <a href="/mypage">
+                            <span th:class="${enable == 'index'} ? 'active' : ''">회원정보 수정</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/mypage/dips">
+                            <span th:class="${enable == 'dips'} ? 'active' : ''">찜목록</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/mypage/notice">
+                            <span th:class="${enable == 'notice'} ? 'active' : ''">공지사항</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/mypage/cs">
+                            <span th:class="${enable == 'cs'} ? 'active' : ''">고객센터</span>
+                        </a>
+                    </li>
                 </div>
 
             </div>

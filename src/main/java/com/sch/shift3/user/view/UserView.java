@@ -40,10 +40,29 @@ public class UserView {
         return "user/content/pages/content-list";
     }
 
-    @GetMapping("/my-page")
+    @GetMapping("/mypage")
     public String myPage(Model model){
-        model.addAttribute("disableLoading", true);
-        return "user/content/pages/my-page";
+        model.addAttribute("enable", "index");
+        return "user/content/pages/my-page/index";
     }
+
+    @GetMapping("/mypage/dips")
+    public String myDipsPage(Model model){
+        model.addAttribute("enable", "dips");
+        return "user/content/pages/my-page/dips";
+    }
+
+    @GetMapping("/mypage/notice")
+    public String myNoticePage(Model model){
+        model.addAttribute("enable", "notice");
+        return "user/content/pages/my-page/notice";
+    }
+
+    @GetMapping("/mypage/cs")
+    public String myCsPage(Model model){
+        model.addAttribute("enable", "cs");
+        return "user/content/pages/my-page/cs";
+    }
+
 
 }
