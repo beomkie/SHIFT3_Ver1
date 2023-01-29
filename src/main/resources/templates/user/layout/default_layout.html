@@ -45,10 +45,12 @@
 
 	<div th:replace="/user/fragments/header :: headerFragment"></div>
 
-	<div layout:fragment="content"></div>
 
 	<!-- Latest jQuery -->
 	<script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
+
+	<div layout:fragment="content"></div>
+
 	<!-- popper min js -->
 	<script th:src="@{/user/assets/js/popper.min.js}"></script>
 	<!-- Latest compiled and minified Bootstrap -->

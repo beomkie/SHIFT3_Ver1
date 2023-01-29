@@ -34,4 +34,11 @@ public class UserView {
         return "user/content/pages/shop-list";
     }
 
+    @GetMapping("/content-list")
+    public String contentListPage(Model model){
+        model.addAttribute("disableLoading", true);
+        return "user/content/pages/content-list";
+
+    }
+
 }

@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig {
 
+    private final CustomUserDetailsService customUserDetails;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -27,8 +29,19 @@ public class SecurityConfig {
 //            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()
             .and()
+            .formLogin()
+            .loginPage("/login")
+            .loginProcessingUrl("/login.do")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/")
+            .failureUrl("/login?error=true")
+            .permitAll()
+
+            .and()
             .logout()
-            .logoutSuccessUrl("/");
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true);
 //            .and()
 //            .oauth2Login()
 //            .userInfoEndpoint();
