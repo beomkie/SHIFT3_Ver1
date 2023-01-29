@@ -28,6 +28,9 @@ public class SecurityConfig {
             .requestMatchers("/**").permitAll()
 //            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()
+
+            .and()
+            .exceptionHandling().accessDeniedPage("/access-denied")
             .and()
             .formLogin()
             .loginPage("/login")
