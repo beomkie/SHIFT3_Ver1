@@ -1,4 +1,5 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--/* 이곳에 각 view가 위치합니다. */-->
 
 <head th:replace="/user/fragments/head :: headFragment"></head>
@@ -74,20 +75,21 @@
         <div class="row d-flex flex-wrap h-100">
             <!--                    <div class="col-md-3 col-sm-12 p-4 side"  style="border-right: 1px solid rgba(0,0,0,0.29)">-->
             <div class="col-md-3 col-sm-12 p-4 side">
-                <div class="title mb-2">마이페이지</div>
+                <div class="title mb-2" sec:authorize="isAuthenticated()">마이페이지</div>
+                <div class="title mb-2" sec:authorize="isAnonymous()">ㅁㄴㅇㅁㄴㅇ</div>
                 <br/>
 
                 <div class="menu">
 <!--                    <span th:text="${#strings.contains( , '')}"></span>-->
 <!--                    <li><a href="/mypage"><span th:class="${#httpServletRequest.getContextPath() == '/mypage' ? 'active' : ''}">회원정보 수정</span></a></li>-->
                     <li>
-                        <a href="/mypage">
+                        <a href="/mypage" sec:authorize="isAuthenticated()">
                             <span th:class="${enable == 'index'} ? 'active' : ''">회원정보 수정</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="/mypage/dips">
+                        <a href="/mypage/dips" sec:authorize="isAuthenticated()">
                             <span th:class="${enable == 'dips'} ? 'active' : ''">찜목록</span>
                         </a>
                     </li>
