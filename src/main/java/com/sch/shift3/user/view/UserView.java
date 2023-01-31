@@ -1,15 +1,25 @@
 package com.sch.shift3.user.view;
 
+import com.sch.shift3.utill.ImageUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
+@RequiredArgsConstructor
 public class UserView {
-
     @GetMapping("/")
     public String mainPage(){
         return "user/content/main";
+    }
+
+    @GetMapping("/file/{fileName}")
+    public ResponseEntity<Resource> getImageFile(@PathVariable String fileName){
+        return ImageUtil.display(fileName);
     }
 
     @GetMapping("/introduce")

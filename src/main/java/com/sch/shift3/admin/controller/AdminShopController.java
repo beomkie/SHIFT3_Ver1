@@ -3,7 +3,6 @@ package com.sch.shift3.admin.controller;
 import com.sch.shift3.admin.service.AdminImageService;
 import com.sch.shift3.admin.service.AdminShopService;
 import com.sch.shift3.user.dto.SelectShopDto;
-import com.sch.shift3.user.repository.SelectShopRepository;
 import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/admin/shop")
 public class AdminShopController {
-    private final SelectShopRepository selectShopRepository;
+
     private final AdminShopService adminShopService;
     private final AdminImageService adminImageService;
 

@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.sch.shift3.user.dto.SelectShopDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,4 +54,20 @@ public class SelectShop {
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
+
+    public SelectShopDto of() {
+        return SelectShopDto.builder()
+                .id(id)
+                .name(name)
+                .introduce(introduce)
+                .latitude(latitude)
+                .longitude(longitude)
+                .streetAddress(streetAddress)
+                .streetAddressDetail(streetAddressDetail)
+                .contactNumber(contactNumber)
+                .operatingTime(operatingTime)
+                .hitCount(hitCount)
+                .createdAt(createdAt)
+                .build();
+    }
 }
