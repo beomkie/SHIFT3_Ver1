@@ -10,6 +10,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -55,6 +57,24 @@ public class SelectShop {
     @Column(name = "created_at")
     private Instant createdAt;
 
+    @Builder.Default
+//    @JoinColumn(name = "select_shop_id")
+    @OneToMany(mappedBy = "selectShop", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<ImageSelectShop> imageSelectShops = new HashSet<>();
+
+    @Builder.Default
+//    @JoinColumn(name = "select_shop_id")
+    @OneToMany(mappedBy = "selectShop", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<SelectShopBrand> selectShopBrands = new HashSet<>();
+
+    public void addImageSelectShop(ImageSelectShop imageSelectShop) {
+        imageSelectShops.add(imageSelectShop);
+    }
+
+    public void addSelectShopBrand(SelectShopBrand selectShopBrand) {
+        selectShopBrands.add(selectShopBrand);
+    }
+
     public SelectShopDto of() {
         return SelectShopDto.builder()
                 .id(id)
@@ -64,6 +84,7 @@ public class SelectShop {
                 .longitude(longitude)
                 .streetAddress(streetAddress)
                 .streetAddressDetail(streetAddressDetail)
+                .ImageUrl(imageSelectShops.stream().map(ImageSelectShop::getImageName).toList())
                 .contactNumber(contactNumber)
                 .operatingTime(operatingTime)
                 .hitCount(hitCount)

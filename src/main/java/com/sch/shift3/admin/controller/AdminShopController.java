@@ -3,7 +3,6 @@ package com.sch.shift3.admin.controller;
 import com.sch.shift3.admin.service.AdminImageService;
 import com.sch.shift3.admin.service.AdminShopService;
 import com.sch.shift3.user.dto.SelectShopDto;
-import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,16 +29,17 @@ public class AdminShopController {
 
         // create shop
         Integer shopId = adminShopService.createShop(selectShopDto);
-
-        // upload shop Image on storage
-        if (selectShopDto.getImages() != null)
-            selectShopDto.getImages().forEach(image -> {
-                if (image.isEmpty()) return;
-
-                String fileName = ImageUtil.upload(image);
-                // upload shop Image on DB
-                adminImageService.uploadShopImageOnDB(fileName, shopId);
-            });
+//        Integer shopId = adminShopService.createShop(selectShopDto);
+//
+//        // upload shop Image on storage
+//        if (selectShopDto.getImages() != null)
+//            selectShopDto.getImages().forEach(image -> {
+//                if (image.isEmpty()) return;
+//
+//                String fileName = ImageUtil.upload(image);
+//                // upload shop Image on DB
+//                adminImageService.uploadShopImageOnDB(fileName, shopId);
+//            });
 
         return ResponseEntity.noContent().build();
     }

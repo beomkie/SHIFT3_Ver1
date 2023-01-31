@@ -288,6 +288,12 @@
 							<div class="col-7">
 								<label class="form-label" for="brandList">추가된 취급 브랜드</label>
 								<ul class="list-group" id="brandList">
+									<li class="list-group-item" th:each="brand : *{getBrand()}">
+										<input class="form-check-input me-1" type="checkbox" value="">
+										<input class="border-0" th:name="'brand[' + ${brandStat.index + ']'}"
+										       readonly="true"
+										       th:value="${brand}">
+									</li>
 								</ul>
 							</div>
 

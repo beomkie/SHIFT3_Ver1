@@ -1,24 +1,27 @@
 package com.sch.shift3.user.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @DiscriminatorValue("S")
 @Entity(name = "image_select_shop")
 public class ImageSelectShop extends Image{
 
-    @Column(name = "select_shop_id")
-    private Integer selectShopId;
+    @ManyToOne
+    @JoinColumn(name = "select_shop_id")
+    private SelectShop selectShop;
 
-    public ImageSelectShop(String path, Integer selectShopId) {
-        super(null, path);
-        this.selectShopId = selectShopId;
+    public void setSelectShop(SelectShop selectShops) {
+        this.selectShop = selectShops;
     }
 }

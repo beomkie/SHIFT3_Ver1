@@ -1,8 +1,13 @@
 package com.sch.shift3.user.repository;
 
 import com.sch.shift3.user.entity.SelectShop;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SelectShopRepository extends JpaRepository<SelectShop, Integer> {
+import java.util.List;
 
+public interface SelectShopRepository extends JpaRepository<SelectShop, Integer> {
+    @EntityGraph(attributePaths = {"imageSelectShops", "selectShopBrands"})
+    List<SelectShop> findAll();
+//    @EntityGraph(attributePaths = {"selectShopBrandList", "imageSelectShopList"})
 }
