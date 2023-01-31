@@ -2,7 +2,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--/* 이곳에 각 view가 위치합니다. */-->
 
-<head th:replace="/user/fragments/head :: headFragment"></head>
+<head th:replace="~{/user/fragments/head :: headFragment}"></head>
 
 <th:block layout:fragment="script"></th:block>
 <th:block layout:fragment="css"></th:block>
@@ -34,88 +34,88 @@
 <body>
 
 <style>
-    .shop_list{
+    .shop_list {
         background-color: rgba(234, 234, 234, 0.37);
         height: 70vh;
         color: black;
     }
 
-    .shop_list .title{
+    .shop_list .title {
         font-weight: 350;
         font-size: 2rem;
     }
 
-    .shop_list .menu .name{
+    .shop_list .menu .name {
         font-weight: 240;
         font-size: 1rem;
     }
 
-    .menu li{
+    .menu li {
         list-style: none;
     }
 
-    .menu span{
+    .menu span {
         font-weight: 200;
         font-size: 1.3rem;
     }
 
-    span.active{
+    span.active {
         font-weight: bolder;
     }
 
 </style>
 
-<div th:replace="/user/fragments/header :: headerFragment"></div>
+<div th:replace="~{/user/fragments/header :: headerFragment}"></div>
 
 <!-- Latest jQuery -->
 <script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
 
 <div class="container-fluid shop_list">
-    <div class="container">
-        <div class="row d-flex flex-wrap h-100">
-            <!--                    <div class="col-md-3 col-sm-12 p-4 side"  style="border-right: 1px solid rgba(0,0,0,0.29)">-->
-            <div class="col-md-3 col-sm-12 p-4 side">
-                <div class="title mb-2" sec:authorize="isAuthenticated()">마이페이지</div>
-                <div class="title mb-2" sec:authorize="isAnonymous()">ㅁㄴㅇㅁㄴㅇ</div>
-                <br/>
+	<div class="container">
+		<div class="row d-flex flex-wrap h-100">
+			<!--                    <div class="col-md-3 col-sm-12 p-4 side"  style="border-right: 1px solid rgba(0,0,0,0.29)">-->
+			<div class="col-md-3 col-sm-12 p-4 side">
+				<div class="title mb-2" sec:authorize="isAuthenticated()">마이페이지</div>
+				<div class="title mb-2" sec:authorize="isAnonymous()">ㅁㄴㅇㅁㄴㅇ</div>
+				<br/>
 
-                <div class="menu">
-<!--                    <span th:text="${#strings.contains( , '')}"></span>-->
-<!--                    <li><a href="/mypage"><span th:class="${#httpServletRequest.getContextPath() == '/mypage' ? 'active' : ''}">회원정보 수정</span></a></li>-->
-                    <li>
-                        <a href="/mypage" sec:authorize="isAuthenticated()">
-                            <span th:class="${enable == 'index'} ? 'active' : ''">회원정보 수정</span>
-                        </a>
-                    </li>
+				<div class="menu">
+					<!--                    <span th:text="${#strings.contains( , '')}"></span>-->
+					<!--                    <li><a href="/mypage"><span th:class="${#httpServletRequest.getContextPath() == '/mypage' ? 'active' : ''}">회원정보 수정</span></a></li>-->
+					<li>
+						<a href="/mypage" sec:authorize="isAuthenticated()">
+							<span th:class="${enable == 'index'} ? 'active' : ''">회원정보 수정</span>
+						</a>
+					</li>
 
-                    <li>
-                        <a href="/mypage/dips" sec:authorize="isAuthenticated()">
-                            <span th:class="${enable == 'dips'} ? 'active' : ''">찜목록</span>
-                        </a>
-                    </li>
+					<li>
+						<a href="/mypage/dips" sec:authorize="isAuthenticated()">
+							<span th:class="${enable == 'dips'} ? 'active' : ''">찜목록</span>
+						</a>
+					</li>
 
-                    <li>
-                        <a href="/mypage/notice">
-                            <span th:class="${enable == 'notice'} ? 'active' : ''">공지사항</span>
-                        </a>
-                    </li>
+					<li>
+						<a href="/mypage/notice">
+							<span th:class="${enable == 'notice'} ? 'active' : ''">공지사항</span>
+						</a>
+					</li>
 
-                    <li>
-                        <a href="/mypage/cs">
-                            <span th:class="${enable == 'cs'} ? 'active' : ''">고객센터</span>
-                        </a>
-                    </li>
-                </div>
+					<li>
+						<a href="/mypage/cs">
+							<span th:class="${enable == 'cs'} ? 'active' : ''">고객센터</span>
+						</a>
+					</li>
+				</div>
 
-            </div>
+			</div>
 
-            <div class="col-md-9 col-sm-12 p-4">
+			<div class="col-md-9 col-sm-12 p-4">
 
-                <div layout:fragment="content"></div>
+				<div layout:fragment="content"></div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- popper min js -->
@@ -146,5 +146,5 @@
 <script th:src="@{/user/assets/js/scripts.js}"></script>
 </body>
 
-<footer th:replace="/user/fragments/footer :: footerFragment"></footer>
+<footer th:replace="~{/user/fragments/footer :: footerFragment}"></footer>
 </html>
