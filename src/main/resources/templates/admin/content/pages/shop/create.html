@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="css">
+	<style type="text/css">
+        .col-6 {
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+        }
+
+        .imagePreview {
+            width: 100%;
+            background-position: center center;
+            background: url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+            background-color: #fff;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: inline-block;
+            box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            display: block;
+            border-radius: 0px;
+            box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.2);
+            margin-top: -5px;
+        }
+
+        .imgUp {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .del {
+            position: absolute;
+            top: 0px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            background-color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .imgAdd {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #4bd7ef;
+            color: #fff;
+            box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            line-height: 30px;
+            margin-top: 0px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .square:before {
+            content: "";
+            display: block;
+            padding-top: 100%; /* initial ratio of 1:1*/
+        }
+	</style>
+</th:block>
+
+<th:block layout:fragment="script">
+</th:block>
+
+<div layout:fragment="content">
+
+	<h1 th:if="${editMode == true}" class="mt-4">편집샵 수정</h1>
+	<h1 th:unless="${editMode == true}" class="mt-4">편집샵 생성</h1>
+	<ol class="breadcrumb mb-4">
+		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit SelectShop</li>
+		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New SelectShop</li>
+	</ol>
+
+	<!--/*@thymesVar id="SelectShopDto" type="com.sch.shift3.user.dto.SelectShopDto"*/-->
+	<form method="POST" onsubmit="return shopCreate()" th:object="${SelectShopDto}">
+		<div class="card-body p-1">
+			<!--			<input th:field="*{id}" hidden/>-->
+			<div class="card p-3">
+				<div class="row mb-3">
+					<div class="col-6">
+						<label class="form-label" for="shopName">편집샵 이름</label>
+						<input type="text" th:field="*{name}" id="shopName" class="form-control" required/>
+					</div>
+					<div class="col-6">
+						<label class="form-label" for="contact">연락처</label>
+						<input type="text" id="contact" th:field="*{contactNumber}" class="form-control"
+						       placeholder="02-000-0000" required/>
+					</div>
+				</div>
+
+				<div class="row mb-3">
+					<!--			운영시간-->
+					<div class="col-6">
+						<label class="form-label" for="openTime">운영시간</label>
+						<input type="text" id="openTime" th:field="*{operatingTime}" class="form-control"
+						       placeholder="00:00 ~ 00:00" required/>
+					</div>
+
+					<div class="col-6 mb-3">
+						<label class="form-label" for="description">한줄 소개란</label>
+						<textarea id="description" th:field="*{introduce}" class="form-control" required></textarea>
+					</div>
+
+				</div>
+
+				<hr/>
+				<div class="row">
+
+					<div class="col-6 mb-3 p-3">
+						<!--				위치 검색-->
+						<div class="row mb-3">
+							<div class="card-body">
+								<label class="form-label card-title" for="location">위치 지정</label>
+								<div class="col-auto mb-3">
+									<input class="form-control mb-2" id="location" placeholder="위치 검색" required
+									       th:field="*{streetAddress}" type="text" onsubmit="return false;"/>
+									<input class="form-control" hidden id="locationDetail"
+									       placeholder="상세 주소" th:field="*{streetAddressDetail}"
+									       type="text" onsubmit="return false;"/>
+								</div>
+
+								<div class="col-auto mb-3">
+									<button class="btn btn-primary" id="locationSearch" onclick="locationSearchBtn()"
+									        type="button">검색
+									</button>
+									<script>
+                                        function locationSearchBtn() {
+                                            //search location
+                                            let location = document.getElementById("location").value;
+                                            if (location) {
+                                                // 도로명 주소 팝업
+                                                // window.pop = window.open("/admin/shop/jusoPopup", "pop", "width=570,height=800, scrollbars=yes, resizable=yes");
+
+                                                $.ajax({
+                                                    url: "https://business.juso.go.kr/addrlink/addrLinkApiJsonp.do"
+                                                    , type: "post"
+                                                    , data: {
+                                                        "confmKey": "U01TX0FVVEgyMDIzMDEzMDE5MDkxMjExMzQ2MDg="
+                                                        , "currentPage": "1"
+                                                        , "countPerPage": "10"
+                                                        , "keyword": location
+                                                        , "resultType": "json"
+                                                    }
+                                                    , dataType: "jsonp"
+                                                    , crossDomain: true
+                                                    , success: function (jsonStr) {
+                                                        $("#list").html("");
+                                                        var errCode = jsonStr.results.common.errorCode;
+                                                        var errDesc = jsonStr.results.common.errorMessage;
+                                                        if (errCode != "0") {
+                                                            alert(errCode + "=" + errDesc);
+                                                        } else {
+                                                            $("#list").html('');
+                                                            if (jsonStr != null) {
+                                                                // 페이징 처리
+                                                                $(jsonStr.results.juso).each(function () {
+                                                                    let aTag = document.createElement("a");
+                                                                    aTag.setAttribute("href", "#");
+                                                                    aTag.setAttribute("class", "list-group-item list-group-item-action");
+                                                                    aTag.setAttribute("onclick", "locationSelect(this)");
+
+                                                                    let divTag = document.createElement("div");
+                                                                    divTag.setAttribute("class", "d-flex w-100 justify-content-between");
+
+                                                                    let h5 = document.createElement("h5");
+                                                                    h5.setAttribute("class", "mb-1");
+                                                                    h5.innerHTML = this.roadAddr;
+
+                                                                    let small = document.createElement("small");
+                                                                    small.innerHTML = this.zipNo;
+
+                                                                    let p = document.createElement("p");
+                                                                    p.setAttribute("class", "mb-1");
+                                                                    p.innerHTML = this.jibunAddr;
+
+                                                                    divTag.appendChild(h5);
+                                                                    divTag.appendChild(small);
+                                                                    aTag.appendChild(divTag);
+                                                                    aTag.appendChild(p);
+
+                                                                    $("#list").append(aTag);
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                    , error: function (xhr, status, error) {
+                                                        alert("에러발생");
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        function locationSelect(element) {
+                                            //select location
+                                            let location = element.querySelector("h5").innerHTML;
+                                            // ask alert
+                                            if (confirm(location + "을 선택하시겠습니까?")) {
+                                                // set location
+                                                document.getElementById("location").value = location;
+                                                document.getElementById("location").readOnly = true;
+
+                                                document.getElementById("list").innerHTML = "";
+                                                document.getElementById("locationSearch").remove();
+                                                document.getElementById("locationDetail").hidden = false;
+                                            }
+                                        }
+									</script>
+								</div>
+
+								<div class="col-12">
+									<div class="list-group" id="list">
+										<!--<a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+											<div class="d-flex w-100 justify-content-between">
+												<h5 class="mb-1">List group item heading</h5>
+												<small>3 days ago</small>
+											</div>
+											<p class="mb-1">Some placeholder content in a paragraph.</p>
+											<small>And some small print.</small>
+										</a>-->
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<!--			취급 브랜드-->
+					<div class="col-6">
+						<div class="row mb-3">
+							<label class="form-label" for="brand">취급 브랜드 추가</label>
+							<div class="col-7">
+								<input class="form-control" id="brand" onsubmit="return false;" placeholder="브랜드 명"
+								       type="text"/>
+							</div>
+							<div class="col-5">
+								<button class="btn btn-primary" onclick="brandAdd()" type="button">추가</button>
+								<script>
+                                    function brandAdd() {
+
+                                        //add brand to list
+                                        let brand = document.getElementById("brand").value;
+                                        let cnt = 0;
+                                        // clear input
+                                        document.getElementById("brand").value = "";
+                                        if (brand) {
+                                            let brandList = document.getElementById("brandList");
+                                            cnt = brandList.querySelectorAll("li").length;
+                                            // 중복 검사
+                                            let brandListItems = brandList.querySelectorAll("li");
+                                            for (let i = 0; i < brandListItems.length; i++) {
+                                                if (brandListItems[i].innerHTML.includes(brand)) {
+                                                    alert("이미 추가된 브랜드입니다.");
+                                                    return;
+                                                }
+                                            }
+
+
+                                            let li = document.createElement("li");
+                                            li.setAttribute("class", "list-group-item");
+
+                                            //remove checkbox
+                                            let checkbox = document.createElement("input");
+                                            checkbox.setAttribute("class", "form-check-input me-1");
+                                            checkbox.setAttribute("type", "checkbox");
+                                            checkbox.setAttribute("value", "");
+
+                                            li.innerHTML = `<input class="form-check-input me-1" type="checkbox" value="">` +
+                                                `<input class="border-0" name="brand[${cnt}]" readonly="true" value="${brand}">`;
+                                            brandList.appendChild(li);
+                                        } else {
+                                            alert("브랜드를 입력해주세요.");
+                                        }
+                                    }
+								</script>
+							</div>
+						</div>
+
+						<div class="row mb-1">
+
+							<div class="col-7">
+								<label class="form-label" for="brandList">추가된 취급 브랜드</label>
+								<ul class="list-group" id="brandList">
+								</ul>
+							</div>
+
+							<div class="col-5">
+								<button class="btn btn-secondary" onclick="deleteSelected()" type="button">선택 삭제
+								</button>
+								<script>
+                                    // 선택 삭제
+                                    function deleteSelected() {
+                                        let brandList = document.getElementById("brandList");
+                                        let selected = brandList.querySelectorAll("input:checked");
+                                        for (let i = 0; i < selected.length; i++) {
+                                            brandList.removeChild(selected[i].parentNode);
+                                        }
+                                    }
+								</script>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row mb-5">
+						<div class="col-sm-4 imgUp">
+							<div class="imagePreview square"></div>
+							<label class="btn btn-primary">
+								1번째 이미지 업로드<input type="file" class="uploadFile img" name="images[0]"
+								                  style="width: 0px;height: 0px;overflow: hidden;">
+							</label>
+						</div><!-- col-2 -->
+						<i class="fa fa-plus imgAdd"></i>
+					</div><!-- row -->
+					<span class="text-warning">1대1 비율의 이미지를 업로드해주세요. 그외에 이미지엔 이미지가 제대로 표시되지 않을 수 있습니다.</span>
+				</div>
+
+				<script>
+                    $(function () {
+                        $(document).on("change", ".uploadFile", function () {
+                            var uploadFile = $(this);
+                            var files = !!this.files ? this.files : [];
+                            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                            if (/^image/.test(files[0].type)) { // only image file
+                                var reader = new FileReader(); // instance of the FileReader
+                                reader.readAsDataURL(files[0]); // read the local file
+
+                                reader.onloadend = function () { // set image data as background of div
+                                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+                                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
+                                }
+                            } else {
+                                alert("이미지 파일만 업로드 가능합니다.");
+                            }
+
+                        });
+
+                        $(".imgAdd").click(function () {
+                            // get image count
+                            var cnt = $(this).closest(".row").find('.imgUp').length;
+                            $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-4 imgUp"><div class="imagePreview square"><i class="fa fa-times del"></i></div><label class="btn btn-primary">' +
+                                `${cnt + 1}번째 이미지 업로드` +
+                                `<input type="file" class="uploadFile img" name="images[${cnt}]" style="width:0px;height:0px;overflow:hidden;"></label></div>`);
+                        });
+
+                        $(document).on("click", ".fa-xmark.del", function () {
+                            // 	to remove card
+                            $(this).parent().parent().remove();
+                            // to clear image
+                            // $(this).parent().find('.imagePreview').css("background-image","url('')");
+                        });
+                    });
+				</script>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<!--			등록하기 -->
+			<button class="btn btn-primary" type="button" onclick="return shopCreate();">등록하기</button>
+
+			<script>
+                function shopCreate() {
+
+                    let passValidation = true;
+
+                    // check if all required fields are filled
+                    let required = document.querySelectorAll("[required]");
+
+                    // remove all span
+                    let spans = document.querySelectorAll("span[class='text-danger']");
+                    for (let i = 0; i < spans.length; i++) {
+                        spans[i].parentNode.removeChild(spans[i]);
+                    }
+
+                    for (let i = 0; i < required.length; i++) {
+                        if (!required[i].value) {
+                            // add span to show error
+                            let span = document.createElement("span");
+                            span.setAttribute("class", "text-danger");
+                            span.innerHTML = "항목을 입력해주세요";
+                            required[i].parentNode.appendChild(span);
+                            passValidation = false;
+                        }
+                    }
+
+                    let detailLocation = document.querySelector("#locationDetail");
+                    if (detailLocation.hidden) {
+                        let span = document.createElement("span");
+                        span.setAttribute("class", "text-danger");
+                        span.innerHTML = "주소를 검색 후 선택해주세요";
+                        detailLocation.parentNode.appendChild(span);
+                        passValidation = false;
+                    }
+
+                    let formData = new FormData($('form')[0]);
+
+                    if (formData.get("images[0]").size < 512) {
+                        let span = document.createElement("span");
+                        span.setAttribute("class", "text-danger");
+                        span.innerHTML = "이미지를 최소 한장 업로드해주세요";
+                        document.querySelector(".imgAdd").parentNode.appendChild(span);
+                        passValidation = false;
+                    }
+
+                    if (!passValidation) {
+                        return;
+                    }
+
+                    console.log(formData)
+                    $.ajax({
+                        type: 'POST',
+                        url: '/admin/shop/create.do',
+                        data: formData,
+                        cache: false,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            location.href = "/admin/shop/list";
+                        },
+                        error: function (data) {
+                            console.log("error");
+                            console.log(data);
+                            alert("편집샵 생성에 실패했습니다.");
+                        }
+                    });
+
+
+                }
+			</script>
+
+		</div>
+
+
+	</form>
+</div>
+
+</html>
