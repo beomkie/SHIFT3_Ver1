@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+
+	<style>
+        .feed_section {
+            position: relative;
+            height: 100%;
+        }
+
+        .text-on-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .category {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+
+        #write_section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #write_section li {
+            display: inline-block;
+            background-color: lightgray;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+        }
+
+        .btn-buy-now {
+            background-color: white;
+            border-radius: 50px;
+            border: 2px solid black;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 950px) {
+            .card {
+                width: 100%;
+            }
+        }
+
+        .img-container43 {
+            position: relative;
+            height: 0;
+            padding-top: 75%; /* 4:3 ratio */
+        }
+
+        .img-container43 img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-body a.btn {
+            border-bottom: 10px solid black;
+            border-radius: 50px;
+            background-color: black;
+            color: white;
+            padding: 10px 70px 0px 20px;
+            text-align: center;
+        }
+
+        @media (min-width: 576px) {
+            .card-group {
+                display: flex;
+            }
+
+            .card {
+                flex: 1;
+                margin-right: 20px;
+            }
+
+            .card:last-of-type {
+                margin-right: 0;
+            }
+        }
+
+        .card .btn {
+
+        }
+	</style>
+
+	<div class="feed_section">
+		<img th:src="@{/user/assets/images/banner8.jpg}" class="img-fluid" id="banner-img"/>
+		<div class="text-center text-on-image">
+			<h6 class="category" id="category">Fashion Store</h6>
+			<h4 class="title" id="title">새로운 옷가게 소개</h4>
+		</div>
+	</div>
+
+	<script>
+        var img = document.getElementById("banner-img");
+        var colorThief = new ColorThief();
+        img.onload = function () {
+            var centerX = img.width / 2;
+            var centerY = img.height / 2;
+            var sampleSize = 50;
+            var canvas = document.createElement("canvas");
+            canvas.width = sampleSize;
+            canvas.height = sampleSize;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, centerX - sampleSize / 2, centerY - sampleSize / 2, sampleSize, sampleSize, 0, 0, sampleSize, sampleSize);
+            var sampleData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
+            var red = 0;
+            var green = 0;
+            var blue = 0;
+            for (var i = 0; i < sampleData.length; i += 4) {
+                red += sampleData[i];
+                green += sampleData[i + 1];
+                blue += sampleData[i + 2];
+            }
+            var numPixels = sampleSize * sampleSize;
+            red = Math.floor(red / numPixels);
+            green = Math.floor(green / numPixels);
+            blue = Math.floor(blue / numPixels);
+            var avgColor = (red + green + blue) / 3;
+            console.log(avgColor)
+            if (avgColor <= 128) {
+                document.getElementById("category").style.color = "white";
+                document.getElementById("title").style.color = "white";
+            }
+        }
+	</script>
+
+	<div id="column_section" class="section mb-3">
+		<div class="container">
+			<div id="write_section" class="mb-2">
+				<h1>Fashion Store - 새로운 옷가게 소개</h1>
+				<p>2023년 2월 2일 게재</p>
+
+				<h2>새로운 옷가게, Fashion Store!</h2>
+				<p>Fashion Store는 새로운 옷가게입니다. 우리는 고객의 스타일에 맞는 옷을 제공하고 있습니다. 최신 패션 트렌드에 맞추어 새로운 아이템을 상점에 추가하고 있습니다. </p>
+				<p>옷가게에서는 전 세계에서 팔려는 최신 패션 트렌드를 만날 수 있습니다. 신상품이 들어오면 즉시 전시되고 있어 고객님들이 가장 최신의 패션을 만날 수 있습니다.</p>
+				<p>저렴한 가격으로 고객님들께 최고의 서비스를 제공하고 있습니다. 저렴한 가격으로 최신 패션을 만나보세요!</p>
+
+				<h2>편안한 분위기</h2>
+				<p>옷가게는 편안한 분위기와 친절한 직원, 그리고 정성스러운 서비스로 고객님들을 맞이합니다. 매장 내부의 깔끔한 시설과 편안한 의자, 그리고 친절한 직원들이 고객님들을
+					맞이합니다. </p>
+				<h3>우리가 제공하는 것</h3>
+				<ul>
+					<li>여성의류</li>
+					<li>남성의류</li>
+					<li>아동의류</li>
+					<li>악세사리</li>
+				</ul>
+				<br/>
+				<h3>우리 상점의 장점</h3>
+				<ul>
+					<li>저렴한 가격</li>
+					<li>신상품 상점</li>
+					<li>좋은 서비스</li>
+				</ul>
+				<p>Fashion Store에 방문하셔서 우리의 상품을 만나보세요. 고객님의 스타일에 맞는 옷을 찾아드리겠습니다!</p>
+			</div>
+			<div id="product_section" class="mb-3">
+				<div class="align-content-center justify-content-center mb-2" style="text-align: -webkit-center">
+					<hr class="w-75"/>
+				</div>
+				<!--				<img th:src="@{/user/assets/images/shop_banner_img7.png}" class="rounded img-fluid">-->
+				<!--				<div class="product-item">-->
+				<!--					<div class="product-image text-center">-->
+				<!--						<img th:src="@{/user/assets/images/shop_banner_img7.png}" alt="Product Image"-->
+				<!--						     class="rounded-circle">-->
+				<!--					</div>-->
+				<!--					<div class="product-details text-center">-->
+				<!--						<div class="product-name">-->
+				<!--							Product Name-->
+				<!--						</div>-->
+				<!--						<div class="product-price">-->
+				<!--							$99.99-->
+				<!--						</div>-->
+				<!--					</div>-->
+				<!--				</div>-->
+				<!--				<div class="product-intro text-center">-->
+				<!--					Product Introduction-->
+				<!--				</div>-->
+				<!--				<div class="buy-button text-center">-->
+				<!--					<button class="btn btn-primary rounded-pill">Buy</button>-->
+				<!--				</div>-->
+				<!--			</div>-->
+
+				<div class="product-item justify-content-center mb-3">
+					<div class="product-image">
+						<img th:src="@{/user/assets/images/shop_banner_img7.png}" alt="product image">
+					</div>
+					<div class="product-info">
+						<div class="product-name">Product Name</div>
+						<div class="product-price">300,000원</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<div class="product-description mb-4">이 상품은 이렇습니다. 그래서 사야합니다~</div>
+					<button class="btn btn-buy-now">구매하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="related_section" class="mb-4">
+		<div class="container">
+			<h3>유사한 피드</h3>
+			<hr/>
+
+			<div class="card-group d-flex flex-wrap p-3">
+				<div class="card">
+					<div class="img-container43">
+						<img th:src="@{/user/assets/images/banner8.jpg}" class="card-img-top rounded"
+						     alt="your-image-alt">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">컨텐츠 타이틀</h5>
+						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
+							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
+						<a href="#" class="btn btn-primary rounded-pill">더 알아보기</a>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="img-container43">
+						<img th:src="@{/user/assets/images/banner9.jpg}" class="card-img-top rounded"
+						     alt="your-image-alt">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">컨텐츠 타이틀</h5>
+						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
+							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
+						<a href="#" class="btn btn-primary rounded-pill">더 알아보기</a>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="img-container43">
+						<img th:src="@{/user/assets/images/banner7.jpg}" class="card-img-top rounded"
+						     alt="your-image-alt">
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">컨텐츠 타이틀</h5>
+						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
+							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
+						<a href="#" class="btn btn-primary rounded-pill">더 알아보기</a>
+					</div>
+				</div>
+			</div>
+
+
+			<!--			<div class="row">-->
+			<!--				<div class="card mb-3 mx-3 col-3 d-flex d-md-inline-flex">-->
+			<!--					<div class="img-container43">-->
+			<!--						<img th:src="@{/user/assets/images/banner8.jpg}" class="card-img-top rounded"-->
+			<!--						     alt="your-image-alt">-->
+			<!--					</div>-->
+			<!--					<div class="card-body">-->
+			<!--						<h5 class="card-title">Your Product Name</h5>-->
+			<!--						<p class="card-text">Preview Content</p>-->
+			<!--						<button class="btn btn-outline-dark rounded">더 알아보기</button>-->
+			<!--					</div>-->
+			<!--				</div>-->
+
+
+			<!--			</div>-->
+
+
+		</div>
+	</div>
+
+
+</div>
+
+
+</html>
