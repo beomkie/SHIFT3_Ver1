@@ -74,5 +74,17 @@ public class UserView {
         return "user/content/pages/my-page/cs";
     }
 
+    @GetMapping("/feed")
+    public String feedPage(Model model){
+        model.addAttribute("disableLoading", true);
+        return "user/content/pages/feed/read";
+    }
+
+    @GetMapping("/product")
+    public String productPage(Model model){
+        model.addAttribute("disableLoading", true);
+        return "user/content/pages/product/detail";
+    }
+
 
 }
