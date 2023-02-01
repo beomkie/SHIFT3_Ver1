@@ -1,11 +1,11 @@
-.recent_feed_category{
+.recent_feed_category {
     color: #111111;
     font-size: 13px;
     text-transform: uppercase;
     margin-bottom: 0.75rem;
 }
 
-.navbar-button{
+.navbar-button {
     border: 1px solid darkgray;
     float: right;
     margin: 13px 0 0 3px;
@@ -20,17 +20,17 @@
     transition: none;
 }
 
-.btn-gray{
+.btn-gray {
     background: darkgray;
     color: whitesmoke;
 }
 
-.navbar-login-btn:hover{
+.navbar-login-btn:hover {
     color: black;
 }
 
 
-.btn-fill-dark{
+.btn-fill-dark {
     background-color: black !important;
 }
 
@@ -48,36 +48,36 @@ body{
     margin-left: 0.8rem;
 }
 
-.intro_section{
+.intro_section {
     padding: 80px 0;
     background-color: lightgray;
     color: black;
     text-align-last: center;
 }
 
-.intro_section .title{
+.intro_section .title {
     font-size: 2rem;
     font-weight: 400;
 }
 
-.intro_section .subtitle{
+.intro_section .subtitle {
     font-size: 1rem;
     font-weight: 250;
 }
 
-.section .title{
+.section .title {
     color: black;
     font-size: 1.88rem;
     font-weight: 390;
 }
 
-.section .subtitle{
+.section .subtitle {
     color: black;
     font-size: 1rem;
     font-weight: 300;
 }
 
-.sns-login div{
+.sns-login div {
     padding: 10px
 }
 
@@ -86,7 +86,7 @@ body{
     margin-right: 0.5rem;
 }
 
-.shop_list_side{
+.shop_list_side {
     background-color: white;
 }
 
@@ -96,3 +96,100 @@ body{
     height: auto;
     border: 0
 }
+
+
+/*START 피드 목록 카드뷰*/
+
+.img-container43 {
+    position: relative;
+    height: 0;
+    padding-top: 75%; /* 4:3 ratio */
+}
+
+.img-container43 img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-card,
+.card {
+    background-color: rgba(243, 243, 243, 0.62);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-more {
+    border-bottom: 10px solid black;
+    border-radius: 50px;
+    background-color: black;
+    color: white;
+    padding: 10px 70px 0px 20px !important;
+    text-align: center;
+}
+
+@media (min-width: 950px) {
+    .card-group {
+        display: flex;
+    }
+
+    .card {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .card:last-of-type {
+        margin-right: 0;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
+/*END 피드 목록 카드뷰*/
+
+
+/*START 메인 최근 피드 목록 카드뷰*/
+.main-card:first-child img {
+    border-radius: 10px 10px 0 0;
+}
+
+.main-card:not(:first-child) img {
+    border-radius: 0 0 10px 10px;
+}
+
+@media (min-width: 1250px) {
+    .main-card-split .img-container43 {
+        padding-top: 100% !important;
+    }
+}
+
+@media (max-width: 1250px) {
+    .main-card-group {
+        flex-direction: column;
+    }
+
+    .main-card img {
+        width: 100%;
+        margin-bottom: 1rem;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .product_info {
+        padding-left: 20px;
+    }
+
+    .main-card-group .col-6 {
+        width: 100% !important;
+    }
+
+    .img-container43 {
+        padding-top: 60%;
+    }
+}
+
+/*END 메인 최근 피드 목록 카드뷰*/
