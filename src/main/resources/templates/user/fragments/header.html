@@ -176,13 +176,13 @@
 
 						<li><a class="nav-link nav_item" href="/introduce">서비스 소개</a></li>
 
-						<li class="d-block d-sm-none" id="mobile-menu">
-							<!--              모바일에서만 표시-->
-						<li>
+						<li id="mobile-menu">
 							<hr>
 						</li>
-						<li><a class="nav-link nav_item" href="/login" sec:authorize="isAnonymous()">로그인</a></li>
-						<li><a class="nav-link nav_item" href="/signup" sec:authorize="isAnonymous()">회원가입</a></li>
+						<li><a class="nav-link nav_item mobile-show" href="/login"
+						       sec:authorize="isAnonymous()">로그인</a></li>
+						<li><a class="nav-link nav_item mobile-show" href="/signup"
+						       sec:authorize="isAnonymous()">회원가입</a></li>
 
 
 						<li class="menu-userInformation" sec:authorize="isAuthenticated()" style="display:none">
@@ -203,17 +203,15 @@
 						  </form>
 						</div><div class="search_overlay"></div><div class="search_overlay"></div>-->
 
-						<div sec:authorize="isAnonymous()">
-							<div class="d-none d-md-block d-xl-none d-xxl-none">
-								<!--              모바일에서만 표시 안함-->
-								<button class="btn-gray navbar-button me-1">
-									회원가입
-								</button>
+						<div sec:authorize="isAnonymous()" class="pc-show">
+							<!--              모바일에서만 표시 안함-->
+							<button class="btn-gray navbar-button me-1">
+								회원가입
+							</button>
 
-								<button class="btn-white navbar-button navbar-login-btn">
-									<a href="/login">로그인</a>
-								</button>
-							</div>
+							<button class="btn-white navbar-button navbar-login-btn">
+								<a href="/login">로그인</a>
+							</button>
 						</div>
 
 						<div class="userInformation" sec:authorize="isAuthenticated()">

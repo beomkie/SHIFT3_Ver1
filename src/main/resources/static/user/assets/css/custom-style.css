@@ -78,7 +78,7 @@ body{
 }
 
 .sns-login div {
-    padding: 10px
+    /*padding: 10px*/
 }
 
 .sns-login img {
@@ -193,3 +193,25 @@ body{
 }
 
 /*END 메인 최근 피드 목록 카드뷰*/
+
+
+.mobile-show {
+    display: none;
+}
+
+@media screen and (max-width: 990px) {
+    .mobile-show {
+        display: block;
+    }
+}
+
+
+.pc-show {
+    display: none;
+}
+
+@media screen and (min-width: 991px) {
+    .pc-show {
+        display: block;
+    }
+}
