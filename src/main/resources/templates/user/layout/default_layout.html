@@ -1,6 +1,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--/* 이곳에 각 view가 위치합니다. */-->
 
+
+<!-- Latest jQuery -->
+<script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
+
 <head th:replace="~{/user/fragments/head :: headFragment}"></head>
 
 <th:block layout:fragment="script"></th:block>
@@ -45,9 +49,6 @@
 
 <div th:replace="~{/user/fragments/header :: headerFragment}"></div>
 
-
-<!-- Latest jQuery -->
-<script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
 
 <div layout:fragment="content"></div>
 
