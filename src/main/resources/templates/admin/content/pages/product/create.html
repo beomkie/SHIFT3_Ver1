@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="css">
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
+</th:block>
+
+<div layout:fragment="content">
+
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<script src="https://unpkg.com/@yaireo/tagify@3.1.0/dist/tagify.polyfills.min.js"></script>
+
+	<h1 th:if="${editMode == true}" class="mt-4">상품 수정</h1>
+	<h1 th:unless="${editMode == true}" class="mt-4">상품 생성</h1>
+	<ol class="breadcrumb mb-4">
+		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit Product</li>
+		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New Product</li>
+	</ol>
+	<div class="card-body">
+		<!--/*@thymesVar id="ProductDto" type="com.sch.shift3.user.dto.ProductDto"*/-->
+		<form method="POST" onsubmit="return productCreate()" th:object="${ProductDto}">
+			<div class="row mb-3">
+				<div class="col-6">
+					<input class="form-control" th:field="*{id}" type="text" hidden/>
+
+					<label class="form-label" for="name">상품 이름 입력</label>
+					<input class="form-control" th:field="*{name}" id="name" type="text" required/>
+				</div>
+				<div class="col-6">
+					<label class="form-label" for="price">상품 가격 입력 (숫자)</label>
+					<input class="form-control" id="price" th:field="*{price}" type="number" required/>
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="form-label" for="description">상품 설명란</label>
+				<textarea class="form-control" id="description" th:field="*{description}" name="description"
+				          required></textarea>
+			</div>
+
+			<div class="row mb-3" th:unless="${editMode}">
+				<label class="form-label" for="shopName">판매 편집샵 지정</label>
+				<div class="col-7">
+					<input class="form-control" id="shopName" placeholder="검색할 샵 이름을 입력해주세요">
+				</div>
+				<div class="col-5">
+					<button class="btn btn-primary" id="searchShop" type="button">검색</button>
+				</div>
+				<div class="col-12">
+					<select class="form-select" id="shopList" hidden required name="shopId">
+						<option selected>샵을 선택해주세요</option>
+					</select>
+				</div>
+				<script>
+                    $("#searchShop").click(function () {
+                        var shopName = $("#shopName").val();
+                        $.ajax({
+                            url: "/admin/shop/search.do?name=" + shopName,
+                            type: "GET",
+                            success: function (data) {
+
+                                $("#shopList").empty();
+                                $("#shopList").append("<option selected>샵을 선택해주세요</option>");
+
+                                if (data.length === 0) {
+                                    alert("검색된 편집샵이 없습니다.");
+                                    return;
+                                }
+
+                                for (var i = 0; i < data.length; i++) {
+                                    $("#shopList").append("<option value='" + data[i].id + "'>" + "[" + data[i].name + "] " + data[i].streetAddress + ' ' + data[i].streetAddressDetail + "</option>");
+                                }
+
+                                $("#shopList").removeAttr("hidden");
+                            },
+                            error: function (e) {
+                                alert("샵을 찾을 수 없습니다.");
+                            }
+                        });
+                    });
+				</script>
+			</div>
+
+			<div class="row mb-3">
+				<label class="form-label" for="hashtag-input">상품 해시태그 입력 (비슷한 상품 표시에 필요)</label>
+				<input type="text" class="form-control" id="hashtag-input" aria-describedby="hashtag-input-help"
+				       name="hashtag">
+				<small id="hashtag-input-help1" class="form-text text-muted">콤마(,)로 구문하여 해시태그를 입력해주세요.</small><br/>
+				<small id="hashtag-input-help2" class="form-text text-muted">예시) 옷, 바지, 슈프림, 힙합</small>
+				<script>
+                    new Tagify(document.getElementById("hashtag-input"))
+				</script>
+			</div>
+
+			<div class="row mb-3">
+				<label class="form-label" for="url">판매 링크 입력</label>
+				<input class="form-control" id="url" type="text" th:field="*{url}" required/>
+			</div>
+
+			<div class="image-container">
+				<div class="d-flex justify-content-between">
+					<input type="file" id="file-input" hidden>
+					<button class="btn btn-primary" id="upload-btn" type="button">이미지 업로드</button>
+				</div>
+				<div id="image-preview">
+					<div class="image-preview" th:each="image : *{imageList}" th:data-image-id="${image.getId()}">
+						<img th:src="'/file/' + ${image.getImageName()}">
+						<button class="remove-button" type="button" onclick="removeImage(this)">X</button>
+					</div>
+				</div>
+			</div>
+
+			<script>
+                $(document).ready(function () {
+                    let fileInput = $("#file-input");
+                    let imagePreview = $("#image-preview");
+                    let uploadBtn = $("#upload-btn");
+
+                    fileInput.change(function () {
+                        let files = this.files;
+                        let len = files.length;
+
+                        for (let i = 0; i < len; i++) {
+                            let file = files[i];
+                            let reader = new FileReader();
+
+                            // Check if the file is an image file
+                            if (!file.type.match("image.*")) {
+                                console.error(file.name + " is not an image file.");
+                                continue;
+                            }
+
+                            reader.onload = function (e) {
+                                //file to formdata
+                                var formData = new FormData();
+                                formData.append("file", file);
+
+                                $.ajax({
+                                    url: '/admin/image/uploadProduct',
+                                    type: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function (data) {
+                                        console.log(data);
+
+                                        let json = JSON.parse(data);
+
+                                        let img = $("<img>").attr("src", "/file/" + json.fileName);
+                                        let imagePreviewItem = $("<div>").addClass("image-preview").attr("data-image-id", json.id);
+                                        let removeBtn = $("<button>").addClass("remove-button").text("X").attr("type", "button").attr("onclick", "removeImage(this)");
+
+                                        imagePreviewItem.append(img).append(removeBtn);
+                                        imagePreview.append(imagePreviewItem);
+
+                                    },
+                                    fail: function (data) {
+                                        alert('이미지 업로드에 실패했습니다. 재시도해주세요.');
+                                    }
+                                })
+                            };
+
+                            reader.onerror = function (error) {
+                                console.error("File could not be read! Code " + error.target.error.code);
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    });
+
+                    uploadBtn.click(function () {
+                        fileInput.click();
+                    });
+
+                });
+
+
+                function removeImage(e) {
+                    let imageId = $(e).parent().data("image-id");
+
+
+                    $.ajax({
+                        url: '/admin/image/remove/' + imageId,
+                        type: 'GET',
+                        success: function (data) {
+                            $(e).parent().remove();
+                        },
+                        fail: function (data) {
+                            alert('기존 이미지 삭제에 실패했습니다. 재로그인 후 다시 시도해주세요.');
+                        }
+                    })
+
+                }
+
+			</script>
+
+
+			<div class="row-mb3">
+				<button class="btn btn-primary" type="button" onclick="return productCreate();"
+				        th:text=" ${editMode} ? '수정하기' : '등록하기'"></button>
+			</div>
+
+			<script th:inline="javascript">
+                function productCreate() {
+                    let passValidation = true;
+
+                    // check if all required fields are filled
+                    let required = document.querySelectorAll("[required]");
+
+                    // remove all span
+                    let spans = document.querySelectorAll("span[class='text-danger']");
+                    for (let i = 0; i < spans.length; i++) {
+                        spans[i].parentNode.removeChild(spans[i]);
+                    }
+
+                    for (let i = 0; i < required.length; i++) {
+                        if (!required[i].value) {
+                            // add span to show error
+                            let span = document.createElement("span");
+                            span.setAttribute("class", "text-danger");
+                            span.innerHTML = "항목을 입력해주세요";
+                            required[i].parentNode.appendChild(span);
+                            passValidation = false;
+                        }
+                    }
+
+                    // form data to send
+
+                    let formData = new FormData($('form')[0]);
+
+                    if (!passValidation) {
+                        return;
+                    }
+
+
+                    // get image-data-id
+                    let imageIds = document.querySelectorAll("[data-image-id]");
+                    for (let i = 0; i < imageIds.length; i++) {
+                        formData.append("imageList[" + i + "].id", imageIds[i].dataset.imageId);
+                    }
+
+                    let isEditMode = /*[[${editMode}]]*/ false;
+
+                    console.log(formData)
+
+                    $.ajax({
+                        type: 'POST',
+                        url: isEditMode ? '/admin/product/edit.do' : '/admin/product/create.do',
+                        data: formData,
+                        cache: false,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            location.href = "/admin/product/list";
+                        },
+                        error: function (data) {
+                            console.log("error");
+                            console.log(data);
+                            alert(`상품 ${isEditMode ? '수정' : '생성'}에 실패했습니다.`);
+                        }
+                    });
+
+
+                }
+			</script>
+		</form>
+	</div>
+</div>
+
+</html>

@@ -1,6 +1,8 @@
 package com.sch.shift3.admin.view;
 
+import com.sch.shift3.admin.service.AdminProductService;
 import com.sch.shift3.admin.service.AdminShopService;
+import com.sch.shift3.user.dto.ProductDto;
 import com.sch.shift3.user.dto.SelectShopDto;
 import com.sch.shift3.user.entity.Image;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Comparator;
 public class AdminView {
 
     private final AdminShopService adminShopService;
+    private final AdminProductService adminProductService;
 
     @GetMapping("")
     public String mainPage(){
@@ -62,16 +65,44 @@ public class AdminView {
         SelectShopDto selectShopDto = adminShopService.getShop(id);
         log.info("selectShopDto: {}", selectShopDto);
 
-        // selectShopDto.getImageList() sort by id asc
-         selectShopDto.getImageList().sort(Comparator.comparing(Image::getId));
+        if (selectShopDto.getImageList() != null) {
+            // selectShopDto.getImageList() sort by id asc
+            selectShopDto.getImageList().sort(Comparator.comparing(Image::getId));
+        }
 
         model.addAttribute("editMode", true);
         model.addAttribute("SelectShopDto", selectShopDto);
         return "admin/content/pages/shop/create";
     }
 
+    @GetMapping("/product/list")
+    public String productListPage(Model model){
+        log.info("product List {}",  adminProductService.getAllProductList());
+        model.addAttribute("products", adminProductService.getAllProductList());
+        return "admin/content/pages/product/list";
+    }
+
     @GetMapping("/product/create")
-    public String productCreatePage(){
+    public String productCreatePage(Model model){
+        ProductDto productDto = new ProductDto();
+        productDto.setName("상품");
+        productDto.setPrice(1000);
+        productDto.setUrl("https://www.naver.com");
+        productDto.setDescription("Lorem Blaaaaaa");
+
+        model.addAttribute("ProductDto", productDto);
+
+        return "admin/content/pages/product/create";
+    }
+
+    @GetMapping("/product/edit/{id}")
+    public String productEditPage(Model model, @PathVariable Integer id){
+
+        ProductDto productDto = adminProductService.getProduct(id);
+
+
+        model.addAttribute("editMode", true);
+        model.addAttribute("ProductDto", productDto);
         return "admin/content/pages/product/create";
     }
 }
