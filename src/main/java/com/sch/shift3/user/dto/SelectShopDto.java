@@ -1,11 +1,11 @@
 package com.sch.shift3.user.dto;
 
+import com.sch.shift3.user.entity.ImageSelectShop;
 import com.sch.shift3.user.entity.SelectShop;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -33,13 +33,12 @@ public class SelectShopDto{
     private String operatingTime;
     private Integer hitCount;
     private Instant createdAt;
-    private List<String> ImageUrl;
+
+    @Builder.Default
+    private List<ImageSelectShop> imageList = new ArrayList<>();
 
     @Builder.Default
     private List<String> brand = new ArrayList<>();
-
-    @Builder.Default
-    private List<MultipartFile> images = new ArrayList<>();
 
     public SelectShop toEntity(){
         return SelectShop.builder()
@@ -55,11 +54,5 @@ public class SelectShopDto{
             .hitCount(hitCount)
             .createdAt(createdAt)
             .build();
-    }
-
-
-
-    public void setImageUrl(List<String> imageUrl) {
-        ImageUrl = imageUrl;
     }
 }

@@ -82,13 +82,13 @@
 							<button th:data-bs-target="'#imageSlide' + ${shopStat.index}"
 							        th:class="${imageStat.index == 0 ? 'active' : ''}"
 							        th:data-bs-slide-to="${imageStat.index}"
-							        th:each="image : ${shop.imageUrl}"
+							        th:each="image : ${shop.imageList}"
 							        th:aria-current="${imageStat == 0 ? 'true' : ''}"></button>
 						</div>
 						<div class="carousel-inner">
 							<div th:class="${imageStat.index == 0 ? 'carousel-item active' : 'carousel-item'}"
-							     th:each="image : ${shop.imageUrl}">
-								<img class="d-block w-100" th:data-src=" '/file/' + ${image}">
+							     th:each="image : ${shop.imageList}">
+								<img class="d-block w-100" th:data-src=" '/file/' + ${image.imageName}">
 							</div>
 						</div>
 						<a class="carousel-control-prev" th:data-bs-target="'#imageSlide' + ${shopStat.index}"

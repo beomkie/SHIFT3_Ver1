@@ -7,9 +7,11 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,5 +25,9 @@ public class ImageSelectShop extends Image{
 
     public void setSelectShop(SelectShop selectShops) {
         this.selectShop = selectShops;
+    }
+
+    public ImageSelectShop(String imageName) {
+        super(imageName);
     }
 }

@@ -9,7 +9,6 @@ import com.sch.shift3.user.repository.SelectShopBrandRepository;
 import com.sch.shift3.user.repository.SelectShopRepository;
 import com.sch.shift3.utill.Address;
 import com.sch.shift3.utill.Geocoding;
-import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,16 +32,7 @@ public class AdminShopService {
     public List<SelectShopDto> getAllShopList(){
         List<SelectShopDto> selectShopList = new ArrayList<>();
         selectShopRepository.findAll().forEach(selectShop -> {
-            // get Shop images
-//            List<String> imageList = new ArrayList<>();
-//            imageSelectShopRepository.findAllBySelectShopId(selectShop.getId()).forEach(imageSelectShop -> {
-//                imageList.add(imageSelectShop.getImageName());
-//            });
             SelectShopDto selectShopDto = selectShop.of();
-//            log.info("selectShopDto: {}", );
-//            selectShopDto.setImageUrl(imageList);
-
-//             get Brand List
             selectShopList.add(selectShopDto);
         });
 
@@ -50,51 +40,18 @@ public class AdminShopService {
     }
 
     public SelectShopDto getShop(Integer shopId){
-        SelectShop selectShop = selectShopRepository.findById(shopId).orElseThrow(() -> new IllegalArgumentException("해당 매장이 존재하지 않습니다."));
-
-        // get Shop images
-        List<String> imageList = new ArrayList<>();
-        imageSelectShopRepository.findAllBySelectShopId(selectShop.getId()).forEach(imageSelectShop -> {
-            imageList.add(imageSelectShop.getImageName());
-        });
-        SelectShopDto selectShopDto = selectShop.of();
-        selectShopDto.setImageUrl(imageList);
-
-        // get Brand List
-        List<String> brandList = new ArrayList<>();
-        shopBrandRepository.findAllBySelectShopId(selectShop.getId()).forEach(selectShopBrand -> {
-            log.info("brandName : {}", selectShopBrand.getBrandName());
-            brandList.add(selectShopBrand.getBrandName());
-        });
-
-        selectShopDto.setBrand(brandList);
-        return selectShopDto;
+        SelectShop selectShop = selectShopRepository.findById(shopId).orElseThrow(() -> new IllegalArgumentException("해당 편집샵이 존재하지 않습니다."));
+        return selectShop.of();
     }
 
     @Transactional
-    public Integer createShop(SelectShopDto selectShopDto){
+    public SelectShop createShop(SelectShopDto selectShopDto){
 
         Address address = geocoding.getLatLng(selectShopDto.getStreetAddress());
         selectShopDto.setLatitude(address.getX());
         selectShopDto.setLongitude(address.getY());
 
         SelectShop selectShop = selectShopDto.toEntity();
-
-        // upload shop Image on storage
-        if (selectShopDto.getImages() != null)
-            selectShopDto.getImages().forEach(image -> {
-                if (image.isEmpty()) return;
-
-                String fileName = ImageUtil.upload(image);
-                // upload shop Image on DB
-                selectShop.addImageSelectShop(
-                        ImageSelectShop.builder()
-                                .imageName(fileName)
-                                .selectShop(selectShop)
-                                .build()
-                );
-            });
-
 
         // brand 저장
         if (selectShopDto.getBrand() != null)
@@ -109,8 +66,54 @@ public class AdminShopService {
                 );
             });
 
-        selectShopRepository.save(selectShop);
+        return selectShopRepository.save(selectShop);
+    }
 
-        return selectShop.getId();
+    @Transactional
+    public SelectShop editShop(SelectShopDto selectShopDto) {
+        SelectShop selectShop = selectShopRepository.findById(selectShopDto.getId()).orElseThrow(() -> new IllegalArgumentException("해당 편집샵이 존재하지 않습니다."));
+
+        Address address = geocoding.getLatLng(selectShopDto.getStreetAddress());
+        selectShopDto.setLatitude(address.getX());
+        selectShopDto.setLongitude(address.getY());
+
+        selectShop.update(selectShopDto);
+
+        return selectShopRepository.save(selectShop);
+    }
+
+    @Transactional
+    public void editShopImage(SelectShop shop, List<ImageSelectShop> imageSelectShops) {
+        for (ImageSelectShop image : imageSelectShops) {
+            imageSelectShopRepository.findById(image.getId()).ifPresent(imageSelectShop -> {
+                imageSelectShop.setSelectShop(shop);
+                imageSelectShopRepository.save(imageSelectShop);
+            });
+        }
+    }
+
+    @Transactional
+    public void editShopBrand(SelectShop shop, List<String> shopBrands) {
+        // 기존 브랜드 삭제
+        shopBrandRepository.deleteAllBySelectShop(shop);
+
+        List<SelectShopBrand> selectShopBrands = new ArrayList<>();
+        for (String shopBrand : shopBrands) {
+            if (shopBrand == null) continue;
+
+            selectShopBrands.add(
+                    SelectShopBrand.builder()
+                            .brandName(shopBrand)
+                            .selectShop(shop)
+                            .build()
+            );
+        }
+        selectShopBrandRepository.saveAll(selectShopBrands);
+    }
+
+
+    @Transactional
+    public List<SelectShop> findShopByName(String name) {
+        return selectShopRepository.findByNameContaining(name);
     }
 }

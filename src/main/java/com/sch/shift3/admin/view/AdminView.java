@@ -2,6 +2,7 @@ package com.sch.shift3.admin.view;
 
 import com.sch.shift3.admin.service.AdminShopService;
 import com.sch.shift3.user.dto.SelectShopDto;
+import com.sch.shift3.user.entity.Image;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Comparator;
 
 @Slf4j
 @Controller
@@ -59,8 +62,16 @@ public class AdminView {
         SelectShopDto selectShopDto = adminShopService.getShop(id);
         log.info("selectShopDto: {}", selectShopDto);
 
+        // selectShopDto.getImageList() sort by id asc
+         selectShopDto.getImageList().sort(Comparator.comparing(Image::getId));
+
         model.addAttribute("editMode", true);
         model.addAttribute("SelectShopDto", selectShopDto);
         return "admin/content/pages/shop/create";
+    }
+
+    @GetMapping("/product/create")
+    public String productCreatePage(){
+        return "admin/content/pages/product/create";
     }
 }

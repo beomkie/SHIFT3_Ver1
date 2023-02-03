@@ -9,17 +9,6 @@
             border-left: 1px solid black;
         }
 
-        .imagePreview {
-            width: 100%;
-            background-position: center center;
-            background: url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
-            background-color: #fff;
-            background-size: cover;
-            background-repeat: no-repeat;
-            display: inline-block;
-            box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
-        }
-
         .btn-primary {
             display: block;
             border-radius: 0px;
@@ -27,42 +16,6 @@
             margin-top: -5px;
         }
 
-        .imgUp {
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .del {
-            position: absolute;
-            top: 0px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            line-height: 30px;
-            background-color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-        }
-
-        .imgAdd {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #4bd7ef;
-            color: #fff;
-            box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            line-height: 30px;
-            margin-top: 0px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .square:before {
-            content: "";
-            display: block;
-            padding-top: 100%; /* initial ratio of 1:1*/
-        }
 	</style>
 </th:block>
 
@@ -70,6 +23,10 @@
 </th:block>
 
 <div layout:fragment="content">
+
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	        crossorigin="anonymous"></script>
 
 	<h1 th:if="${editMode == true}" class="mt-4">편집샵 수정</h1>
 	<h1 th:unless="${editMode == true}" class="mt-4">편집샵 생성</h1>
@@ -85,6 +42,7 @@
 			<div class="card p-3">
 				<div class="row mb-3">
 					<div class="col-6">
+						<input type="number" th:field="*{id}" hidden/>
 						<label class="form-label" for="shopName">편집샵 이름</label>
 						<input type="text" th:field="*{name}" id="shopName" class="form-control" required/>
 					</div>
@@ -111,7 +69,7 @@
 				</div>
 
 				<hr/>
-				<div class="row">
+				<div class="row mb-3">
 
 					<div class="col-6 mb-3 p-3">
 						<!--				위치 검색-->
@@ -315,66 +273,118 @@
 					</div>
 				</div>
 
-				<div class="container">
-					<div class="row mb-5">
-						<div class="col-sm-4 imgUp">
-							<div class="imagePreview square"></div>
-							<label class="btn btn-primary">
-								1번째 이미지 업로드<input type="file" class="uploadFile img" name="images[0]"
-								                  style="width: 0px;height: 0px;overflow: hidden;">
-							</label>
-						</div><!-- col-2 -->
-						<i class="fa fa-plus imgAdd"></i>
-					</div><!-- row -->
-					<span class="text-warning">1대1 비율의 이미지를 업로드해주세요. 그외에 이미지엔 이미지가 제대로 표시되지 않을 수 있습니다.</span>
+				<div class="image-container">
+					<div class="d-flex justify-content-between">
+						<input type="file" id="file-input" hidden>
+						<button class="btn btn-primary" id="upload-btn" type="button">이미지 업로드</button>
+					</div>
+					<div id="image-preview">
+						<div class="image-preview" th:each="image : *{imageList}" th:data-image-id="${image.getId()}">
+							<img th:src="'/file/' + ${image.getImageName()}">
+							<button class="remove-button" type="button" onclick="removeImage(this)">X</button>
+						</div>
+					</div>
 				</div>
 
 				<script>
-                    $(function () {
-                        $(document).on("change", ".uploadFile", function () {
-                            var uploadFile = $(this);
-                            var files = !!this.files ? this.files : [];
-                            if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+                    $(document).ready(function () {
+                        let fileInput = $("#file-input");
+                        let imagePreview = $("#image-preview");
+                        let uploadBtn = $("#upload-btn");
 
-                            if (/^image/.test(files[0].type)) { // only image file
-                                var reader = new FileReader(); // instance of the FileReader
-                                reader.readAsDataURL(files[0]); // read the local file
+                        fileInput.change(function () {
+                            let files = this.files;
+                            let len = files.length;
 
-                                reader.onloadend = function () { // set image data as background of div
-                                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
-                                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
+                            for (let i = 0; i < len; i++) {
+                                let file = files[i];
+                                let reader = new FileReader();
+
+                                // Check if the file is an image file
+                                if (!file.type.match("image.*")) {
+                                    console.error(file.name + " is not an image file.");
+                                    continue;
                                 }
-                            } else {
-                                alert("이미지 파일만 업로드 가능합니다.");
+
+                                reader.onload = function (e) {
+                                    //file to formdata
+                                    var formData = new FormData();
+                                    formData.append("file", file);
+
+                                    $.ajax({
+                                        url: '/admin/image/uploadShop',
+                                        type: 'POST',
+                                        data: formData,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function (data) {
+                                            console.log(data);
+
+                                            let json = JSON.parse(data);
+
+                                            let img = $("<img>").attr("src", "/file/" + json.fileName);
+                                            let imagePreviewItem = $("<div>").addClass("image-preview").attr("data-image-id", json.id);
+                                            let removeBtn = $("<button>").addClass("remove-button").text("X").attr("type", "button").attr("onclick", "removeImage(this)");
+
+                                            imagePreviewItem.append(img).append(removeBtn);
+                                            imagePreview.append(imagePreviewItem);
+
+                                        },
+                                        fail: function (data) {
+                                            alert('이미지 업로드에 실패했습니다. 재시도해주세요.');
+                                        }
+                                    })
+                                };
+
+                                reader.onerror = function (error) {
+                                    console.error("File could not be read! Code " + error.target.error.code);
+                                };
+
+                                reader.readAsDataURL(file);
                             }
-
                         });
 
-                        $(".imgAdd").click(function () {
-                            // get image count
-                            var cnt = $(this).closest(".row").find('.imgUp').length;
-                            $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-4 imgUp"><div class="imagePreview square"><i class="fa fa-times del"></i></div><label class="btn btn-primary">' +
-                                `${cnt + 1}번째 이미지 업로드` +
-                                `<input type="file" class="uploadFile img" name="images[${cnt}]" style="width:0px;height:0px;overflow:hidden;"></label></div>`);
+                        uploadBtn.click(function () {
+                            fileInput.click();
                         });
 
-                        $(document).on("click", ".fa-xmark.del", function () {
-                            // 	to remove card
-                            $(this).parent().parent().remove();
-                            // to clear image
-                            // $(this).parent().find('.imagePreview').css("background-image","url('')");
-                        });
                     });
+
+
+                    function removeImage(e) {
+                        let imageId = $(e).parent().data("image-id");
+
+
+                        $.ajax({
+                            url: '/admin/image/remove/' + imageId,
+                            type: 'GET',
+                            success: function (data) {
+                                $(e).parent().remove();
+                            },
+                            fail: function (data) {
+                                alert('기존 이미지 삭제에 실패했습니다. 재로그인 후 다시 시도해주세요.');
+                            }
+                        })
+
+                    }
+
 				</script>
+
+				<div class="row mb-5">
+					<!-- col-2 -->
+					<!--					<i class="fa fa-plus imgAdd"></i>-->
+				</div><!-- row -->
+				<span class="text-warning">1대1 비율의 이미지를 업로드해주세요. 그외에 이미지엔 이미지가 제대로 표시되지 않을 수 있습니다.</span>
 			</div>
 		</div>
 
 
 		<div class="row">
 			<!--			등록하기 -->
-			<button class="btn btn-primary" type="button" onclick="return shopCreate();">등록하기</button>
+			<button class="btn btn-primary" type="button" onclick="return shopCreate();"
+			        th:text=" ${editMode} ? '수정하기' : '등록하기'"></button>
 
-			<script>
+			<script th:inline="javascript">
                 function shopCreate() {
 
                     let passValidation = true;
@@ -410,22 +420,31 @@
 
                     let formData = new FormData($('form')[0]);
 
-                    if (formData.get("images[0]").size < 512) {
-                        let span = document.createElement("span");
-                        span.setAttribute("class", "text-danger");
-                        span.innerHTML = "이미지를 최소 한장 업로드해주세요";
-                        document.querySelector(".imgAdd").parentNode.appendChild(span);
-                        passValidation = false;
-                    }
+                    // if (formData.get("images[0]").size < 512) {
+                    //     let span = document.createElement("span");
+                    //     span.setAttribute("class", "text-danger");
+                    //     span.innerHTML = "이미지를 최소 한장 업로드해주세요";
+                    //     document.querySelector(".imgAdd").parentNode.appendChild(span);
+                    //     passValidation = false;
+                    // }
 
                     if (!passValidation) {
                         return;
                     }
 
+                    // get image-data-id
+                    let imageIds = document.querySelectorAll("[data-image-id]");
+                    for (let i = 0; i < imageIds.length; i++) {
+                        formData.append("imageList[" + i + "].id", imageIds[i].dataset.imageId);
+                    }
+
+                    let isEditMode = /*[[${editMode}]]*/ false;
+
                     console.log(formData)
+
                     $.ajax({
                         type: 'POST',
-                        url: '/admin/shop/create.do',
+                        url: isEditMode ? '/admin/shop/edit.do' : '/admin/shop/create.do',
                         data: formData,
                         cache: false,
                         dataType: 'json',
@@ -437,18 +456,16 @@
                         error: function (data) {
                             console.log("error");
                             console.log(data);
-                            alert("편집샵 생성에 실패했습니다.");
+                            alert(`편집샵 ${isEditMode ? '수정' : '생성'}에 실패했습니다.`);
                         }
                     });
 
 
                 }
 			</script>
-
 		</div>
-
-
 	</form>
+
 </div>
 
 </html>
