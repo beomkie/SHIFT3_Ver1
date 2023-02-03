@@ -37,6 +37,11 @@ public class AdminImageController {
         return ResponseEntity.ok("{\"id\":" + imageSelectShop.getId() +
                 ", \"fileName\":\"" + fileName + "\"}"); // json
     }
+    @PostMapping("/uploadFeed")
+    public ResponseEntity<String> uploadFeedImage(@ModelAttribute MultipartFile file){
+        String fileName = ImageUtil.upload(file);
+        return ResponseEntity.ok("{\"fileName\":\"" + fileName + "\"}"); // json
+    }
 
     @Transactional
     @PostMapping("/uploadProduct")
