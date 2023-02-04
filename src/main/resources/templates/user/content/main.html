@@ -18,6 +18,7 @@
 				</div>
 			</div>
 			<div class="row shop_container main-card-group">
+
 				<div class="col-6 p-3">
 					<div class="main-card">
 						<div class="img-container43">
@@ -96,54 +97,33 @@
 	<!-- END 최근 피드 -->
 
 	<!-- START 카테고리별 피드 1-->
-	<div class="section small_pt pb_20 mb-3">
+	<div class="section small_pt pb_20 mb-5">
 		<div class="container">
 			<div class="row justify-content-start">
 				<div class="col-md-6">
 					<div class="heading_s3 text-start">
-						<h2>카테고리 1</h2>
+						<h2>옷 카테고리</h2>
 					</div>
 					<div class="small_divider clearfix"></div>
 				</div>
 			</div>
 
 			<div class="card-group d-flex flex-wrap">
-				<div class="card">
-					<div class="img-container43">
-						<img th:src="@{/user/assets/images/banner8.jpg}" class="card-img-top rounded"
-						     alt="your-image-alt">
-					</div>
-					<div class="card-body">
-						<h5 class="card-title">컨텐츠 타이틀</h5>
-						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
-							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
-						<a href="#" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
-					</div>
-				</div>
 
-				<div class="card">
+				<div class="card" th:each="feed: ${clothes_category}">
 					<div class="img-container43">
-						<img th:src="@{/user/assets/images/banner9.jpg}" class="card-img-top rounded"
-						     alt="your-image-alt">
+						<img th:src="'/file/' + *{feed.feed.getThumbnailFileName()}" class="card-img-top rounded"
+						     alt="피드 썸네일 이미지">
 					</div>
 					<div class="card-body">
-						<h5 class="card-title">컨텐츠 타이틀</h5>
-						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
-							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
-						<a href="#" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
-					</div>
-				</div>
-
-				<div class="card">
-					<div class="img-container43">
-						<img th:src="@{/user/assets/images/banner7.jpg}" class="card-img-top rounded"
-						     alt="your-image-alt">
-					</div>
-					<div class="card-body">
-						<h5 class="card-title">컨텐츠 타이틀</h5>
-						<p class="card-text">모든 국민은 직업선택의 자유를 가진다. 이 헌법시행 당시에 이 헌법에 의하여 새로 설치될 기관의 권한에 속하는 직무를 행하고 있는
-							기관은 이 헌법에 의하여 새로운 기관이 설치될 때까지 존속하며 그 직무를 행한다.</p>
-						<a href="#" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+						<h5 class="card-title" th:text="${#strings.abbreviate(feed.feed.title,15)}"></h5>
+						<th:block>
+							<p class="card-text" th:text="${#strings.abbreviate(feed.feed.description, 40)}">
+								<!--						   th:inline="text">-->
+								<!--							[[${#strings.abbreviate(feed.feed.description, 40)}]]-->
+							</p>
+						</th:block>
+						<a th:href="'/feed/' + *{feed.feed.id}" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
 					</div>
 				</div>
 			</div>

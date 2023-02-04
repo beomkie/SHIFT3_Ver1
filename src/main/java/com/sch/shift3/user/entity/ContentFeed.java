@@ -1,9 +1,23 @@
 package com.sch.shift3.user.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.jsoup.Jsoup;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
+@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "content_feed")
+@EntityListeners(AuditingEntityListener.class)
 public class ContentFeed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,31 +31,17 @@ public class ContentFeed {
     @Column(name = "title", nullable = false, length = 30)
     private String title;
 
+    @Column(name = "category", nullable = false, length = 15)
+    private String category;
+
     @Column(name = "thumbnail_file_name", nullable = false)
     private String thumbnailFileName;
 
-    public Integer getId() {
-        return id;
-    }
+    @CreatedDate
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getDescriptionNoHtml() {
+        return Jsoup.parse(this.description).text();
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 }

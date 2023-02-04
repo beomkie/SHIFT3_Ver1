@@ -1,7 +1,9 @@
 package com.sch.shift3.user.view;
 
+import com.sch.shift3.user.service.FeedService;
 import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,11 +11,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UserView {
+    private final FeedService feedService;
+
     @GetMapping("/")
-    public String mainPage(){
+    public String mainPage(Model model){
+        model.addAttribute("disableLoading", true);
+
+        // Recent Feed
+        model.addAttribute("recentFeed", feedService.getRecentFeed());
+
+        // category Feed
+        model.addAttribute("clothes_category", feedService.getFeedByCategory("옷"));
+
         return "user/content/main";
     }
 
