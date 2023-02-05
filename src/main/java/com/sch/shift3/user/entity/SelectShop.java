@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -84,11 +85,23 @@ public class SelectShop {
                 .longitude(longitude)
                 .streetAddress(streetAddress)
                 .streetAddressDetail(streetAddressDetail)
-                .ImageUrl(imageSelectShops.stream().map(ImageSelectShop::getImageName).toList())
+                .imageList(new ArrayList<>(imageSelectShops))
+                .brand(selectShopBrands.stream().map(SelectShopBrand::getBrandName).toList())
                 .contactNumber(contactNumber)
                 .operatingTime(operatingTime)
                 .hitCount(hitCount)
                 .createdAt(createdAt)
                 .build();
+    }
+
+
+    public void update(SelectShopDto selectShopDto) {
+        this.name = selectShopDto.getName();
+        this.introduce = selectShopDto.getIntroduce();
+        this.streetAddress = selectShopDto.getStreetAddress();
+        this.streetAddressDetail = selectShopDto.getStreetAddressDetail();
+        this.contactNumber = selectShopDto.getContactNumber();
+        this.operatingTime = selectShopDto.getOperatingTime();
+        this.hitCount = selectShopDto.getHitCount();
     }
 }

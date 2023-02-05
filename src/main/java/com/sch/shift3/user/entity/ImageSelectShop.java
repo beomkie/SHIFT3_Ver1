@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import lombok.experimental.SuperBuilder;
 public class ImageSelectShop extends Image{
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "select_shop_id")
     private SelectShop selectShop;
 

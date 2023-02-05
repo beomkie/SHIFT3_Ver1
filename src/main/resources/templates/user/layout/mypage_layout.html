@@ -2,6 +2,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!--/* 이곳에 각 view가 위치합니다. */-->
 
+<script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
+
 <head th:replace="~{/user/fragments/head :: headFragment}"></head>
 
 <th:block layout:fragment="script"></th:block>
@@ -66,9 +68,6 @@
 </style>
 
 <div th:replace="~{/user/fragments/header :: headerFragment}"></div>
-
-<!-- Latest jQuery -->
-<script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
 
 <div class="container-fluid shop_list">
 	<div class="container">

@@ -116,9 +116,9 @@
 						     alt="피드 썸네일 이미지">
 					</div>
 					<div class="card-body">
-						<h5 class="card-title" th:text="${#strings.abbreviate(feed.feed.title,15)}"></h5>
+						<h5 class="card-title" th:text="${feed.feed.title}"></h5>
 						<th:block>
-							<p class="card-text" th:text="${#strings.abbreviate(feed.feed.description, 40)}">
+							<p class="card-text" th:text="${feed.feed.description}">
 								<!--						   th:inline="text">-->
 								<!--							[[${#strings.abbreviate(feed.feed.description, 40)}]]-->
 							</p>

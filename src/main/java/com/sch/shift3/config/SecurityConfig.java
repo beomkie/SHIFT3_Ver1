@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -24,6 +25,7 @@ public class SecurityConfig {
             .csrf().disable()
             .headers().frameOptions().disable()
             .and()
+            .cors(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests()
             .requestMatchers("/admin/**").hasRole(SecurityRole.ADMIN.name())
             .requestMatchers("/**").permitAll()
@@ -53,5 +55,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
 }

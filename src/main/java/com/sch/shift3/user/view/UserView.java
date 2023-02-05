@@ -1,6 +1,7 @@
 package com.sch.shift3.user.view;
 
 import com.sch.shift3.user.service.FeedService;
+import com.sch.shift3.user.service.ProductService;
 import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class UserView {
     private final FeedService feedService;
+    private final ProductService productService;
 
     @GetMapping("/")
     public String mainPage(Model model){
@@ -87,9 +89,18 @@ public class UserView {
         return "user/content/pages/my-page/cs";
     }
 
-    @GetMapping("/feed")
-    public String feedPage(Model model){
+    @GetMapping("/feed/{id}")
+    public String feedPage(Model model, @PathVariable Integer id){
         model.addAttribute("disableLoading", true);
+        model.addAttribute("feed", feedService.getFeedById(id));
+        model.addAttribute("products", productService.getProductsByFeed(id));
+        productService.getProductsByFeed(id).get(0).getImages().forEach(
+                image -> log.info("image: {}", image.getImageName())
+        );
+//        model.addAttribute("feed", feedService.getFeedById(id));
+
+//        log.info("feed: {}", feedService.getFeedById(id));
+
         return "user/content/pages/feed/read";
     }
 

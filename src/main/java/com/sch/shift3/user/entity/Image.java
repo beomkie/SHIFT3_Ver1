@@ -4,15 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
+@Setter
 @Getter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "image")
-@DiscriminatorColumn(name="image_type")
+@DiscriminatorColumn(
+        name="image_type",
+        discriminatorType = DiscriminatorType.STRING
+)
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 public class Image {
     @Id
@@ -26,5 +31,7 @@ public class Image {
     @Column(name = "image_name", nullable = false, length = 100)
     private String imageName;
 
-
+    public Image(String imageName) {
+        this.imageName = imageName;
+    }
 }

@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class SelectShopBrand {
     private String brandName;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "select_shop_id")
     private SelectShop selectShop;
 

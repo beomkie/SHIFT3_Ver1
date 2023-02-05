@@ -121,6 +121,10 @@
 						</tr>
 						<tr>
 							<th scope="row">운영 시간</th>
+							<td th:text="${shop.operatingTime}"></td>
+						</tr>
+						<tr>
+							<th scope="row">샵 생성일</th>
 							<td th:text="${#temporals.format(shop.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
 						</tr>
 						</tbody>

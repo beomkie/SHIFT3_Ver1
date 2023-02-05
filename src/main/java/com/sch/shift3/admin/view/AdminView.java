@@ -1,7 +1,9 @@
 package com.sch.shift3.admin.view;
 
+import com.sch.shift3.admin.service.AdminContentFeedService;
 import com.sch.shift3.admin.service.AdminProductService;
 import com.sch.shift3.admin.service.AdminShopService;
+import com.sch.shift3.user.dto.ContentFeedDto;
 import com.sch.shift3.user.dto.ProductDto;
 import com.sch.shift3.user.dto.SelectShopDto;
 import com.sch.shift3.user.entity.Image;
@@ -23,6 +25,7 @@ public class AdminView {
 
     private final AdminShopService adminShopService;
     private final AdminProductService adminProductService;
+    private final AdminContentFeedService adminContentFeedService;
 
     @GetMapping("")
     public String mainPage(){
@@ -30,12 +33,20 @@ public class AdminView {
     }
 
     @GetMapping("/contents/list")
-    public String contentListPage(){
+    public String contentListPage(Model model){
+        model.addAttribute("contents", adminContentFeedService.getAllContentList());
+
         return "admin/content/pages/contents/list";
     }
 
     @GetMapping("/contents/create")
-    public String contentCreatePage(){
+    public String contentCreatePage(Model model){
+        ContentFeedDto contentFeedDto = new ContentFeedDto();
+        contentFeedDto.setTitle("테스트");
+        contentFeedDto.setDescription("테스트");
+        contentFeedDto.setThumbnailFileName("eb2172fd-61b0-485d-826b-a65ca131074d2.png");
+
+        model.addAttribute("ContentFeedDto", contentFeedDto);
         return "admin/content/pages/contents/create";
     }
 

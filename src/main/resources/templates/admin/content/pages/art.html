@@ -1,325 +1,346 @@
-<!--
-<!DOCTYPE html>
-<html layout:decorate="~{layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<!--<!DOCTYPE html>-->
+<!--<html layout:decorate="~{layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">-->
 
-<th:block layout:fragment="css">
-	<style type="text/css">
-		.datepicker {
-            z-index: 2000 !important;
-		}
-	</style>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-</th:block>
-<th:block layout:fragment="script">
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-</th:block>
+<!--<th:block layout:fragment="css">-->
+<!--	<style type="text/css">-->
+<!--        .datepicker {-->
+<!--            z-index: 2000 !important;-->
+<!--        }-->
+<!--	</style>-->
+<!--	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">-->
+<!--</th:block>-->
+<!--<th:block layout:fragment="script">-->
+<!--	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>-->
+<!--</th:block>-->
 
-<div layout:fragment="content">
-	<h1 th:if="${editMode == true}" class="mt-4">작품 수정</h1>
-	<h1 th:unless="${editMode == true}" class="mt-4">작품 생성</h1>
-	<ol class="breadcrumb mb-4">
-		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit Art</li>
-		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New Art</li>
-	</ol>
-	<div class="card-body">
-		&lt;!&ndash;/*@thymesVar id="ArtRequest" type="com.imaginationlab.minting.Controller.admin.model.ArtRequest"*/&ndash;&gt;
-		<form enctype="multipart/form-data" method="post" th:action="${editMode} ? '/api/v1/admin/art-update' : '/api/v1/admin/art-create'" th:object="${ArtRequest}">
-			<input type="hidden" th:field="*{id}" />
-			<div class="row mb-3">
-				<div class="col-6">
-					<label class="col-form-label" for="art_title">작품 제목</label>
-					<input class="form-control" id="art_title" placeholder="art's title" th:field="*{artName}"
-					       type="text">
-					<p th:if="${#fields.hasErrors('artName')}" th:errors="*{artName}" class="text-danger">Incorrect data</p>
-				</div>
+<!--<div layout:fragment="content">-->
+<!--	<h1 th:if="${editMode == true}" class="mt-4">작품 수정</h1>-->
+<!--	<h1 th:unless="${editMode == true}" class="mt-4">작품 생성</h1>-->
+<!--	<ol class="breadcrumb mb-4">-->
+<!--		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit Art</li>-->
+<!--		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New Art</li>-->
+<!--	</ol>-->
+<!--	<div class="card-body">-->
+<!--		&lt;!&ndash;/*@thymesVar id="ArtRequest" type="com.imaginationlab.minting.Controller.admin.model.ArtRequest"*/&ndash;&gt;-->
+<!--		<form enctype="multipart/form-data" method="post"-->
+<!--		      th:action="${editMode} ? '/api/v1/admin/art-update' : '/api/v1/admin/art-create'"-->
+<!--		      th:object="${ArtRequest}">-->
+<!--			<input type="hidden" th:field="*{id}"/>-->
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="art_title">작품 제목</label>-->
+<!--					<input class="form-control" id="art_title" placeholder="art's title" th:field="*{artName}"-->
+<!--					       type="text">-->
+<!--					<p th:if="${#fields.hasErrors('artName')}" th:errors="*{artName}" class="text-danger">Incorrect-->
+<!--						data</p>-->
+<!--				</div>-->
 
-				<div class="col-6">
-					<label class="col-form-label" for="art_create_at">작품 제작일</label>
-					<div class="input-append date" data-date="2022년" data-date-format="yyyy년 mm월"
-					     id="datepicker">
-						<input class="form-control" id="art_create_at" name="date" readonly="readonly" th:field="*{artCreateAt}"
-						       type="text" value="10-2022" placeholder="눌러서 작품 제작일을 설정해주세요.">
-						<p th:if="${#fields.hasErrors('artCreateAt')}" th:errors="*{artCreateAt}" class="text-danger">Incorrect data</p>
-						<span class="add-on"><i class="icon-th"></i></span>
-					</div>
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="art_create_at">작품 제작일</label>-->
+<!--					<div class="input-append date" data-date="2022년" data-date-format="yyyy년 mm월"-->
+<!--					     id="datepicker">-->
+<!--						<input class="form-control" id="art_create_at" name="date" readonly="readonly"-->
+<!--						       th:field="*{artCreateAt}"-->
+<!--						       type="text" value="10-2022" placeholder="눌러서 작품 제작일을 설정해주세요.">-->
+<!--						<p th:if="${#fields.hasErrors('artCreateAt')}" th:errors="*{artCreateAt}" class="text-danger">-->
+<!--							Incorrect data</p>-->
+<!--						<span class="add-on"><i class="icon-th"></i></span>-->
+<!--					</div>-->
 
-					<script>
-                        $.fn.datepicker.dates['ko'] = {
-                            days: ["일", "월", "화", "수", "목", "금", "토"],
-                            daysShort: ["일", "월", "화", "수", "목", "금", "토"],
-                            daysMin: ["일", "월", "화", "수", "목", "금", "토"],
-                            months: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                            monthsShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-                            today: "오늘",
-                            clear: "삭제",
-                            format: "yyyy년 mm월",
-                            titleFormat: "yyyy년 mm월",
-                            weekStart: 0
-                        };
-                        $("#datepicker").datepicker({
-                            format: "yyyy년 mm월",
-                            viewMode: "months",
-                            minViewMode: "months",
-                            language: "ko"
-                        });
-					</script>
-				</div>
-			</div>
+<!--					<script>-->
+<!--                        $.fn.datepicker.dates['ko'] = {-->
+<!--                            days: ["일", "월", "화", "수", "목", "금", "토"],-->
+<!--                            daysShort: ["일", "월", "화", "수", "목", "금", "토"],-->
+<!--                            daysMin: ["일", "월", "화", "수", "목", "금", "토"],-->
+<!--                            months: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],-->
+<!--                            monthsShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],-->
+<!--                            today: "오늘",-->
+<!--                            clear: "삭제",-->
+<!--                            format: "yyyy년 mm월",-->
+<!--                            titleFormat: "yyyy년 mm월",-->
+<!--                            weekStart: 0-->
+<!--                        };-->
+<!--                        $("#datepicker").datepicker({-->
+<!--                            format: "yyyy년 mm월",-->
+<!--                            viewMode: "months",-->
+<!--                            minViewMode: "months",-->
+<!--                            language: "ko"-->
+<!--                        });-->
+<!--					</script>-->
+<!--				</div>-->
+<!--			</div>-->
 
-			<div class="row mb-3">
-				<div class="col-4">
-					<label class="col-form-label" for="genre">작품 장르</label>
-					<select class="form-select form-control" id="genre" th:field="*{artGenre}">
-						<option value="painting">회화</option>
-						<option value="sculpture">조각</option>
-						<option value="other">기타</option>
-					</select>
-					<div>
-					<p th:if="${#fields.hasErrors('artGenre')}" th:errors="*{artGenre}">Incorrect data</p>
-					</div>
-				</div>
-				<div class="col-4">
-					<label class="col-form-label" for="art_material">작품 재질</label>
-					<div class="input-group input-group-merge">
-						<input class="form-control" id="art_material" placeholder="" th:field="*{artMaterial}"
-						       type="text">
-					</div>
-					<div>
-						<p th:if="${#fields.hasErrors('artMaterial')}" th:errors="*{artMaterial}" class="text-danger">Incorrect data</p>
-					</div>
-				</div>
-				<div class="col-4">
-					<label class="col-form-label" >배너 표시여부</label>
-					<div class="form-check form-switch">
-						<label class="form-check-label" for="art_on_banner" id="bannerLabel">- 체크시 배너에 표시됩니다.</label>
-						<input class="form-check-input" id="art_on_banner" placeholder="" th:field="*{artOnBanner}"
-						       type="checkbox">
-					</div>
-					<div>
-						<p th:if="${#fields.hasErrors('artOnBanner')}" th:errors="*{artOnBanner}" class="text-danger">Incorrect data</p>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="row mb-3">
-				<div class="col-6">
-					<label class="col-form-label" for="art_buy_url">구매 링크</label>
-					<div class="col-sm">
-						<div class="input-group input-group-merge">
-							<input class="form-control" id="art_buy_url" placeholder="http://....."
-							       th:field="*{artBuyUrl}"
-							       type="text"></div>
-						<div>
-							<p th:if="${#fields.hasErrors('artBuyUrl')}" th:errors="*{artBuyUrl}" class="text-danger">Incorrect data</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-6">
-					<div class="row">
-						<div class="col-8">
-							<label class="col-form-label" for="art_price">작품 가격</label>
-							<div class="col-sm">
-								<input class="form-control" id="art_price" placeholder="price" th:field="*{artPrice}"
-								       type="text">
-							</div>
-							<div>
-								<p th:if="${#fields.hasErrors('artPrice')}" th:errors="*{artPrice}" class="text-danger">Incorrect data</p>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="input-group input-group-merge">
-								<label class="col-form-label" for="art_price_symbol">코인 심볼</label>
-							</div>
-							<select class="form-control" id="art_price_symbol" th:field="*{artPriceSymbol}">
-								<option value="KLAY">
-									KLAY
-								</option>
-								<option selected="" value="ETH">
-									ETH
-								</option>
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<hr/>
-
-			<div class="row mb-3">
-				<div class="col-6">
-					<label class="col-form-label" for="artist_name_kr">작가명(국문)</label>
-					<div class="col-sm">
-						<div class="input-group input-group-merge">
-							<input aria-describedby="basic-default-email2" class="form-control" id="artist_name_kr"
-							       placeholder="작가의 한국이름" type="text" th:field="*{artistNameKr}"></div>
-						<div>
-							<p th:if="${#fields.hasErrors('artistNameKr')}" th:errors="*{artistNameKr}" class="text-danger">Incorrect data</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-6">
-					<label class="col-form-label" for="artist_name_en">작가명(영문)</label>
-					<div class="input-group input-group-merge">
-						<input aria-describedby="basic-default-email2" class="form-control" id="artist_name_en"
-						       placeholder="작가의 영문이름" type="text" th:field="*{artistNameEn}"></div>
-					<div>
-						<p th:if="${#fields.hasErrors('artistNameEn')}" th:errors="*{artistNameEn}" class="text-danger">Incorrect data</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="row mb-3">
-				<div class="col-6">
-					<label class="col-form-label" for="artist_profile_image">작가 프로필 이미지 - jpg/jpeg, png, gif 등</label>
-					<div class="image-area">
-						<img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="artist_profile_image"
-						     th:src="${editMode} ? 'http://mintingarts.art:8080/api/v1/file/' + *{getArtistProfile()} : '/noimage.gif'"></div>
-					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input class="form-control border-0" id="upload" onchange="readURL(this);" style="display:none"
-						       type="file" th:field="*{artistProfile}">
-						<label class="font-weight-light text-muted" for="upload" id="upload-label" th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></label>
-						<div class="input-group-append">
-							<label class="btn btn-light m-0 rounded-pill px-4" for="upload">
-								<i class="fa fa-cloud-upload mr-2 text-muted"></i>
-								<small class="text-uppercase font-weight-bold text-muted" th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></small>
-							</label>
-						</div>
-						<p th:if="${#fields.hasErrors('artistProfile')}" th:errors="*{artistProfile}" class="text-danger">Incorrect data</p>
-					</div>
-				</div>
-				<div class="col-6">
-					<label class="col-form-label" for="artist_description">작가 설명</label>
-					<div class="input-group input-group-merge">
-						&lt;!&ndash;                        <input type="text" id="artist_description" class="form-control" placeholder="작가 설명"></div>&ndash;&gt;
-						<textarea class="form-control" id="artist_description" name="artist_description" rows="5"
-						          style="height: 270px" th:field="*{artistDescription}"></textarea>
-					</div>
-					<p th:if="${#fields.hasErrors('artistDescription')}" th:errors="*{artistDescription}" class="text-danger">Incorrect data</p>
-				</div>
-			</div>
-
-			<hr/>
-
-			<div class="row mb-3">
-				<div class="col-6">
-					<label class="col-form-label">작품 미리보기 사진- jpg/jpeg, png, gif 등<br/>큰 gif의 이미지의 경우엔 <a href="https://www.google.com/search?q=gif+%EC%95%95%EC%B6%95+online"> 압축해서 올리는것</a>을 추천드립니다. <br/> 최대 업로드 용량 10mb </label>
-					<div class="image-area">
-						<img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="art_thumbnail"
-						     th:src="${editMode} ? 'http://mintingarts.art:8080/api/v1/file/' + *{getArtThumbnail()} : '/noimage.gif'"></div>
-					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input class="form-control border-0" id="upload-thumbnail" onchange="readURL_thumbnail(this);"
-						       style="display:none" type="file" th:field="*{artThumbnail}">
-						<label class="font-weight-light text-muted" for="upload-thumbnail" id="upload-thumbnail-label" th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></label>
-						<div class="input-group-append">
-							<label class="btn btn-light m-0 rounded-pill px-4" for="upload-thumbnail">
-								<i class="fa fa-cloud-upload mr-2 text-muted"></i>
-								<small class="text-uppercase font-weight-bold text-muted" th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></small>
-							</label>
-						</div>
-						<p th:if="${#fields.hasErrors('artThumbnail')}" th:errors="*{artThumbnail}" class="text-danger">Incorrect data</p>
-					</div>
-				</div>
-
-				<div class="col-6 mb-3">
-					<label class="col-form-label" for="editor">작품 설명 작성</label>
-					<textarea id="editor" th:field="*{artDescription}"></textarea>
-					<br/>
-					<p th:if="${#fields.hasErrors('artDescription')}" th:errors="*{artDescription}" class="text-danger">Incorrect data</p>
-				</div>
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-4">-->
+<!--					<label class="col-form-label" for="genre">작품 장르</label>-->
+<!--					<select class="form-select form-control" id="genre" th:field="*{artGenre}">-->
+<!--						<option value="painting">회화</option>-->
+<!--						<option value="sculpture">조각</option>-->
+<!--						<option value="other">기타</option>-->
+<!--					</select>-->
+<!--					<div>-->
+<!--						<p th:if="${#fields.hasErrors('artGenre')}" th:errors="*{artGenre}">Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="col-4">-->
+<!--					<label class="col-form-label" for="art_material">작품 재질</label>-->
+<!--					<div class="input-group input-group-merge">-->
+<!--						<input class="form-control" id="art_material" placeholder="" th:field="*{artMaterial}"-->
+<!--						       type="text">-->
+<!--					</div>-->
+<!--					<div>-->
+<!--						<p th:if="${#fields.hasErrors('artMaterial')}" th:errors="*{artMaterial}" class="text-danger">-->
+<!--							Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="col-4">-->
+<!--					<label class="col-form-label">배너 표시여부</label>-->
+<!--					<div class="form-check form-switch">-->
+<!--						<label class="form-check-label" for="art_on_banner" id="bannerLabel">- 체크시 배너에 표시됩니다.</label>-->
+<!--						<input class="form-check-input" id="art_on_banner" placeholder="" th:field="*{artOnBanner}"-->
+<!--						       type="checkbox">-->
+<!--					</div>-->
+<!--					<div>-->
+<!--						<p th:if="${#fields.hasErrors('artOnBanner')}" th:errors="*{artOnBanner}" class="text-danger">-->
+<!--							Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
 
 
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="art_buy_url">구매 링크</label>-->
+<!--					<div class="col-sm">-->
+<!--						<div class="input-group input-group-merge">-->
+<!--							<input class="form-control" id="art_buy_url" placeholder="http://....."-->
+<!--							       th:field="*{artBuyUrl}"-->
+<!--							       type="text"></div>-->
+<!--						<div>-->
+<!--							<p th:if="${#fields.hasErrors('artBuyUrl')}" th:errors="*{artBuyUrl}" class="text-danger">-->
+<!--								Incorrect data</p>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
 
-			<br/>
-				<button class="btn btn-secondary btn-lg btn-block" type="submit" th:text="${editMode} ? '작품 수정' : '작품 업로드'"></button>
-				<br/>
+<!--				<div class="col-6">-->
+<!--					<div class="row">-->
+<!--						<div class="col-8">-->
+<!--							<label class="col-form-label" for="art_price">작품 가격</label>-->
+<!--							<div class="col-sm">-->
+<!--								<input class="form-control" id="art_price" placeholder="price" th:field="*{artPrice}"-->
+<!--								       type="text">-->
+<!--							</div>-->
+<!--							<div>-->
+<!--								<p th:if="${#fields.hasErrors('artPrice')}" th:errors="*{artPrice}" class="text-danger">-->
+<!--									Incorrect data</p>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div class="col-4">-->
+<!--							<div class="input-group input-group-merge">-->
+<!--								<label class="col-form-label" for="art_price_symbol">코인 심볼</label>-->
+<!--							</div>-->
+<!--							<select class="form-control" id="art_price_symbol" th:field="*{artPriceSymbol}">-->
+<!--								<option value="KLAY">-->
+<!--									KLAY-->
+<!--								</option>-->
+<!--								<option selected="" value="ETH">-->
+<!--									ETH-->
+<!--								</option>-->
+<!--							</select>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+
+<!--			<hr/>-->
+
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="artist_name_kr">작가명(국문)</label>-->
+<!--					<div class="col-sm">-->
+<!--						<div class="input-group input-group-merge">-->
+<!--							<input aria-describedby="basic-default-email2" class="form-control" id="artist_name_kr"-->
+<!--							       placeholder="작가의 한국이름" type="text" th:field="*{artistNameKr}"></div>-->
+<!--						<div>-->
+<!--							<p th:if="${#fields.hasErrors('artistNameKr')}" th:errors="*{artistNameKr}"-->
+<!--							   class="text-danger">Incorrect data</p>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="artist_name_en">작가명(영문)</label>-->
+<!--					<div class="input-group input-group-merge">-->
+<!--						<input aria-describedby="basic-default-email2" class="form-control" id="artist_name_en"-->
+<!--						       placeholder="작가의 영문이름" type="text" th:field="*{artistNameEn}"></div>-->
+<!--					<div>-->
+<!--						<p th:if="${#fields.hasErrors('artistNameEn')}" th:errors="*{artistNameEn}" class="text-danger">-->
+<!--							Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="artist_profile_image">작가 프로필 이미지 - jpg/jpeg, png, gif 등</label>-->
+<!--					<div class="image-area">-->
+<!--						<img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="artist_profile_image"-->
+<!--						     th:src="${editMode} ? 'http://mintingarts.art:8080/api/v1/file/' + *{getArtistProfile()} : '/noimage.gif'">-->
+<!--					</div>-->
+<!--					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">-->
+<!--						<input class="form-control border-0" id="upload" onchange="readURL(this);" style="display:none"-->
+<!--						       type="file" th:field="*{artistProfile}">-->
+<!--						<label class="font-weight-light text-muted" for="upload" id="upload-label"-->
+<!--						       th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></label>-->
+<!--						<div class="input-group-append">-->
+<!--							<label class="btn btn-light m-0 rounded-pill px-4" for="upload">-->
+<!--								<i class="fa fa-cloud-upload mr-2 text-muted"></i>-->
+<!--								<small class="text-uppercase font-weight-bold text-muted"-->
+<!--								       th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></small>-->
+<!--							</label>-->
+<!--						</div>-->
+<!--						<p th:if="${#fields.hasErrors('artistProfile')}" th:errors="*{artistProfile}"-->
+<!--						   class="text-danger">Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label" for="artist_description">작가 설명</label>-->
+<!--					<div class="input-group input-group-merge">-->
+<!--						&lt;!&ndash;                        <input type="text" id="artist_description" class="form-control" placeholder="작가 설명"></div>&ndash;&gt;-->
+<!--						<textarea class="form-control" id="artist_description" name="artist_description" rows="5"-->
+<!--						          style="height: 270px" th:field="*{artistDescription}"></textarea>-->
+<!--					</div>-->
+<!--					<p th:if="${#fields.hasErrors('artistDescription')}" th:errors="*{artistDescription}"-->
+<!--					   class="text-danger">Incorrect data</p>-->
+<!--				</div>-->
+<!--			</div>-->
+
+<!--			<hr/>-->
+
+<!--			<div class="row mb-3">-->
+<!--				<div class="col-6">-->
+<!--					<label class="col-form-label">작품 미리보기 사진- jpg/jpeg, png, gif 등<br/>큰 gif의 이미지의 경우엔 <a-->
+<!--							href="https://www.google.com/search?q=gif+%EC%95%95%EC%B6%95+online"> 압축해서 올리는것</a>을 추천드립니다.-->
+<!--						<br/> 최대 업로드 용량 10mb </label>-->
+<!--					<div class="image-area">-->
+<!--						<img alt="" class="img-fluid rounded shadow-sm mx-auto d-block" id="art_thumbnail"-->
+<!--						     th:src="${editMode} ? 'http://mintingarts.art:8080/api/v1/file/' + *{getArtThumbnail()} : '/noimage.gif'">-->
+<!--					</div>-->
+<!--					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">-->
+<!--						<input class="form-control border-0" id="upload-thumbnail" onchange="readURL_thumbnail(this);"-->
+<!--						       style="display:none" type="file" th:field="*{artThumbnail}">-->
+<!--						<label class="font-weight-light text-muted" for="upload-thumbnail" id="upload-thumbnail-label"-->
+<!--						       th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></label>-->
+<!--						<div class="input-group-append">-->
+<!--							<label class="btn btn-light m-0 rounded-pill px-4" for="upload-thumbnail">-->
+<!--								<i class="fa fa-cloud-upload mr-2 text-muted"></i>-->
+<!--								<small class="text-uppercase font-weight-bold text-muted"-->
+<!--								       th:text="${editMode} ? '이미지 변경' : '이미지 선택'"></small>-->
+<!--							</label>-->
+<!--						</div>-->
+<!--						<p th:if="${#fields.hasErrors('artThumbnail')}" th:errors="*{artThumbnail}" class="text-danger">-->
+<!--							Incorrect data</p>-->
+<!--					</div>-->
+<!--				</div>-->
+
+<!--				<div class="col-6 mb-3">-->
+<!--					<label class="col-form-label" for="editor">작품 설명 작성</label>-->
+<!--					<textarea id="editor" th:field="*{artDescription}"></textarea>-->
+<!--					<br/>-->
+<!--					<p th:if="${#fields.hasErrors('artDescription')}" th:errors="*{artDescription}" class="text-danger">-->
+<!--						Incorrect data</p>-->
+<!--				</div>-->
 
 
-
-				<script>
-                    $(document).ready(function() {
-                        $('#editor').summernote();
-                    });
-				</script>
+<!--				<br/>-->
+<!--				<button class="btn btn-secondary btn-lg btn-block" type="submit"-->
+<!--				        th:text="${editMode} ? '작품 수정' : '작품 업로드'"></button>-->
+<!--				<br/>-->
 
 
-				<script>
+<!--				<script>-->
+<!--                    $(document).ready(function () {-->
+<!--                        $('#editor').summernote();-->
+<!--                    });-->
+<!--				</script>-->
 
-                    function readURL(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
 
-                            reader.onload = function (e) {
-                                $('#artist_profile_image')
-                                    .attr('src', e.target.result);
-                            };
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    }
+<!--				<script>-->
 
-                    function readURL_thumbnail(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
+<!--                    function readURL(input) {-->
+<!--                        if (input.files && input.files[0]) {-->
+<!--                            var reader = new FileReader();-->
 
-                            reader.onload = function (e) {
-                                $('#art_thumbnail')
-                                    .attr('src', e.target.result);
-                            };
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    }
+<!--                            reader.onload = function (e) {-->
+<!--                                $('#artist_profile_image')-->
+<!--                                    .attr('src', e.target.result);-->
+<!--                            };-->
+<!--                            reader.readAsDataURL(input.files[0]);-->
+<!--                        }-->
+<!--                    }-->
 
-                    $(function () {
-                        $('#upload').on('change', function () {
-                            $('#artist_profile_image').width(200).height(200);
-                            readURL(input);
-                        });
+<!--                    function readURL_thumbnail(input) {-->
+<!--                        if (input.files && input.files[0]) {-->
+<!--                            var reader = new FileReader();-->
 
-                        $('#upload_thumbnail').on('change', function () {
-                            readURL(input_thumbnail);
-                        });
-                    });
+<!--                            reader.onload = function (e) {-->
+<!--                                $('#art_thumbnail')-->
+<!--                                    .attr('src', e.target.result);-->
+<!--                            };-->
+<!--                            reader.readAsDataURL(input.files[0]);-->
+<!--                        }-->
+<!--                    }-->
 
-                    /*  ==========================================
-						SHOW UPLOADED IMAGE NAME
-					* ========================================== */
-                    var input = document.getElementById('upload');
-                    var infoArea = document.getElementById('upload-label');
-                    var input_thumbnail = document.getElementById('upload-thumbnail');
-                    var infoArea_thumbnail = document.getElementById('upload-thumbnail-label');
+<!--                    $(function () {-->
+<!--                        $('#upload').on('change', function () {-->
+<!--                            $('#artist_profile_image').width(200).height(200);-->
+<!--                            readURL(input);-->
+<!--                        });-->
 
-                    input.addEventListener('change', showFileName_probile);
+<!--                        $('#upload_thumbnail').on('change', function () {-->
+<!--                            readURL(input_thumbnail);-->
+<!--                        });-->
+<!--                    });-->
 
-                    function showFileName_probile(event) {
-                        var input = event.srcElement;
-                        var fileName = input.files[0].name;
-                        infoArea.textContent = 'File name: ' + fileName;
-                    }
+<!--                    /*  ==========================================-->
+<!--						SHOW UPLOADED IMAGE NAME-->
+<!--					* ========================================== */-->
+<!--                    var input = document.getElementById('upload');-->
+<!--                    var infoArea = document.getElementById('upload-label');-->
+<!--                    var input_thumbnail = document.getElementById('upload-thumbnail');-->
+<!--                    var infoArea_thumbnail = document.getElementById('upload-thumbnail-label');-->
 
-                    input_thumbnail.addEventListener('change', showFileName_thumbnail);
+<!--                    input.addEventListener('change', showFileName_probile);-->
 
-                    function showFileName_thumbnail(event) {
-                        var input = event.srcElement;
-                        var fileName = input_thumbnail.files[0].name;
-                        infoArea_thumbnail.textContent = 'File name: ' + fileName;
-                    }
-				</script>
+<!--                    function showFileName_probile(event) {-->
+<!--                        var input = event.srcElement;-->
+<!--                        var fileName = input.files[0].name;-->
+<!--                        infoArea.textContent = 'File name: ' + fileName;-->
+<!--                    }-->
 
-&lt;!&ndash;				<script th:inline="javascript">
-                    /*<![CDATA[*/ /*]]>*/
-                    const editMode = /*[[${editMode}]]*/ 'false';
-                    if (editMode){
-                        readURL(input);
-                        readURL(input_thumbnail);
-                        showFileName_probile(input);
-                        showFileName_thumbnail(input_thumbnail);
-                    }
-				</script>&ndash;&gt;
-			</div>
-		</form>
-	</div>
-</div>
+<!--                    input_thumbnail.addEventListener('change', showFileName_thumbnail);-->
 
-</html>-->
+<!--                    function showFileName_thumbnail(event) {-->
+<!--                        var input = event.srcElement;-->
+<!--                        var fileName = input_thumbnail.files[0].name;-->
+<!--                        infoArea_thumbnail.textContent = 'File name: ' + fileName;-->
+<!--                    }-->
+<!--				</script>-->
+
+<!--				&lt;!&ndash;				<script th:inline="javascript">-->
+<!--									/*<![CDATA[*/ /*]]>*/-->
+<!--									const editMode = /*[[${editMode}]]*/ 'false';-->
+<!--									if (editMode){-->
+<!--										readURL(input);-->
+<!--										readURL(input_thumbnail);-->
+<!--										showFileName_probile(input);-->
+<!--										showFileName_thumbnail(input_thumbnail);-->
+<!--									}-->
+<!--								</script>&ndash;&gt;-->
+<!--			</div>-->
+<!--		</form>-->
+<!--	</div>-->
+<!--</div>-->
+
+<!--</html>-->

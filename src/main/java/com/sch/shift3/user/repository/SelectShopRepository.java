@@ -9,5 +9,6 @@ import java.util.List;
 public interface SelectShopRepository extends JpaRepository<SelectShop, Integer> {
     @EntityGraph(attributePaths = {"imageSelectShops", "selectShopBrands"})
     List<SelectShop> findAll();
+    List<SelectShop> findByNameContaining(String name);
 //    @EntityGraph(attributePaths = {"selectShopBrandList", "imageSelectShopList"})
 }

@@ -69,4 +69,16 @@ public class AdminProductService {
             });
         }
     }
+
+    public List<Product> findProductByName(String name) {
+        List<Product> productsByName = productRepository.findByNameContaining(name);
+        List<Product> productsByShopName = productRepository.findBySelectShopName(name);
+        productsByShopName.forEach(product -> {
+            if (!productsByName.contains(product)) {
+                productsByName.add(product);
+            }
+        });
+        return productsByName;
+    }
+
 }

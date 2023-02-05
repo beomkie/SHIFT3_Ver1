@@ -7,10 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -41,5 +40,10 @@ public class AdminProductController {
         adminProductService.editProductImage(product, productDto.getImageList());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search.do")
+    public List<Product> searchProduct(@RequestParam String name){
+        return adminProductService.findProductByName(name);
     }
 }

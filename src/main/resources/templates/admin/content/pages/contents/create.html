@@ -19,18 +19,32 @@
 		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit Contents</li>
 		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New Contents</li>
 	</ol>
-	<div class="card-body">
-		<!--		//th:object="${ProductDto}"-->
-		<form method="POST" onsubmit="return contentCreate()">
+
+	<!--/*@thymesVar id="ProductDto" type="com.sch.shift3.user.dto.ContentFeedDto"*/-->
+	<form onsubmit="return contentCreate()" th:object="${ContentFeedDto}">
+		<div class="card-body">
 			<div class="row mb-3">
-				<label class="form-label" for="title">제목 작성란</label>
-				<input type="text" id="title"/>
+				<div class="col-8">
+					<label class="form-label" for="title">제목 작성란</label>
+					<input class="form-control" type="text" id="title" th:field="*{title}"/>
+				</div>
+
+				<div class="col-4">
+					<label class="form-label" for="category">카테고리 선택</label>
+					<select class="form-select" id="category" th:field="*{category}">
+						<option value="">카테고리</option>
+						<option value="전자기기">전자기기</option>
+						<option value="옷">옷</option>
+						<option value="음식">음식</option>
+					</select>
+				</div>
 			</div>
+
 			<div class="row mb-3">
 				<!--			썸네일 이미지 업로드-->
 				<label class="form-label" for="thumbnail">썸네일 이미지 업로드</label>
-				<input type="file" id="thumbnail"/>
-				<input type="text" id="thumbnailFileName" hidden/>
+				<input id="thumbnail" type="file"/>
+				<input id="thumbnailFileName" th:field="*{thumbnailFileName}" type="text" hidden/>
 			</div>
 
 			<div class="row mb-5">
@@ -80,7 +94,7 @@
 
 			<div class="row mb-3">
 				<label class="form-label" for="description">내용 작성란</label>
-				<textarea id="description"></textarea>
+				<textarea id="description" th:field="*{description}"></textarea>
 			</div>
 
 			<script>
@@ -146,7 +160,7 @@
                             success: function (data) {
                                 //항상 업로드된 파일의 url이 있어야 한다
                                 let json = JSON.parse(data);
-                                $("#thumbnailUrl").val(json.fileName);
+                                $("#thumbnailFileName").val(json.fileName);
 
                                 preview.forEach((item) => {
                                     item.src = reader.result;
@@ -173,11 +187,74 @@
 
                     if ($("#thumbnailFileName").val() === "") {
                         alert("썸네일을 선택해주세요.");
+                        return;
                     }
 
                     if ($("#description").val() === "") {
                         alert("내용을 입력해주세요.");
+                        return;
                     }
+
+                    if ($("#category").val() === "") {
+                        alert("카테고리를 선택해주세요.");
+                        return;
+                    }
+
+                    // form data
+                    let formData = new FormData($('form')[0]);
+
+                    $.ajax({
+                        url: "/admin/content/create.do",
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            alert("등록되었습니다.");
+                            location.href = "/admin/content/list";
+                        },
+                        fail: function (data) {
+                            alert(data);
+                        },
+                    });
+                }
+
+                function searchProduct() {
+                    let name = $('#search_product').val();
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/product/search.do?name=" + name,
+                        success: function (data) {
+                            if (data === "") {
+                                alert("검색 결과가 없습니다.");
+                                return;
+                            }
+
+                            // if not checked, remove it
+                            $("#products > tbody > tr").each(function () {
+                                if (!$(this).find("input").is(":checked")) {
+                                    $(this).remove();
+                                }
+                            });
+
+                            data.forEach((item, index) => {
+                                let exist = document.getElementById("products").querySelector("input[value='" + item.id + "']");
+                                if (exist !== null) {
+                                    return
+                                }
+
+                                $("#products > tbody:last").append(`
+                                <tr>
+                                	<td><input type="checkbox" name="products[${index}].id" value="${item.id}"></td>
+									<td>${item.name}</td>
+									<td>${item.price.toLocaleString()} 원</td>
+									<td>${item.selectShop.name}</td>
+                                `);
+                            });
+
+                            // $("#productList").html(data);
+                        }
+                    });
                 }
 
 			</script>
@@ -186,24 +263,38 @@
 				<!--				검색, 추가 버튼-->
 
 				<div class="col-lg-6 col-sm-12 mb-3">
-					<label class="form-label" for="feed_product">컨텐츠에 연결할 상품 검색</label>
+					<label class="form-label" for="search_product">컨텐츠에 연결할 상품 검색</label>
 					<div class="row">
 						<div class="col-8">
-							<input type="text" class="form-control mb-2" id="feed_product"
+							<input type="text" class="form-control mb-2" id="search_product"
 							       placeholder="상품명 혹은 편집샵 이름을 입력해주세요.">
-							<a class="text-muted">
-								연결할 상품을 체크해가며 검색해주세요.
-							</a>
+							<summary>
+								<details>
+									<summary>검색 도움말</summary>
+									<div>
+										<a class="text-muted">
+											- 연결할 상품을 체크해가며 검색해주세요.
+											<br/>
+											- 편집샵 이름으로 검색하려면 샵 이름의 일부가 아닌 전체를 정확히 입력해주세요.
+											<br/>
+											- 체크된 상품은 검색 목록에서 제외됩니다.
+											<br/>
+										</a>
+									</div>
+								</details>
+							</summary>
 						</div>
 						<div class="col-4">
-							<button class="btn btn-primary rounded-pill w-100">검색</button>
+							<button class="btn btn-primary rounded-pill w-100" type="button" onclick="searchProduct()">
+								검색
+							</button>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-sm-12 mb-3">
-					<label class="form-label" for="feed_product">컨텐츠 연결 상품 선택</label>
+					<label class="form-label" for="products">컨텐츠 연결 상품 선택</label>
 					<div class="row">
-						<table class="table">
+						<table class="table" id="products">
 							<thead>
 							<tr>
 								<th scope="col">연결</th>
@@ -213,39 +304,27 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<th scope="row">
-									<input class="form-check-input" type="checkbox" value="">
-								</th>
-								<td>asdasd</td>
-								<td>1,000,000</td>
-								<td>후니몰</td>
-							</tr>
-							<tr>
-								<th scope="row">
-									<input class="form-check-input" type="checkbox" value="">
-								</th>
-								<td>Jacob</td>
-								<td>1,000,000</td>
-								<td>후니몰</td>
-							</tr>
-							<tr>
-								<th scope="row">
-									<input class="form-check-input" type="checkbox" value="">
-								</th>
-								<td>Larry</td>
-								<td>1,000,000</td>
-								<td>후니몰</td>
-							</tr>
+							<!--							<tr>
+															<th scope="row">
+																<input class="form-check-input" type="checkbox" value="" id="products[0]">
+															</th>
+															<td>asdasd</td>
+															<td>1,000,000</td>
+															<td>후니몰</td>
+														</tr>-->
 							</tbody>
 						</table>
 					</div>
 				</div>
-
 			</div>
 
-		</form>
-	</div>
+			<div class="row mb-3">
+				<button class="btn btn-primary rounded-pill w-100" onclick="return contentCreate()" type="button">등록
+				</button>
+			</div>
+
+		</div>
+	</form>
 </div>
 
 </html>

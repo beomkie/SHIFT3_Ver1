@@ -1038,7 +1038,7 @@ button:focus:not(:focus-visible) {
   02.START HEADER STYLE
 *===================================*/
 .navbar-brand {
-	padding: 10px 0;
+	/*padding: 10px 0;*/
 	vertical-align: top;
 	margin: 0;
 	display:inline-block;
@@ -5035,8 +5035,8 @@ footer .widget_title {
 	padding: 15px;
 }
 .price {
-	color: #FF324D;
-	font-weight: 600;
+	color: #000000;
+	font-weight: 400;
 }
 .product_price del {
 	font-size: 14px;

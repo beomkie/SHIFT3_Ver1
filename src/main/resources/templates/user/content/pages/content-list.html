@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+
+    <div layout:fragment="content" class="content">
+
+        <style>
+
+             .sort_type span {
+                cursor: pointer;
+                text-transform: uppercase;
+                width: 6rem;
+                display: inline-block;
+                /*border: 2px solid #ddd;*/
+                text-align: center;
+                height: 32px;
+                line-height: 28px;
+                font-size: 14px;
+                margin-bottom: 3px;
+                color: black;
+                 font-weight: lighter;
+            }
+
+            .sort_type span.active {
+                /*edited hun*/
+                /*border-color: #525151;*/
+                color: black;
+                font-weight: bold;
+                /*color: #fff;*/
+            }
+        </style>
+
+
+        <div class="breadcrumb_section bg_gray page-title-mini">
+            <div class="container"><!-- STRART CONTAINER -->
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="page-title">
+                            <h1>컨텐츠 피드</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <ol class="breadcrumb justify-content-md-end">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Contents Feed</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- END CONTAINER-->
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="pr_switch_wrap sort_type">
+                                    <label style="float: left; margin-right: 1rem">정렬 기준</label>
+                                    <div class="sort_type">
+                                        <span class="active">기본 정렬순</span>
+                                        <span class="">조회순</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-5">
+                                <div class="widget">
+                                    <div class="search_form">
+                                        <form>
+                                            <input required="" class="form-control" placeholder="검색어를 입력하세요" type="text">
+                                            <button type="submit" title="Subscribe" class="btn icon_search" name="submit" value="Submit">
+                                                <i class="ion-ios-search-strong"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
+                        <div class="sidebar">
+                            <div class="widget">
+                                <h5 class="widget_title">카테고리</h5>
+                                <div class="tags">
+                                    <a href="#">ALL</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">카테고리</a>
+                                    <a href="#">기타</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</html>

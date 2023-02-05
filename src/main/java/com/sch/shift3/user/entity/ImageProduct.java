@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Entity(name = "image_product")
 public class ImageProduct extends Image{
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
     private Product product;
 }

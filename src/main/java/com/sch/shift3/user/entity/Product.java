@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sch.shift3.user.dto.ProductDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "select_shop_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private SelectShop selectShop;
 
     @Lob
@@ -41,6 +43,7 @@ public class Product {
     private String description;
 
     @Builder.Default
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ImageProduct> images = new HashSet<>();
 

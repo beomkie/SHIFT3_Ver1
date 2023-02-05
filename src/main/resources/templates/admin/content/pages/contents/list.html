@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="css">
+	<style type="text/css">
+        .datepicker {
+            z-index: 2000 !important;
+        }
+	</style>
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+</th:block>
+<th:block layout:fragment="script">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+</th:block>
+
+<div layout:fragment="content">
+	<h1 th:if="${editMode == true}" class="mt-4">컨텐츠 수정</h1>
+	<h1 th:unless="${editMode == true}" class="mt-4">컨텐츠 생성</h1>
+	<ol class="breadcrumb mb-4">
+		<li th:if="${editMode == true}" class="breadcrumb-item active">Edit Contents</li>
+		<li th:unless="${editMode == true}" class="breadcrumb-item active">Add New Contents</li>
+	</ol>
+	<div class="card-body">
+
+	</div>
+</div>
+
+</html>

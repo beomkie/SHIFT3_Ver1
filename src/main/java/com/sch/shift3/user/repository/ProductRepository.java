@@ -13,4 +13,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @EntityGraph(attributePaths = {"images"})
     Optional<Product> findByIdOrderByIdAsc(Integer id);
+
+    @EntityGraph(attributePaths = {"images"})
+    List<Product> findByNameContaining(String name);
+
+    @EntityGraph(attributePaths = {"images"})
+    List<Product> findBySelectShopName(String selectShopName);
+
 }
