@@ -91,8 +91,8 @@
 	<div class="feed_section">
 		<img th:src="'/file/' + ${feed.thumbnailFileName}" class="img-fluid" id="banner-img"/>
 		<div class="text-center text-on-image">
-			<h6 class="category" id="category">Fashion Store</h6>
-			<h4 class="title" id="title">새로운 옷가게 소개</h4>
+			<h6 class="category" id="category" th:text="${feed.category}"></h6>
+			<h4 class="title" id="title" th:text="${feed.title}"></h4>
 		</div>
 	</div>
 
@@ -133,10 +133,10 @@
 	<div id="column_section" class="section mb-3">
 		<div class="container">
 			<div id="write_section" class="mb-2">
-				<h2 th:text="*{feed.title}"></h2>
+				<h2 th:text="${feed.title}"></h2>
 				<p th:text="${#temporals.format(feed.createdAt, 'yyyy.MM.dd. HH:mm 작성')}"></p>
 
-				<p th:utext="*{feed.description}">
+				<p th:utext="${feed.description}">
 				</p>
 
 			</div>
