@@ -26,13 +26,19 @@ public class UserView {
 
     @GetMapping("/")
     public String mainPage(Model model){
-//        model.addAttribute("disableLoading", true);
-        model.addAttribute("enablePopup", true);
 
-        // Recent Feed
+        /*List<PopupDto> popupList = new ArrayList<>();
+        List<ContentFeed> recentFeed = new ArrayList<>();
+        List<ContentFeedProduct> clothes_category = new ArrayList<>();
+
+        model.addAttribute("popupList", popupList);
+        model.addAttribute("recentFeed", recentFeed);
+        model.addAttribute("clothes_category", clothes_category);*/
+
+
+        model.addAttribute("disableLoading", true);
         model.addAttribute("popupList", popupService.getAllPopupList());
         model.addAttribute("recentFeed", feedService.getRecentFeed());
-
         // category Feed
         model.addAttribute("clothes_category", feedService.getFeedByCategory("옷"));
 
@@ -95,6 +101,13 @@ public class UserView {
     public String myCsPage(Model model){
         model.addAttribute("enable", "cs");
         return "user/content/pages/my-page/cs";
+    }
+
+    @GetMapping("/mypage/qna")
+    public String qnaPage(Model model){
+        model.addAttribute("enable", "cs");
+
+        return "user/content/pages/my-page/qna";
     }
 
     @GetMapping("/feed/{id}")

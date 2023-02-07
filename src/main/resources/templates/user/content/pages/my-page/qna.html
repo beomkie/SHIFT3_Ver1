@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/mypage_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+	<style>
+        .btn-card-header {
+            border-radius: 0.3rem;
+            font-weight: bold;
+            border: none;
+        }
+	</style>
+	<div class="card">
+		<div class="card-header">
+			문의글 작성
+			<!--			<button type="button" class="btn-gray btn-card-header float-end" href="/mypage/qna"></button>-->
+		</div>
+		<div class="card-body">
+			<!--			문의 유형-->
+			<!--			<label for="type">문의 유형</label>-->
+			<select class="form-select" id="type">
+				<option selected>문의 유형</option>
+				<option value="1">회원관련</option>
+				<option value="2">카테고리</option>
+				<option value="3">카테고리</option>
+			</select>
+
+			<!--			문의 제목-->
+			<div class="form-floating mt-3">
+				<input type="text" class="form-control" id="title" placeholder="문의 제목">
+				<label for="title">문의 제목</label>
+			</div>
+
+			<!--			문의 내용-->
+			<div class="form-floating mt-3">
+				<textarea class="form-control" placeholder="문의 내용" id="description"
+				          style="height: 20rem"></textarea>
+				<label for="description">문의 내용</label>
+			</div>
+
+			<!--			button-->
+			<div class="mt-3">
+				<button type="button" class="form-control btn btn-shiftBtn">문의하기</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+</html>
