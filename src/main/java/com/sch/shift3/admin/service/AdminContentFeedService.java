@@ -48,4 +48,25 @@ public class AdminContentFeedService {
         return contentFeedProductRepository.findAllByOrderByIdDesc().stream()
                 .map(ContentFeedProduct::of).toList();
     }
+
+    @Transactional
+    public void editContentFeed(ContentFeedDto contentFeedDto) {
+        ContentFeed contentFeed = contentFeedRepository.findById(contentFeedDto.getId()).orElseThrow(() -> new IllegalArgumentException("content feed not found"));
+        contentFeed.update(contentFeedDto);
+
+        // 연결 상품
+        contentFeedProductRepository.deleteAllByFeed(contentFeed);
+        Set<ContentFeedProduct> connectedProducts = new HashSet<>();
+        contentFeedDto.getProducts()
+                .stream()
+                .filter(item -> item.getId() != null)
+                .forEach(
+                        item -> {
+                            Product product = productRepository.findById(item.getId()).orElseThrow(() -> new IllegalArgumentException("product not found"));
+                            connectedProducts.add(new ContentFeedProduct(null, contentFeed, item.getId()));
+                        });
+
+        contentFeedRepository.save(contentFeed);
+        contentFeedProductRepository.saveAllAndFlush(connectedProducts);
+    }
 }

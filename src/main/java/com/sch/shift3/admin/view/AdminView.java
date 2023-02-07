@@ -3,10 +3,16 @@ package com.sch.shift3.admin.view;
 import com.sch.shift3.admin.service.AdminContentFeedService;
 import com.sch.shift3.admin.service.AdminProductService;
 import com.sch.shift3.admin.service.AdminShopService;
+import com.sch.shift3.admin.service.PopupService;
 import com.sch.shift3.user.dto.ContentFeedDto;
+import com.sch.shift3.user.dto.PopupDto;
 import com.sch.shift3.user.dto.ProductDto;
 import com.sch.shift3.user.dto.SelectShopDto;
+import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.entity.Image;
+import com.sch.shift3.user.entity.Product;
+import com.sch.shift3.user.service.FeedService;
+import com.sch.shift3.user.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Comparator;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -26,6 +33,9 @@ public class AdminView {
     private final AdminShopService adminShopService;
     private final AdminProductService adminProductService;
     private final AdminContentFeedService adminContentFeedService;
+    private final FeedService feedService;
+    private final ProductService productService;
+    private final PopupService popupService;
 
     @GetMapping("")
     public String mainPage(){
@@ -47,6 +57,28 @@ public class AdminView {
         contentFeedDto.setThumbnailFileName("eb2172fd-61b0-485d-826b-a65ca131074d2.png");
 
         model.addAttribute("ContentFeedDto", contentFeedDto);
+        return "admin/content/pages/contents/create";
+    }
+
+    @GetMapping("/contents/edit/{feedId}")
+    public String contentCreatePage(Model model, @PathVariable Integer feedId){
+        ContentFeed contentFeed = feedService.getFeedById(feedId);
+        ContentFeedDto dto = ContentFeedDto.builder()
+                .id(contentFeed.getId())
+                .description(contentFeed.getDescription())
+                .title(contentFeed.getTitle())
+                .category(contentFeed.getCategory())
+                .thumbnailFileName(contentFeed.getThumbnailFileName())
+                .createdAt(contentFeed.getCreatedAt())
+                .build();
+
+        List<Product> products = productService.getProductsByFeed(feedId);
+        if (!products.isEmpty())
+            dto.setProducts(products);
+
+        model.addAttribute("ContentFeedDto", dto);
+        model.addAttribute("editMode", true);
+
         return "admin/content/pages/contents/create";
     }
 
@@ -115,5 +147,32 @@ public class AdminView {
         model.addAttribute("editMode", true);
         model.addAttribute("ProductDto", productDto);
         return "admin/content/pages/product/create";
+    }
+
+    @GetMapping("/popup/list")
+    public String popupListPage(Model model){
+        log.info("popup List {}",  popupService.getAllPopupList());
+        model.addAttribute("popupList", popupService.getAllPopupList());
+        return "admin/content/pages/popup/list";
+    }
+
+    @GetMapping("/popup/create")
+    public String popupCreatePage(Model model){
+        PopupDto popupDto = PopupDto.builder()
+                .title("테스트")
+                .description("테스트")
+                .width(800)
+                .height(600)
+                .build();
+
+        model.addAttribute("PopupDto", popupDto);
+        return "admin/content/pages/popup/create";
+    }
+
+    @GetMapping("/popup/edit/{id}")
+    public String popupEditPage(Model model, @PathVariable Integer id){
+        model.addAttribute("editMode", true);
+        model.addAttribute("PopupDto", popupService.getPopup(id));
+        return "admin/content/pages/popup/create";
     }
 }

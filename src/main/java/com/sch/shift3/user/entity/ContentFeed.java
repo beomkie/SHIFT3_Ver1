@@ -1,5 +1,6 @@
 package com.sch.shift3.user.entity;
 
+import com.sch.shift3.user.dto.ContentFeedDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,5 +44,12 @@ public class ContentFeed {
 
     public String getDescriptionNoHtml() {
         return Jsoup.parse(this.description).text();
+    }
+
+    public void update(ContentFeedDto contentFeedDto) {
+        this.description = contentFeedDto.getDescription();
+        this.title = contentFeedDto.getTitle();
+        this.category = contentFeedDto.getCategory();
+        this.thumbnailFileName = contentFeedDto.getThumbnailFileName();
     }
 }

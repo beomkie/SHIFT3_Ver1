@@ -11,7 +11,7 @@
 				<div class="col-lg-6 col-md-6 mb-4 mb-md-0">
 					<div class="product-image">
 						<div class="product_img_box">
-							<img id="product_img" th:src='@{/user/assets/images/product_img1.jpg}'
+							<img id="product_img" th:src="'/file/' + ${product.images[0].imageName}"
 							     data-zoom-image="assets/images/product_zoom_img1.jpg" alt="product_img1"/>
 							<a href="#" class="product_img_zoom" title="Zoom">
 								<span class="linearicons-zoom-in"></span>
@@ -19,33 +19,36 @@
 						</div>
 						<div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4"
 						     data-slides-to-scroll="1" data-infinite="false">
-							<div class="item">
+							<div class="item" th:if="${product.images.size() >= 2}">
 								<a href="#" class="product_gallery_item active"
-								   th:data-image="@{/user/assets/images/product_img1.jpg}"
-								   data-zoom-image="assets/images/product_zoom_img1.jpg">
-									<img th:src="@{/user/assets/images/product_small_img1.jpg}"
-									     alt="product_small_img1"/>
+								   th:data-image="'/file/' + ${product.images[1].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[1].imageName}">
+									<img th:src="'/file/' + ${product.images[1].imageName}"
+									     alt="img1"/>
 								</a>
 							</div>
-							<div class="item">
+							<div class="item" th:if="${product.images.size() >= 3}">
 								<a href="#" class="product_gallery_item"
-								   data-image="/user/assets/images/product_img1-2.jpg"
-								   data-zoom-image="assets/images/product_zoom_img2.jpg">
-									<img src="/user/assets/images/product_small_img2.jpg" alt="product_small_img2"/>
+								   th:data-image="'/file/' + ${product.images[2].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[2].imageName}">
+									<img th:src="'/file/' + ${product.images[2].imageName}"
+									     alt="img2"/>
 								</a>
 							</div>
-							<div class="item">
+							<div class="item" th:if="${product.images.size() >= 4}">
 								<a href="#" class="product_gallery_item"
-								   data-image="/user/assets/images/product_img1-3.jpg"
-								   data-zoom-image="assets/images/product_zoom_img3.jpg">
-									<img src="/user/assets/images/product_small_img3.jpg" alt="product_small_img3"/>
+								   th:data-image="'/file/' + ${product.images[3].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[3].imageName}">
+									<img th:src="'/file/' + ${product.images[3].imageName}"
+									     alt="img3"/>
 								</a>
 							</div>
-							<div class="item">
+							<div class="item" th:if="${product.images.size() >= 5}">
 								<a href="#" class="product_gallery_item"
-								   data-image="/user/assets/images/product_img1-4.jpg"
-								   data-zoom-image="/user/assets/images/product_zoom_img4.jpg">
-									<img src="/user/assets/images/product_small_img4.jpg" alt="product_small_img4"/>
+								   th:data-image="'/file/' + ${product.images[4].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[4].imageName}">
+									<img th:src="'/file/' + ${product.images[4].imageName}"
+									     alt="img3"/>
 								</a>
 							</div>
 						</div>
@@ -54,26 +57,18 @@
 				<div class="col-lg-6 col-md-6">
 					<div class="pr_detail">
 						<div class="product_description">
-							<h4 class="product_title"><a href="#">Blue Dress For Woman</a></h4>
-							<div class="product_price">
-								<span class="price">100,000원</span>
-							</div>
+							<h4 class="product_title" th:text="${product.name}"></h4>
+							<!--							<div class="product_price">-->
+							<span class="price" th:text="${product.price}"></span>
+							<!--							</div>-->
 
-							<div class="pr_desc">
+							<br/>
+
+							<div class="pr_desc" th:inline="text">
 								<div class="subtitle text-black" style="font-size: 1.4rem;">
 									상품 설명
 								</div>
-								<p>헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다. 국가는 모성의 보호를 위하여 노력하여야 한다. 모든 국민은
-									소급입법에 의하여 참정권의 제한을 받거나 재산권을 박탈당하지 아니한다.
-
-									한 회계연도를 넘어 계속하여 지출할 필요가 있을 때에는 정부는 연한을 정하여 계속비로서 국회의 의결을 얻어야 한다. 대한민국의 주권은 국민에게 있고,
-									모든 권력은 국민으로부터 나온다.
-
-									탄핵결정은 공직으로부터 파면함에 그친다. 그러나, 이에 의하여 민사상이나 형사상의 책임이 면제되지는 아니한다. 법률이 헌법에 위반되는 여부가 재판의
-									전제가 된 경우에는 법원은 헌법재판소에 제청하여 그 심판에 의하여 재판한다.
-
-									국회의 회의는 공개한다. 다만, 출석의원 과반수의 찬성이 있거나 의장이 국가의 안전보장을 위하여 필요하다고 인정할 때에는 공개하지 아니할 수
-									있다.</p>
+								<p th:remove="tag" th:text="${product.description}"></p>
 							</div>
 						</div>
 						<hr/>
@@ -89,10 +84,10 @@
 
 							<div class="col-8">
 								<div class="cart_btn">
-									<button class="btn btn-more" type="button">
+									<a class="btn btn-more" th:href="${product.url}" target="_blank">
 										구매링크 이동
 										<i class="icon-arrow-right"></i>
-									</button>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -110,16 +105,10 @@
 				<div class="col-6">
 					<div class="heading_s1">
 						<h3>편집샵 정보</h3>
-						헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며, 재판관은 대통령이 임명한다. 국가는 모성의 보호를 위하여 노력하여야 한다. 모든 국민은 소급입법에 의하여
-						참정권의 제한을 받거나 재산권을 박탈당하지 아니한다.
-
-						한 회계연도를 넘어 계속하여 지출할 필요가 있을 때에는 정부는 연한을 정하여 계속비로서 국회의 의결을 얻어야 한다. 대한민국의 주권은 국민에게 있고, 모든 권력은
-						국민으로부터 나온다.
-
-						탄핵결정은 공직으로부터 파면함에 그친다. 그러나, 이에 의하여 민사상이나 형사상의 책임이 면제되지는 아니한다. 법률이 헌법에 위반되는 여부가 재판의 전제가 된 경우에는
-						법원은 헌법재판소에 제청하여 그 심판에 의하여 재판한다.
-
-						국회의 회의는 공개한다. 다만, 출석의원 과반수의 찬성이 있거나 의장이 국가의 안전보장을 위하여 필요하다고 인정할 때에는 공개하지 아니할 수 있다.
+						<p th:text="${product.selectShop.name}"></p>
+						<p th:text="${product.selectShop.introduce}"></p>
+						<p th:text="${product.selectShop.operatingTime}"></p>
+						<p th:text="${product.selectShop.contactNumber}"></p>
 					</div>
 
 

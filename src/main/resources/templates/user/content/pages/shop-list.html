@@ -6,44 +6,148 @@
 
 <div layout:fragment="content" class="content">
 
-    <style>
-        .address_filter span{
+	<style>
+        .address_filter span {
             width: 50px !important;
         }
 
-        .sort_filter span{
+        .sort_filter span {
             width: 50px !important;
         }
 
+        .sub_address_filter span {
+            width: auto !important;
+        }
 
-        .shop_list{
+
+        .shop_list {
             background-color: rgba(234, 234, 234, 0.37);
             height: 70vh;
             color: black;
         }
 
-        .shop_list .title{
+        .shop_list .side .title {
             font-weight: 350;
             font-size: 2rem;
         }
 
-        .shop_list .menu .name{
-            font-weight: 240;
-            font-size: 1rem;
+        #shopList .name {
+            font-weight: 350;
+            font-size: 1.1rem;
+        }
+
+        #shopList .introduce {
+            font-weight: 350;
+            font-size: 0.75rem;
+        }
+
+        #shopList img {
+            width: 115px;
+            height: 115px;
+        }
+
+
+        #shopList .address {
+            font-weight: 350;
+            font-size: 0.7rem;
+        }
+
+        #shopList ul {
+            margin-left: 1rem;
+        }
+
+        .card-body {
+            padding: 0.6rem 0.6rem !important;
         }
 
         @media (max-width: 768px) {
-           .side{
-               height: fit-content;
-           }
+            #search {
+                /*height: 50vh !important;*/
+                height: fit-content !important;
+                /*margin-bottom: 1.5vh !important;*/
+                overflow-y: scroll;
+            }
 
-            .map{
-                height: 500px;
+            #map {
+                /*height: 100% !important;*/
+                /*flex: 1 1;*/
+                height: 60vh !important;
+                padding-bottom: 1rem;
+            }
+
+            footer {
+                /*margin-top: 15vh !important;*/
+            }
+
+            #main {
+                display: block;
+            }
+
+            .mobile-show {
+                display: block !important;
+            }
+
+            .container-fluid {
+                min-height: 75vh !important;
+            }
+
+            .hoverMap {
+                width: 100%;
+                height: 100%;
             }
         }
-    </style>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
-    <script type="text/javascript">
+
+
+        @media screen and (min-width: 768px) {
+            .mobile-show {
+                display: none !important;
+            }
+
+            .container-fluid {
+                min-height: 100vh !important;
+            }
+
+            .hoverMap {
+                background: white;
+                position: absolute;
+                left: 25vw;
+                z-index: 99999999;
+                height: 100vh;
+                border-right: 2px solid #e0e0e0;
+                border-top: 2px solid #e0e0e0;
+                border-bottom: 2px solid #e0e0e0;
+                border-radius: 10px;
+                width: 25vw;
+                max-width: 450px;
+            }
+        }
+
+        #shopDetail p {
+            margin-bottom: 1rem;
+        }
+
+        #shopDetail p.title {
+            color: black !important;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        #shopDetail p.subtitle {
+            color: #4d4d4d !important;
+            font-size: 1rem;
+            font-weight: 380;
+        }
+
+        #shopDetail p.content {
+            color: #4d4d4d !important;
+            font-size: 1rem;
+            font-weight: 350;
+        }
+
+	</style>
+	<script type="text/javascript"
+	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+	<script type="text/javascript">
         window.initMap = function () {
             let mapDiv = document.getElementById('naverMap');
             window.map = new naver.maps.Map(mapDiv, {
@@ -52,79 +156,276 @@
                 minZoom: 6,
             });
         }
-    </script>
+	</script>
 
-    <div class="container-fluid shop_list">
-        <div class="row d-flex flex-wrap h-100">
-            <div class="col-md-3 col-sm-12 p-4 side">
-                <div class="title mb-2">지도</div>
-                <br/>
+	<div class="container-fluid shop_list"
+	     style=";
+        position: relative;
+        width: 100%;">
+		<div class="row h-100" id="main">
+			<div class="col-md-3 col-sm-12 p-4 side overflow-scroll" id="search"
+			     style="height:100vh">
+				<div class="title mb-3 pc-show">지도</div>
 
-                <form>
-                    <div class="form-group mb-3">
-                        <input type="text" class="form-control" placeholder="검색어를 입력하세요">
-                    </div>
-                </form>
+				<div class="row mb-3 g-0">
+					<div class="col-lg-9 col-md-8 col-sm-6 col-6">
+						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+					</div>
 
+					<div class="mobile-show col-sm-3 col-3">
+						<button type="button" class="form-control btn-optionBtn">옵션
+						</button>
 
-                <div class="menu mb-3">
-                    <div class="name mb-1">
-                        지역
-                    </div>
+						<script>
+                            $(document).ready(function () {
+                                $(".btn-optionBtn").click(function () {
+                                    $("#searchOption").slideToggle();
+                                });
+                            });
+						</script>
+					</div>
 
+					<div class="col-lg-3 col-md-4 col-sm-3 col-3">
+						<button type="button" class="form-control btn-shiftBtn">검색</button>
+					</div>
 
+				</div>
 
-                    <div class="product_size_switch address_filter">
-                        <span class="active">내위치</span>
-                        <span class="">서울</span>
-                        <span class="">경기</span>
-                        <span class="">인천</span>
-                        <span class="">강원</span>
-                        <span class="">대전</span>
-                        <span class="">세종</span>
-                        <span class="">충남</span>
-                        <span class="">충북</span>
-                        <span class="">부산</span>
-                        <span class="">울산</span>
-                        <span class="">경남</span>
-                        <span class="">경북</span>
-                        <span class="">대구</span>
-                        <span class="">광주</span>
-                        <span class="">전남</span>
-                        <span class="">전북</span>
-                        <span class="">제주</span>
-                    </div>
+				<div id="searchOption" style="display: none;">
 
+					<script>
+                        window.onload = function () {
+                            let windowWidth = $(window).width();
 
-                </div>
+                            if (windowWidth > 768) {
+                                window.isMobile = false;
+                                $("#searchOption").slideToggle();
+                            } else {
+                                window.isMobile = true;
+                            }
+                        }
+					</script>
 
-
-                <div class="menu mb-3">
-                    <div class="name mb-1">
-                        필터
-                    </div>
-
-
-                    <div class="product_size_switch sort_filter">
-                        <span class="active">인기순</span>
-                        <span class="">최신순</span>
-                    </div>
-
-                </div>
+					<div class="menu mb-3">
+						<div class="name mb-1">
+							지역
+						</div>
 
 
-                <div class="menu mb-3">
-                    <div class="name mb-1">
-                        검색 결과
-                    </div>
+						<div id="location" class="product_size_switch address_filter mb-3">
+							<span class="active">내위치</span>
+							<span class="">서울</span>
+							<span class="">경기</span>
+							<span class="">인천</span>
+							<span class="">강원</span>
+							<span class="">대전</span>
+							<span class="">세종</span>
+							<span class="">충남</span>
+							<span class="">충북</span>
+							<span class="">부산</span>
+							<span class="">울산</span>
+							<span class="">경남</span>
+							<span class="">경북</span>
+							<span class="">대구</span>
+							<span class="">광주</span>
+							<span class="">전남</span>
+							<span class="">전북</span>
+							<span class="">제주</span>
+						</div>
 
-                </div>
-            </div>
-            <div class="col-md-9 col-sm-12 map">
-                <div id="naverMap" class="w-100 h-100"></div>
-            </div>
-        </div>
-    </div>
+						<div id="subLocation" style="display: none">
+							<div class="name mb-2">
+								상세지역
+							</div>
+
+
+							<div class="product_size_switch sub_address_filter">
+								<span class="active">전체</span>
+								<span class="">서초구</span>
+								<span class="">강남구</span>
+								<span class="">송파구</span>
+								<span class="">강서구/양서구</span>
+								<span class="">구로구/금천구</span>
+								<span class="">용등포구/동작구</span>
+								<span class="">관악구</span>
+								<span class="">강동구</span>
+								<span class="">도봉구/강북구</span>
+								<span class="">성북구/종로구/서대문구</span>
+								<span class="">은평구/마포구</span>
+							</div>
+
+							<script>
+
+                                function getRequest() {
+                                    return {
+                                        "location": $('.address_filter span.active').text(),
+                                        "subLocation": $('.sub_address_filter span.active').text(),
+                                        "keyword": $('input[type=text]').val(),
+                                        "filter": $(".sort_filter span.active").text(),
+                                    }
+                                }
+
+                                //span click event
+                                $(document).ready(function () {
+                                    $('.product_size_switch span').click(function () {
+                                        // get active span
+                                        let activeSpan = $(this).parent().find('span.active');
+
+                                        // remove active class
+                                        activeSpan.removeClass('active');
+
+                                        // add active class
+                                        $(this).addClass('active');
+
+                                        if ($(this).parent().attr('id') === 'location') {
+                                            if ($(this).text() === '서울') {
+                                                $('#subLocation').slideDown();
+                                            } else {
+                                                $('#subLocation').slideUp();
+                                            }
+                                        }
+
+                                        search();
+                                    });
+                                });
+
+                                function search() {
+                                    // ajax
+                                    $.ajax({
+                                        url: '/shop-list/search.do',
+                                        type: 'GET',
+                                        data: getRequest(),
+                                        success: function (data) {
+                                            $("#shopList").html("");
+                                            data.forEach(function (item) {
+                                                $("#shopList").append(renderShop(item));
+                                            });
+                                        }
+                                    });
+                                }
+
+                                function renderShop(shop) {
+                                    let json = JSON.stringify(shop);
+
+                                    let html = `<div class="row mb-3" onclick='detailShop(` + json + `)'>
+                                                <div class="col-4">
+                                                    <img src="
+                                                    ${shop.imageSelectShops[0] ? '/file/' + shop.imageSelectShops[0].imageName : 'https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg'}
+                                                    "
+                                                         class="w-100"/>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="name">${shop.name}</div>
+                                                    <div class="introduce">${shop.introduce}</div>
+                                                    <div class="address">${shop.address}</div>
+                                                </div>
+                                            </div>`;
+                                    return html;
+                                }
+							</script>
+						</div>
+
+
+						<div class="menu mb-3">
+							<div class="name mb-1">
+								필터
+							</div>
+
+
+							<div class="product_size_switch sort_filter">
+								<span class="active">인기순</span>
+								<span class="">최신순</span>
+							</div>
+
+						</div>
+					</div>
+
+
+					<div class="menu mb-3 pc-show">
+						<div class="name mb-1">
+							검색 결과
+						</div>
+
+						<div class="result" id="shopList">
+							<!--/*@thymesVar id="shop" type="com.sch.shift3.user.entity.SelectShop"*/-->
+							<div class="card mb-3" th:each="shop : ${shopList}">
+								<div class="row g-0">
+									<div class="col-md-4">
+										<!--								<img th:unless="${Object.nonNull(shop.imageSelectShops)}"-->
+										<img th:if="${#lists.isEmpty(shop.imageSelectShops)}"
+										     src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg"
+										     class="img-fluid rounded-start">
+
+										<img th:unless="${#lists.isEmpty(shop.imageSelectShops)}"
+										     th:src="'/file/' + ${shop.imageSelectShops[0].imageName}"
+										     class="img-fluid rounded-start">
+									</div>
+									<div class="col-md-8">
+										<div class="card-body">
+											<h5 class="name" th:text="${shop.name}"></h5>
+											<ul>
+												<li class="introduce" th:text="${shop.introduce}">한줄소개</li>
+												<li class="address text-muted" th:text="${shop.streetAddress}">주소</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-12 map" id="map">
+				<div id="shopDetail" class="hoverMap p-4" style="display:none">
+					<!--					style="display:none"-->
+					<p class="title">상호명</p>
+					<p class="content" id="name"></p>
+
+
+					<p class="title">주소</p>
+					<p class="content" id="address"></p>
+
+					<div class="row">
+						<p class="title">기본 정보</p>
+						<div class="col-6">
+							<p class="subtitle">연락처</p>
+							<p class="content" id="contact"></p>
+						</div>
+						<div class="col-6">
+							<p class="subtitle">운영시간</p>
+							<p class="content" id="operatingTime">00:00 ~ 01:00</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<p class="title">취급 브랜드</p>
+						<p></p>
+					</div>
+
+					<div class="row">
+						<p class="title">컨텐츠 피드</p>
+					</div>
+				</div>
+
+				<script>
+                    function detailShop(shop) {
+                        console.log(shop)
+                        $("#shopDetail #name").text(shop.name);
+                        $("#shopDetail #address").text(shop.address);
+                        $("#shopDetail #contact").text(shop.contact);
+                        $("#shopDetail #operatingTime").text(shop.operatingTime);
+
+                        $("#shopDetail").animate({
+                            width: "toggle"
+                        }, 90, "linear");
+
+                    }
+				</script>
+				<div id="naverMap" class="w-100 h-100"></div>
+			</div>
+		</div>
+	</div>
 
 
 </div>

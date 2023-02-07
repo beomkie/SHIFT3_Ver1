@@ -808,11 +808,83 @@ PAGE JS
     26. ONLOAD POPUP JS
     *===================================*/
 
+
+    // 쿠키 관련 함수
+    var handleCookie = {
+        // 쿠키 쓰기 (이름, 값, 만료일)
+        setCookie: function (name, val, exp) {
+            var date = new Date();
+
+            // 만료 시간 구하기(만료일을 ms단위로 변경)
+            date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+            console.log(name + "=" + val + ";expires=" + date.toUTCString() + ";path=/");
+
+            // 실제로 쿠키 작성하기
+            document.cookie = name + "=" + val + ";expires=" + date.toUTCString() + ";";
+        },
+        // 쿠키 읽어오기(쿠키 이름을 기준으로 정규식 이용해서 가져오기)
+        getCookie: function (name) {
+            var value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+            return value ? value[2] : null;
+        }
+    };
+
+    // 여러개의 팝업을 순차적으로 띄우고 싶을때
     $(window).on('load', function () {
         setTimeout(function () {
-            $("#onload-popup").modal('show', {}, 500);
-        }, 3000);
+            let popupList = $(".subscribe_popup");
+            let popupLength = popupList.length;
+            let cnt = 0;
 
+            // get All disabled popup id
+            let popupIdList = [];
+            let disabledPopupIdList = [];
+            for (let i = 0; i < popupLength; i++) {
+                let popup = $("#popup" + i);
+                let popupId = popup.attr("data-popup-id");
+                popupIdList.push(popupId);
+                let cookie = handleCookie.getCookie("DISABLE_POP_" + popupId);
+                if (cookie === "no") {
+                    popup.remove();
+                    disabledPopupIdList.push(popupId);
+                }
+            }
+
+            let diff = popupIdList.filter(x => !disabledPopupIdList.includes(x));
+
+            console.log(diff);
+
+            // open first popup
+            if (diff.length > 0) {
+                $("div[data-popup-id='" + diff[cnt] + "']").modal("show");
+                cnt++;
+            } else {
+                return;
+            }
+
+
+            document.addEventListener('hidden.bs.modal', function (event) {
+                if (!event.target.id.includes("popup"))
+                    return;
+
+                if (diff[cnt]) {
+                    $("div[data-popup-id='" + diff[cnt] + "']").modal("show");
+                }
+
+                cnt++;
+            });
+        }, 1500);
     });
+
+
+    window.noOpenThisPopup = function (ele) {
+        // get data-popup-id
+        let popup = $(ele).closest(".modal");
+        let popupId = popup.data("popup-id");
+        // set cookie
+
+        handleCookie.setCookie("DISABLE_POP_" + popupId, "no", 1);
+        popup.modal("hide");
+    }
 
 })(jQuery);

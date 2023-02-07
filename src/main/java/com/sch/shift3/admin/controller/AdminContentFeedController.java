@@ -24,21 +24,20 @@ public class AdminContentFeedController {
     public ResponseEntity<String> createProduct(@ModelAttribute ContentFeedDto contentFeedDto){
         log.info("contentFeedDto: {}", contentFeedDto);
 
-        // create product
+        // create feed
         adminContentFeedService.createContentFeed(contentFeedDto);
 
         return ResponseEntity.noContent().build();
     }
 
-//    @Transactional
-//    @PostMapping("/edit.do")
-//    public ResponseEntity<String> editProduct(@ModelAttribute ContentFeedDto contentFeedDto){
-//        log.info("contentFeedDto: {}", contentFeedDto);
-//
-//        // edit product
-//        Product product = adminProductService.editProduct(productDto);
-//        adminProductService.editProductImage(product, productDto.getImageList());
-//
-//        return ResponseEntity.noContent().build();
-//    }
+    @Transactional
+    @PostMapping("/edit.do")
+    public ResponseEntity<String> editProduct(@ModelAttribute ContentFeedDto contentFeedDto){
+        log.info("contentFeedDto: {}", contentFeedDto);
+
+        // edit feed
+        adminContentFeedService.editContentFeed(contentFeedDto);
+
+        return ResponseEntity.noContent().build();
+    }
 }

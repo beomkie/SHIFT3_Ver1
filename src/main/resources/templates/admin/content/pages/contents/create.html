@@ -13,6 +13,12 @@
 
 <div layout:fragment="content">
 
+
+	<script th:inline="javascript">
+        // get editMode
+        const editMode = /*[[${editMode}]]*/ false;
+	</script>
+
 	<h1 th:if="${editMode == true}" class="mt-4">컨텐츠 수정</h1>
 	<h1 th:unless="${editMode == true}" class="mt-4">컨텐츠 생성</h1>
 	<ol class="breadcrumb mb-4">
@@ -24,6 +30,7 @@
 	<form onsubmit="return contentCreate()" th:object="${ContentFeedDto}">
 		<div class="card-body">
 			<div class="row mb-3">
+				<input type="text" th:field="*{id}" hidden/>
 				<div class="col-8">
 					<label class="form-label" for="title">제목 작성란</label>
 					<input class="form-control" type="text" id="title" th:field="*{title}"/>
@@ -204,14 +211,14 @@
                     let formData = new FormData($('form')[0]);
 
                     $.ajax({
-                        url: "/admin/content/create.do",
+                        url: (editMode ? "/admin/content/edit.do" : "/admin/content/create.do"),
                         type: "POST",
                         data: formData,
                         contentType: false,
                         processData: false,
                         success: function (data) {
-                            alert("등록되었습니다.");
-                            location.href = "/admin/content/list";
+                            alert(` ${(editMode) ? '수정' : '등록'}되었습니다.`);
+                            location.href = "/admin/contents/list";
                         },
                         fail: function (data) {
                             alert(data);
@@ -304,6 +311,13 @@
 							</tr>
 							</thead>
 							<tbody>
+							<tr th:each="product : ${ContentFeedDto.getProducts()}">
+								<td><input type="checkbox" th:name="'products[' + ${productStat.index} + '].id'"
+								           th:value="${product.id}" th:checked="true"></td>
+								<td th:text="${product.name}"></td>
+								<td th:text="${product.price}"></td>
+								<td th:text="${product.selectShop.name}"></td>
+							</tr>
 							<!--							<tr>
 															<th scope="row">
 																<input class="form-check-input" type="checkbox" value="" id="products[0]">
@@ -318,9 +332,26 @@
 				</div>
 			</div>
 
+
+			<script th:inline="javascript">
+
+                if (editMode) {
+                    let thumbnailFilename = /*[[${ContentFeedDto.thumbnailFileName}]]*/ "";
+                    // set thumbnail image
+                    // document.getElementById("thumbnail").src = "/file/" + thumbnailFilename;
+                    const inputImage = document.getElementById('thumbnail');
+                    let preview = document.querySelectorAll('.img-container43 img');
+                    preview.forEach((item) => {
+                        item.src = "/file/" + thumbnailFilename;
+                    });
+                }
+
+			</script>
+
 			<div class="row mb-3">
-				<button class="btn btn-primary rounded-pill w-100" onclick="return contentCreate()" type="button">등록
-				</button>
+				<button class="btn btn-primary rounded-pill w-100" onclick="return contentCreate()"
+				        th:text=" ${editMode} ? '수정하기' : '등록하기'"
+				        type="button"></button>
 			</div>
 
 		</div>

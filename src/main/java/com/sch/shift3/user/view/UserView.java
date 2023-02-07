@@ -1,5 +1,8 @@
 package com.sch.shift3.user.view;
 
+import com.sch.shift3.admin.service.PopupService;
+import com.sch.shift3.user.dto.ShopRequest;
+import com.sch.shift3.user.repository.ShopRepository;
 import com.sch.shift3.user.service.FeedService;
 import com.sch.shift3.user.service.ProductService;
 import com.sch.shift3.utill.ImageUtil;
@@ -18,12 +21,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class UserView {
     private final FeedService feedService;
     private final ProductService productService;
+    private final ShopRepository shopRepository;
+    private final PopupService popupService;
 
     @GetMapping("/")
     public String mainPage(Model model){
-        model.addAttribute("disableLoading", true);
+//        model.addAttribute("disableLoading", true);
+        model.addAttribute("enablePopup", true);
 
         // Recent Feed
+        model.addAttribute("popupList", popupService.getAllPopupList());
         model.addAttribute("recentFeed", feedService.getRecentFeed());
 
         // category Feed
@@ -56,6 +63,7 @@ public class UserView {
     @GetMapping("/shop-list")
     public String shopListPage(Model model){
         model.addAttribute("disableLoading", true);
+        model.addAttribute("shopList", shopRepository.getShopList(new ShopRequest()));
         return "user/content/pages/shop-list";
     }
 

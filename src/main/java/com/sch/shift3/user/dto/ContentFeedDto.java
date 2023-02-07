@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class ContentFeedDto implements Serializable {
     private String title;
     private String thumbnailFileName;
     private String category;
+    private LocalDateTime createdAt;
 
     @Builder.Default
     private List<Product> products = new ArrayList<>();
@@ -35,6 +37,7 @@ public class ContentFeedDto implements Serializable {
                 .title(title)
                 .category(category)
                 .thumbnailFileName(thumbnailFileName)
+                .createdAt(createdAt)
                 .build();
     }
 }

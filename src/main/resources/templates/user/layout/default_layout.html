@@ -38,7 +38,7 @@
 
 
 <!-- LOADER -->
-<div class="preloader" th:if="${disableLoading} != true">
+<div class="preloader" th:if="${disableLoading != true}">
 	<div class="lds-ellipsis">
 		<span></span>
 		<span></span>
@@ -46,6 +46,8 @@
 	</div>
 </div>
 <!-- END LOADER -->
+
+<div th:if="${enablePopup != null}" th:replace="/user/fragments/popup :: popup"></div>
 
 <div th:replace="~{/user/fragments/header :: headerFragment}"></div>
 

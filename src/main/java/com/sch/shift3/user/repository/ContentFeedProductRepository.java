@@ -1,5 +1,6 @@
 package com.sch.shift3.user.repository;
 
+import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.entity.ContentFeedProduct;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface ContentFeedProductRepository extends JpaRepository<ContentFeedP
 
     @EntityGraph(attributePaths = {"feed"})
     List<ContentFeedProduct> findTop3ByFeedCategoryOrderByIdDesc(String category);
+
+    void deleteAllByFeed(ContentFeed feed);
 }

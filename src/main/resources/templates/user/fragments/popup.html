@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<!--/*@thymesVar id="popupList" type="com.sch.shift3.user.dto.PopupDto"*/-->
+<th:block th:fragment="popup">
+	<div aria-modal="true" class="modal fade subscribe_popup" role="dialog"
+	     tabindex="-1"
+	     th:each="popup : ${popupList}"
+	     th:id="'popup' + ${popupStat.index}"
+	     th:with="zindex=${99999 - popupStat.index}"
+	     th:style="${'display: block; z-index:' + zindex  }" th:data-popup-id="${popup.id}">
+		<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+			<div class="modal-content" style="width: fit-content!important;">
+				<div class="modal-body">
+					<div class="row">
+						<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+						        th:data-bs-target="'#popup' + ${popupStat.index}">
+							<span aria-hidden="true"><i class="ion-ios-close-empty"></i></span>
+						</button>
+					</div>
+					<div class="row g-0">
+						<div class="popup_content" style="padding: 30px 0 0 0;" th:utext="${popup.description}">
+						</div>
+						<div class="modal-footer">
+							<a class="text-muted" href="#" onclick="return noOpenThisPopup(this)">일주일 동안 열지 않기 ▩</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
+</html>

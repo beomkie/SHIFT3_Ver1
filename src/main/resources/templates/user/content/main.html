@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/layout/default_layout}"
       lang="ko">
+
 <div layout:fragment="content" class="content">
 
 	<div th:replace="/user/fragments/banner :: banner"></div>
@@ -108,7 +109,7 @@
 				</div>
 			</div>
 
-			<div class="card-group d-flex flex-wrap">
+			<div class="card-group flex-wrap">
 
 				<div class="card" th:each="feed: ${clothes_category}">
 					<div class="img-container43">
