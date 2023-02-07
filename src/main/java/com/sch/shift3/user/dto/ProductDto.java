@@ -44,7 +44,6 @@ public class ProductDto {
             .price(price)
             .url(url)
             .description(description)
-            .createdAt(createdAt)
             .build();
     }
 }

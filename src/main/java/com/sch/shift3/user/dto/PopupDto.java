@@ -21,8 +21,8 @@ public class PopupDto implements Serializable {
     private Integer id;
     private String title;
     private String description;
-    private Integer width;
-    private Integer height;
+//    private Integer width;
+//    private Integer height;
 
     private LocalDateTime createdAt;
 
@@ -35,8 +35,8 @@ public class PopupDto implements Serializable {
                 .id(id)
                 .title(title)
                 .description(description)
-                .width(width)
-                .height(height)
+//                .width(width)
+//                .height(height)
                 .build();
     }
 }

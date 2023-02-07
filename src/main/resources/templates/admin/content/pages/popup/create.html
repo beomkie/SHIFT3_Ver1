@@ -40,7 +40,7 @@
 				</div>
 			</div>
 
-			<div class="row mb-3">
+			<!--<div class="row mb-3">
 
 				<div class="col-6">
 					<label class="form-label" for="width">width size</label>
@@ -55,7 +55,7 @@
 					       required/>
 					<span class="text-muted">정수의 px값을 입력해주세요 (ex: 600)</span>
 				</div>
-			</div>
+			</div>-->
 
 			<div class="row mb-3">
 				<label class="form-label" for="description">내용 작성란</label>
@@ -127,16 +127,18 @@
                         alert("제목은 30자 이내로 작성해주세요.");
                         return;
                     }
+                    /*
 
-                    if ($("#width").val() === "" && $("#width").val().length > 4) {
-                        alert("width는 4자 이내로 작성해주세요.");
-                        return;
-                    }
+										if ($("#width").val() === "" && $("#width").val().length > 4) {
+											alert("width는 4자 이내로 작성해주세요.");
+											return;
+										}
 
-                    if ($("#height").val() === "" && $("#height").val().length > 4) {
-                        alert("height는 4자 이내로 작성해주세요.");
-                        return;
-                    }
+										if ($("#height").val() === "" && $("#height").val().length > 4) {
+											alert("height는 4자 이내로 작성해주세요.");
+											return;
+										}
+					*/
 
 
                     if ($("#description").val() === "") {

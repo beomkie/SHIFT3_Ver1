@@ -32,7 +32,7 @@ public class AdminPopupController {
     }
 
     @Transactional
-    @PostMapping("/delete.do")
+    @GetMapping("/remove.do")
     public ResponseEntity<String> deleteProduct(@RequestParam Integer id){
         popupService.deletePopup(id);
 

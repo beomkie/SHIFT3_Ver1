@@ -29,11 +29,11 @@ public class Popup {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "width", nullable = false)
-    private Integer width;
+//    @Column(name = "width", nullable = false)
+//    private Integer width;
 
-    @Column(name = "height", nullable = false)
-    private Integer height;
+//    @Column(name = "height", nullable = false)
+//    private Integer height;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -63,31 +63,19 @@ public class Popup {
         this.description = description;
     }
 
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
     public PopupDto of(){
         return PopupDto.builder()
                 .id(id)
                 .title(title)
                 .description(description)
-                .width(width)
-                .height(height)
+//                .width(width)
+//                .height(height)
                 .createdAt(createdAt)
                 .build();
     }
 
+    public void update(PopupDto popupDto) {
+        this.title = popupDto.getTitle();
+        this.description = popupDto.getDescription();
+    }
 }

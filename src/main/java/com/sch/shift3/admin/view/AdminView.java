@@ -158,14 +158,7 @@ public class AdminView {
 
     @GetMapping("/popup/create")
     public String popupCreatePage(Model model){
-        PopupDto popupDto = PopupDto.builder()
-                .title("테스트")
-                .description("테스트")
-                .width(800)
-                .height(600)
-                .build();
-
-        model.addAttribute("PopupDto", popupDto);
+        model.addAttribute("PopupDto", new PopupDto());
         return "admin/content/pages/popup/create";
     }
 

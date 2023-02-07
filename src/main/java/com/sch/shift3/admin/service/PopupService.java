@@ -21,7 +21,9 @@ public class PopupService {
 
     @Transactional
     public void editPopup(PopupDto popupDto) {
-        popupRepository.save(popupDto.toEntity());
+        Popup popup = popupRepository.findById(popupDto.getId()).orElseThrow(() -> new IllegalArgumentException("해당 팝업이 없습니다."));
+        popup.update(popupDto);
+        popupRepository.save(popup);
     }
 
     public void deletePopup(Integer id) {
