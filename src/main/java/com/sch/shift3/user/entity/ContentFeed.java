@@ -52,4 +52,15 @@ public class ContentFeed {
         this.category = contentFeedDto.getCategory();
         this.thumbnailFileName = contentFeedDto.getThumbnailFileName();
     }
+
+    public ContentFeedDto of(){
+        return ContentFeedDto.builder()
+                .id(id)
+                .description(description)
+                .title(title)
+                .category(category)
+                .thumbnailFileName(thumbnailFileName)
+                .createdAt(createdAt)
+                .build();
+    }
 }

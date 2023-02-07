@@ -141,7 +141,7 @@
 
 			</div>
 
-			<div id="product_section" class="mb-3" th:each="product : ${products}">
+			<div id="product_section" th:if="${products.size() > 0}" class="mb-3" th:each="product : ${products}">
 				<div class="align-content-center justify-content-center mb-2" style="text-align: -webkit-center">
 					<hr class="w-75"/>
 				</div>

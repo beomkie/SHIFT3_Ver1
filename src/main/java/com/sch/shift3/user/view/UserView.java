@@ -102,12 +102,6 @@ public class UserView {
         model.addAttribute("disableLoading", true);
         model.addAttribute("feed", feedService.getFeedById(id));
         model.addAttribute("products", productService.getProductsByFeed(id));
-        productService.getProductsByFeed(id).get(0).getImages().forEach(
-                image -> log.info("image: {}", image.getImageName())
-        );
-//        model.addAttribute("feed", feedService.getFeedById(id));
-
-//        log.info("feed: {}", feedService.getFeedById(id));
 
         return "user/content/pages/feed/read";
     }

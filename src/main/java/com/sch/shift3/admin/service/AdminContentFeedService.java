@@ -6,6 +6,7 @@ import com.sch.shift3.user.entity.ContentFeedProduct;
 import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.repository.ContentFeedProductRepository;
 import com.sch.shift3.user.repository.ContentFeedRepository;
+import com.sch.shift3.user.repository.FeedRepository;
 import com.sch.shift3.user.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class AdminContentFeedService {
     private final ContentFeedRepository contentFeedRepository;
     private final ContentFeedProductRepository contentFeedProductRepository;
     private final ProductRepository productRepository;
+    private final FeedRepository feedRepository;
 
     @Transactional
     public void createContentFeed(ContentFeedDto contentFeedDto) {
@@ -45,8 +47,7 @@ public class AdminContentFeedService {
     }
 
     public List<ContentFeedDto> getAllContentList() {
-        return contentFeedProductRepository.findAllByOrderByIdDesc().stream()
-                .map(ContentFeedProduct::of).toList();
+        return feedRepository.getFeedList().stream().map(ContentFeed::of).toList();
     }
 
     @Transactional

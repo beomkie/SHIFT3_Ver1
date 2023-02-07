@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ContentFeedProductRepository extends JpaRepository<ContentFeedProduct, Integer> {
-    @EntityGraph(attributePaths = {"feed"})
-    List<ContentFeedProduct> findAllByOrderByIdDesc();
 
     @EntityGraph(attributePaths = {"feed"})
     List<ContentFeedProduct> findTop3ByOrderByIdDesc();

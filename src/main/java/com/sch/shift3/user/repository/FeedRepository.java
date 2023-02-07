@@ -32,5 +32,29 @@ public class FeedRepository{
                 .fetch();
     }
 
+    public List<ContentFeed> getFeedList(){
+        return queryFactory
+                .selectFrom(QContentFeed.contentFeed)
+                .orderBy(QContentFeed.contentFeed.id.asc())
+                .fetch();
+    }
 
+
+    public List<ContentFeed> getRecentFeed(int limit) {
+        return queryFactory
+                .selectFrom(QContentFeed.contentFeed)
+                .orderBy(QContentFeed.contentFeed.id.desc())
+                .limit(limit)
+                .fetch();
+
+    }
+
+    public List<ContentFeedProduct> findTop3ByFeedCategory(String category) {
+        return queryFactory
+                .selectFrom(QContentFeedProduct.contentFeedProduct)
+                .where(QContentFeedProduct.contentFeedProduct.feed.category.eq(category))
+                .orderBy(QContentFeedProduct.contentFeedProduct.id.desc())
+                .limit(3)
+                .fetch();
+    }
 }

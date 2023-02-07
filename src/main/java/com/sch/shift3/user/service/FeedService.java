@@ -19,15 +19,14 @@ import java.util.List;
 public class FeedService {
     private final ContentFeedProductRepository contentFeedProductRepository;
     private final ContentFeedRepository contentFeedRepository;
-
     private final FeedRepository feedRepository;
 
-    public List<ContentFeedProduct> getRecentFeed(){
-        return contentFeedProductRepository.findTop3ByOrderByIdDesc();
+    public List<ContentFeed> getRecentFeed(){
+        return feedRepository.getRecentFeed(3);
     }
 
     public List<ContentFeedProduct> getFeedByCategory(String category){
-        List<ContentFeedProduct> feedByCategory = contentFeedProductRepository.findTop3ByFeedCategoryOrderByIdDesc(category);
+        List<ContentFeedProduct> feedByCategory = feedRepository.findTop3ByFeedCategory(category);
         feedByCategory.forEach(feed -> {
             String description = feed.getFeed().getDescriptionNoHtml();
             if(description.length() > 50){
@@ -35,7 +34,7 @@ public class FeedService {
             }
             feed.getFeed().setDescription(description);
         });
-        return contentFeedProductRepository.findTop3ByFeedCategoryOrderByIdDesc(category);
+        return feedByCategory;
     }
 
     public ContentFeed getFeedById(int id){
