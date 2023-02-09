@@ -41,4 +41,7 @@ public class FeedService {
         return feedRepository.getFeedDetail(id);
     }
 
+    public List<ContentFeed> getRelatedFeed(Integer productId) {
+        return feedRepository.getRelatedFeed(productId);
+    }
 }

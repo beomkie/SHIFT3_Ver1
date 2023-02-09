@@ -57,4 +57,14 @@ public class FeedRepository{
                 .limit(3)
                 .fetch();
     }
+
+    public List<ContentFeed> getRelatedFeed(Integer productId) {
+        return queryFactory
+                .select(QContentFeedProduct.contentFeedProduct.feed)
+                .from(QContentFeedProduct.contentFeedProduct)
+                .where(QContentFeedProduct.contentFeedProduct.productId.eq(productId))
+                .limit(2)
+                .orderBy(QContentFeedProduct.contentFeedProduct.id.desc())
+                .fetch();
+    }
 }
