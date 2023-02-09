@@ -15,6 +15,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Optional<Product> findByIdOrderByIdAsc(Integer id);
 
     @EntityGraph(attributePaths = {"images"})
+    Optional<Product> findByIdOrderByImagesId(Integer id);
+
+    @EntityGraph(attributePaths = {"images"})
     List<Product> findByNameContaining(String name);
 
     @EntityGraph(attributePaths = {"images"})

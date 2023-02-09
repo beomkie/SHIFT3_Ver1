@@ -17,7 +17,9 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public Product getProductById(int productId){
-        return productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+        // todo 이미지 순서 보장
+        Product product = productRepository.findByIdOrderByImagesId(productId).orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+        return product;
     }
 
     public List<Product> getProductsByFeed(int feedId) {
