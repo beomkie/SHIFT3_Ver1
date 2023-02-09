@@ -4,6 +4,16 @@
 
 <div layout:fragment="content" class="content">
 
+	<style>
+        /*mobile .col-6*/
+        @media (max-width: 767px) {
+            .col-6 {
+                width: 100% !important;
+                margin-bottom: 2rem !important;
+            }
+        }
+	</style>
+
 	<!-- START SECTION SHOP -->
 	<div class="section">
 		<div class="container">
@@ -74,12 +84,25 @@
 						<hr/>
 						<div class="row">
 							<div class="col-4 pt-2 text-center">
-								<a class="add_wishlist" href="#">
-										<span class="me-2" style="font-weight: bold;">
+								<th:block th:if="${isDibs}">
+									<a class="add_wishlist" href="#">
+										<span class="me-2" style="font-weight: bold;"
+										      th:data-product-id="${product.id}">
+											찜 해제
+										</span>
+										<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+									</a>
+								</th:block>
+
+								<th:block th:unless="${isDibs}">
+									<a class="add_wishlist" href="#">
+										<span class="me-2" style="font-weight: bold;"
+										      th:data-product-id="${product.id}">
 											찜하기
 										</span>
-									<i class="icon-heart"></i>
-								</a>
+										<i class="icon-heart"></i>
+									</a>
+								</th:block>
 							</div>
 
 							<div class="col-8">
@@ -117,7 +140,20 @@
 				<div class="col-6">
 					<div class="heading_s1">
 						<h3>연관 컨텐츠 피드</h3>
-
+						<div class="card-group flex-wrap">
+							<div class="card" th:each="feed : ${relatedFeed}">
+								<div class="img-container43">
+									<img th:src="'/file/' + ${feed.thumbnailFileName}"
+									     class="card-img-top rounded" alt="피드 썸네일 이미지">
+								</div>
+								<div class="card-body">
+									<h5 class="card-title" th:text="${feed.title}"></h5>
+<!--									<p class="card-text" th:text="${feed.description}"></p>-->
+									<a th:href="'/feed/' + ${feed.id} " class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+								</div>
+							</div>
+							</div>
+						</div>
 					</div>
 				</div>
 

@@ -5,6 +5,7 @@ import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
 import com.sch.shift3.user.entity.Account;
 import com.sch.shift3.user.repository.ShopRepository;
+import com.sch.shift3.user.service.DibService;
 import com.sch.shift3.user.service.FeedService;
 import com.sch.shift3.user.service.ProductService;
 import com.sch.shift3.user.service.QuestionService;
@@ -27,6 +28,7 @@ public class UserView {
     private final ShopRepository shopRepository;
     private final PopupService popupService;
     private final QuestionService questionService;
+    private final DibService dibService;
 
     @GetMapping("/")
     public String mainPage(Model model){
@@ -139,9 +141,16 @@ public class UserView {
     }
 
     @GetMapping("/product/{productId}")
-    public String productPage(Model model, @PathVariable Integer productId){
+    public String productPage(Model model, @PathVariable Integer productId, @CurrentUser Account account){
         model.addAttribute("product", productService.getProductById(productId));
         model.addAttribute("disableLoading", true);
+        if (account != null){
+            model.addAttribute("isDibs", dibService.isProductDib(account.getId(), productId));
+        } else {
+            model.addAttribute("isDibs", false);
+        }
+        model.addAttribute("relatedFeed", feedService.getRelatedFeed(productId));
+
         return "user/content/pages/product/detail";
     }
 
