@@ -21,10 +21,10 @@ public class QnaRequest implements Serializable {
     private Integer id;
     private String questionTitle;
     private String questionDescription;
-    private String anwser;
+    private String answer;
     private String questionType;
     private LocalDateTime questionAt;
-    private LocalDateTime anwserAt;
+    private LocalDateTime answerAt;
 
     private Account account;
 
@@ -33,9 +33,9 @@ public class QnaRequest implements Serializable {
                 .id(id)
                 .questionTitle(questionTitle)
                 .questionDescription(questionDescription)
-                .anwser("")
+                .answer("")
                 .questionType(questionType)
-                .anwserAt(anwserAt)
+                .answerAt(answerAt)
                 .build();
     }
 

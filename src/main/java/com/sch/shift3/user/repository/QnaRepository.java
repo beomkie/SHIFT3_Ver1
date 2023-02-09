@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface QnaRepository extends JpaRepository<Qna, Integer> {
-    List<Qna> findAllByAccountId(Integer accountId);
+    List<Qna> findAllByAccountIdOrderByIdDesc(Integer accountId);
+    List<Qna> findAllByOrderByIdDesc();
 }

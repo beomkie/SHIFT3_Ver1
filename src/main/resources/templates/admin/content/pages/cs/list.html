@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="css">
+	<link href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
+</th:block>
+
+<th:block layout:fragment="script">
+	<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	<script th:src="@{/user/assets/js/mytable.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+
+	<!--/*@thymesVar id="product" type="com.sch.shift3.user.dto.QnaRequest"*/-->
+	<div class="modal" tabindex="-1" th:each="question : ${questionList}" th:attr="id=${'detailModal' + question.id}">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" th:text="${question.questionTitle}"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<table class="table">
+						<tbody>
+						<tr>
+							<th scope="row">질문 내용</th>
+							<td th:text="${question.questionDescription}"></td>
+						</tr>
+						<tr>
+							<th scope="row">질문 시각</th>
+							<td th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+						</tr>
+
+						<!--질문자 정보 table
+						이름, 아이디, 개인정보 3자 동의 여부-->
+						<tr>
+							<th scope="row">질문자 정보</th>
+							<td>
+								<table class="table">
+									<tbody>
+									<tr>
+										<th scope="row">이름</th>
+										<td th:text="${question.account.name}"></td>
+									</tr>
+									<tr>
+										<th scope="row">아이디</th>
+										<td th:text="${question.account.username}"></td>
+									</tr>
+									<tr>
+										<th scope="row">개인정보 3자 제공</th>
+										<td th:text="${question.account.informationToThirdParties ? '동의' : '비동의'}"></td>
+									</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+
+						<th:block th:if="${question.answer != null}">
+							<tr>
+								<th scope="row">답변</th>
+								<td th:text="${question.answer}"></td>
+							</tr>
+							<tr>
+								<th scope="row">답변 시각</th>
+								<td th:text="${#temporals.format(question.answerAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+							</tr>
+						</th:block>
+						</tbody>
+					</table>
+
+					<br/>
+
+					<h2 th:text="${question.answer == null ? '답변 작성' : '답변 수정'}"></h2>
+					<form onsubmit="return qnaAnswer(this);">
+						<input id="id" name="id" th:value="${question.id}" type="hidden"/>
+						<div class="form-floating mt-3">
+							<textarea class="form-control" id="answer" name="answer"
+							          style="height: 7rem;"></textarea>
+							<label for="answer">답변 입력란</label>
+						</div>
+
+						<button class="btn btn-primary mt-3" onclick="return qnaAnswer(this);"
+						        th:text="${question.answer == null ? '답변 작성' : '답변 수정'}"
+						        type="button"></button>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+        function qnaAnswer(event) {
+            // get target FormData
+            const form = event.closest("form");
+            console.log(form);
+            const formData = new FormData(form);
+            console.log(formData)
+
+            if (formData.answer === "") {
+                alert("답변을 입력해주세요.");
+                return;
+            }
+
+            // ajax /admin/cs/update.do
+            $.ajax({
+                url: "/admin/cs/update.do",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("답변이 등록되었습니다.");
+                    location.reload();
+                },
+                error: function (error) {
+                    alert("답변 등록에 실패했습니다. 다시 시도해주세요.");
+                }
+            });
+
+            return false;
+        }
+	</script>
+
+	<h1 class="mt-4">문의 내역</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item active">Overview Q&A</li>
+	</ol>
+	<div class="card-body">
+		<table id="myTable">
+			<!--			index, name, address, created_at-->
+			<thead>
+			<tr>
+				<th>질문 번호</th>
+				<th>질문 유형</th>
+				<th>제목</th>
+				<th>미리보기</th>
+				<th>질의자 아이디</th>
+				<!--				<th>답변 여부</th>-->
+				<th style="width:10%" data-sortable="">답변시간</th>
+				<th style="width:10%" data-sortable="">질의시간</th>
+				<!--				<th style="width:3%"></th>-->
+				<th style="width:3%"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="question : ${questionList}">
+				<td th:text="${question.id}"></td>
+				<td th:text="${question.questionType}"></td>
+				<td th:text="${question.questionTitle}"></td>
+				<td th:text="${#strings.abbreviate(question.questionDescription,10)}"></td>
+				<td th:text="${question.account.username}"></td>
+				<!--				<td th:text="${question.anwser.isBlank() ? '@답변 하지 않음@' : '@답변 완료된 문의@'}"></td>-->
+				<td th:text="${#temporals.format(question.answerAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+				<td th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+				<td>
+					<a id="detailBtn" data-bs-toggle="modal" th:attr="data-bs-target=${'#detailModal'+ question.id}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						     class="bi bi-search" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+					</a>
+				</td>
+
+			</tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+</html>

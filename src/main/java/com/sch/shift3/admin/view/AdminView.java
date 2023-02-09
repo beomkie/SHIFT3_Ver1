@@ -13,6 +13,7 @@ import com.sch.shift3.user.entity.Image;
 import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.service.FeedService;
 import com.sch.shift3.user.service.ProductService;
+import com.sch.shift3.user.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ public class AdminView {
     private final FeedService feedService;
     private final ProductService productService;
     private final PopupService popupService;
+    private final QuestionService questionService;
 
     @GetMapping("")
     public String mainPage(){
@@ -167,5 +169,11 @@ public class AdminView {
         model.addAttribute("editMode", true);
         model.addAttribute("PopupDto", popupService.getPopup(id));
         return "admin/content/pages/popup/create";
+    }
+
+    @GetMapping("/cs/list")
+    public String csListPage(Model model){
+        model.addAttribute("questionList", questionService.getAllQuestionList());
+        return "admin/content/pages/cs/list";
     }
 }

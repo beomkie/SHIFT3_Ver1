@@ -28,8 +28,8 @@ public class Qna {
     @Column(name = "question_description", nullable = false, length = 100)
     private String questionDescription;
 
-    @Column(name = "anwser", length = 1000)
-    private String anwser;
+    @Column(name = "answer", length = 1000)
+    private String answer;
 
     @Column(name = "question_type", nullable = false, length = 10)
     private String questionType;
@@ -42,8 +42,8 @@ public class Qna {
     @Column(name = "question_at")
     private LocalDateTime questionAt;
 
-    @Column(name = "anwser_at")
-    private LocalDateTime anwserAt;
+    @Column(name = "answer_at")
+    private LocalDateTime answerAt;
 
     public QnaRequest of(){
         return QnaRequest.builder()
@@ -51,10 +51,10 @@ public class Qna {
                 .questionTitle(questionTitle)
                 .questionDescription(questionDescription)
                 .account(account)
-                .anwser(anwser)
+                .answer(answer)
                 .questionType(questionType)
                 .questionAt(questionAt)
-                .anwserAt(anwserAt)
+                .answerAt(answerAt)
                 .build();
     }
 
@@ -64,5 +64,10 @@ public class Qna {
 
     public boolean isSameAccount(Account account) {
         return this.account.getId().equals(account.getId());
+    }
+
+    public void updateQna(QnaRequest qnaRequest) {
+        this.answer = qnaRequest.getAnswer();
+        this.answerAt = LocalDateTime.now();
     }
 }

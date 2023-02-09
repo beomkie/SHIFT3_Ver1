@@ -36,10 +36,10 @@
 					<td th:text="${question.questionType}"></td>
 					<td th:text="${question.questionTitle}"></td>
 					<td th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
-					<td th:if="${not #strings.isEmpty(question.anwser)}"><a class="btn-sm btn-gray"
+					<td th:if="${not #strings.isEmpty(question.answer)}"><a class="btn-sm btn-gray"
 					                                                        th:href="'/mypage/qna/' + ${question.id}"
 					                                                        target="_blank">답변 확인</a></td>
-					<td th:unless="${not #strings.isEmpty(question.anwser)}"></td>
+					<td th:unless="${not #strings.isEmpty(question.answer)}">답변 대기중</td>
 				</tr>
 				</tbody>
 			</table>

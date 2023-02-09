@@ -12,6 +12,9 @@
         }
 	</style>
 
+	<h3>1대1 문의 내역</h3>
+	<br/>
+	
 	<div class="card mb-3">
 		<div class="card-header">
 			<div class="row">
@@ -52,18 +55,18 @@
 
 	<div class="mb-2">
 		<h4>답변</h4>
-		<div class="card mb-3" th:if="${!question.anwser.isBlank()}">
+		<div class="card mb-3" th:if="${!question.answer.isBlank()}">
 			<div class="card-header"
-			     th:text="${#temporals.format(question.anwserAt, 'yyyy년 MM월 dd일 HH시 mm분 작성된 답변')}">
+			     th:text="${#temporals.format(question.answerAt, 'yyyy년 MM월 dd일 HH시 mm분 작성된 답변')}">
 			</div>
 
 			<div class="card-body">
-				<div th:text="${question.anwser}">
+				<div th:text="${question.answer}">
 				</div>
 			</div>
 		</div>
 
-		<div class="card mb-3" th:unless="${!question.anwser.isBlank()}">
+		<div class="card mb-3" th:unless="${!question.answer.isBlank()}">
 			<div class="card-header">
 			</div>
 
