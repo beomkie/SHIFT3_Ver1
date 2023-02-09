@@ -1,10 +1,13 @@
 package com.sch.shift3.user.view;
 
 import com.sch.shift3.admin.service.PopupService;
+import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
+import com.sch.shift3.user.entity.Account;
 import com.sch.shift3.user.repository.ShopRepository;
 import com.sch.shift3.user.service.FeedService;
 import com.sch.shift3.user.service.ProductService;
+import com.sch.shift3.user.service.QuestionService;
 import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,7 @@ public class UserView {
     private final ProductService productService;
     private final ShopRepository shopRepository;
     private final PopupService popupService;
+    private final QuestionService questionService;
 
     @GetMapping("/")
     public String mainPage(Model model){
@@ -108,6 +112,21 @@ public class UserView {
         model.addAttribute("enable", "cs");
 
         return "user/content/pages/my-page/qna";
+    }
+
+    @GetMapping("/mypage/qna/{qnaId}")
+    public String qnaDetailPage(Model model, @CurrentUser Account account, @PathVariable Integer qnaId){
+        model.addAttribute("enable", "cs");
+        model.addAttribute("question", questionService.getMyQnaById(account, qnaId));
+
+        return "user/content/pages/my-page/qna-detail";
+    }
+
+    @GetMapping("/mypage/qna-list")
+    public String qnaListPage(Model model, @CurrentUser Account account){
+        model.addAttribute("enable", "cs");
+        model.addAttribute("questionList", questionService.getMyQnaList(account));
+        return "user/content/pages/my-page/qna-list";
     }
 
     @GetMapping("/feed/{id}")

@@ -38,8 +38,15 @@
 <style>
     .shop_list {
         background-color: rgba(234, 234, 234, 0.37);
-        height: 70vh;
+        min-height: 70vh;
         color: black;
+    }
+
+    /*mobile*/
+    @media screen and (max-width: 768px) {
+        .shop_list {
+            min-height: auto;
+        }
     }
 
     .shop_list .title {

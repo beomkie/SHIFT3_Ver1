@@ -28,6 +28,7 @@ public class SecurityConfig {
             .cors(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests()
             .requestMatchers("/admin/**").hasRole(SecurityRole.ADMIN.name())
+            .requestMatchers("/mypage/qna**").hasAnyRole(SecurityRole.USER.name(), SecurityRole.ADMIN.name())
             .requestMatchers("/**").permitAll()
 //            .requestMatchers("/api/v1/**").hasRole(SecurityRole.USER.name())
             .anyRequest().authenticated()

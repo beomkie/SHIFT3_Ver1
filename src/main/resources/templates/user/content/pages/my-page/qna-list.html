@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/mypage_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+	<style>
+        .btn-card-header {
+            border-radius: 0.3rem;
+            font-weight: bold;
+            border: none;
+        }
+	</style>
+	<div class="card">
+		<div class="card-header">
+			나의 문의글
+			<!--			<button type="button" class="btn-gray btn-card-header float-end" href="/mypage/qna"></button>-->
+		</div>
+		<div class="card-body">
+			<!--			문의 유형-->
+			<!--			<label for="type">문의 유형</label>-->
+			<table class="table">
+				<thead>
+				<tr>
+					<th scope="col">질문 번호</th>
+					<th scope="col">문의 유형</th>
+					<th scope="col">문의 제목</th>
+					<th scope="col">문의 시간</th>
+					<th scope="col">답변 여부</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="question : ${questionList}">
+					<!--/*@thymesVar id="question" type="com.sch.shift3.user.dto.QnaRequest"*/-->
+					<th scope="row" th:text="${question.id}"></th>
+					<td th:text="${question.questionType}"></td>
+					<td th:text="${question.questionTitle}"></td>
+					<td th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+					<td th:if="${not #strings.isEmpty(question.anwser)}"><a class="btn-sm btn-gray"
+					                                                        th:href="'/mypage/qna/' + ${question.id}"
+					                                                        target="_blank">답변 확인</a></td>
+					<td th:unless="${not #strings.isEmpty(question.anwser)}"></td>
+				</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+</div>
+</html>

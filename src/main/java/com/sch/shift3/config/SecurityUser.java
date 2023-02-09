@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
-    private Account account;
+    public Account account;
 
     public SecurityUser(Account account) {
 //        super(account.getUsername(), account.getPassword(), AuthorityUtils.createAuthorityList(account.getRole().toString()));
