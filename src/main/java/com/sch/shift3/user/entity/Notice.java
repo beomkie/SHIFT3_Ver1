@@ -22,7 +22,7 @@ public class Notice {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "title", length = 30)
+    @Column(name = "title", length = 70)
     private String title;
 
     @Lob

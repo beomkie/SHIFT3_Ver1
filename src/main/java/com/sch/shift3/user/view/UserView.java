@@ -1,5 +1,6 @@
 package com.sch.shift3.user.view;
 
+import com.sch.shift3.admin.service.AdminNoticeService;
 import com.sch.shift3.admin.service.PopupService;
 import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
@@ -29,6 +30,7 @@ public class UserView {
     private final PopupService popupService;
     private final QuestionService questionService;
     private final DibService dibService;
+    private final AdminNoticeService adminNoticeService;
 
     @GetMapping("/")
     public String mainPage(Model model){
@@ -100,6 +102,7 @@ public class UserView {
     @GetMapping("/mypage/notice")
     public String myNoticePage(Model model){
         model.addAttribute("enable", "notice");
+        model.addAttribute("noticeList", adminNoticeService.getNotices());
         return "user/content/pages/my-page/notice";
     }
 
@@ -129,6 +132,12 @@ public class UserView {
         model.addAttribute("enable", "cs");
         model.addAttribute("questionList", questionService.getMyQnaList(account));
         return "user/content/pages/my-page/qna-list";
+    }
+
+    @GetMapping("/notice/{noticeId}")
+    public String getNoticePage(Model model, @PathVariable Integer noticeId){
+        model.addAttribute("notice", adminNoticeService.findNoticeById(noticeId));
+        return "user/content/pages/my-page/notice-detail";
     }
 
     @GetMapping("/feed/{id}")

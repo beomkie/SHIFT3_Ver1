@@ -192,5 +192,4 @@ public class AdminView {
         return "admin/content/pages/notice/create";
     }
 
-
 }

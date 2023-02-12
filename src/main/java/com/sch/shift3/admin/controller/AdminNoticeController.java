@@ -4,13 +4,13 @@ import com.sch.shift3.admin.service.AdminNoticeService;
 import com.sch.shift3.user.dto.NoticeDto;
 import com.sch.shift3.user.entity.Notice;
 import com.sch.shift3.user.repository.NoticeRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,5 +52,25 @@ public class AdminNoticeController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @Transactional
+    @GetMapping("/remove.do")
+    public void removeNotice(@RequestParam Integer id, HttpServletResponse response){
+        if (id == null)
+            throw new IllegalArgumentException("해당 공지사항이 존재하지 않습니다.");
+
+        Notice notice = adminNoticeService.findNoticeById(id);
+        if (notice == null)
+            throw new IllegalArgumentException("해당 공지사항이 존재하지 않습니다.");
+
+        noticeRepository.delete(notice);
+        try {
+            response.sendRedirect("/admin/notice/list");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 }

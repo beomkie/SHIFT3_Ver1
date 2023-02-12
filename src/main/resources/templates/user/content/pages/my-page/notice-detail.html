@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/mypage_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+	<div class="card">
+		<div class="card-header">
+			공지사항
+		</div>
+		<div class="card-body">
+			<h4 class="card-title" th:text="${notice.title}">
+			</h4>
+
+			<p class="card-subtitle" th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}">
+			</p>
+
+			<th:block class="card-text" th:utext="${notice.description}">
+			</th:block>
+		</div>
+	</div>
+</div>
+</html>
