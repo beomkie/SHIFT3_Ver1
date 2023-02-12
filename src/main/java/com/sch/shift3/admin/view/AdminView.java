@@ -1,13 +1,7 @@
 package com.sch.shift3.admin.view;
 
-import com.sch.shift3.admin.service.AdminContentFeedService;
-import com.sch.shift3.admin.service.AdminProductService;
-import com.sch.shift3.admin.service.AdminShopService;
-import com.sch.shift3.admin.service.PopupService;
-import com.sch.shift3.user.dto.ContentFeedDto;
-import com.sch.shift3.user.dto.PopupDto;
-import com.sch.shift3.user.dto.ProductDto;
-import com.sch.shift3.user.dto.SelectShopDto;
+import com.sch.shift3.admin.service.*;
+import com.sch.shift3.user.dto.*;
 import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.entity.Image;
 import com.sch.shift3.user.entity.Product;
@@ -38,6 +32,7 @@ public class AdminView {
     private final ProductService productService;
     private final PopupService popupService;
     private final QuestionService questionService;
+    private final AdminNoticeService adminNoticeService;
 
     @GetMapping("")
     public String mainPage(){
@@ -176,4 +171,26 @@ public class AdminView {
         model.addAttribute("questionList", questionService.getAllQuestionList());
         return "admin/content/pages/cs/list";
     }
+
+    @GetMapping("/notice/list")
+    public String noticeListPage(Model model){
+        model.addAttribute("noticeList", adminNoticeService.getNotices());
+        return "admin/content/pages/notice/list";
+    }
+
+    @GetMapping("/notice/create")
+    public String noticeCreatePage(Model model){
+        NoticeDto notice = new NoticeDto();
+        model.addAttribute("notice", notice);
+        return "admin/content/pages/notice/create";
+    }
+
+    @GetMapping("/notice/edit/{id}")
+    public String noticeEditPage(Model model, @PathVariable Integer id){
+        model.addAttribute("notice", adminNoticeService.findNoticeById(id));
+        model.addAttribute("editMode", true);
+        return "admin/content/pages/notice/create";
+    }
+
+
 }
