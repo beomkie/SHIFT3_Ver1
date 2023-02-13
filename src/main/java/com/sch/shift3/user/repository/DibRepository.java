@@ -112,4 +112,13 @@ public class DibRepository {
 
         return new PageImpl<>(dibs, pageable, count);
     }
+
+    public void removeDibShop(Integer id, Integer shopId) {
+        QDib dib = QDib.dib;
+        queryFactory
+                .delete(dib)
+                .where(dib.accountId.eq(id)
+                        .and(dib.selectShopId.eq(shopId)))
+                .execute();
+    }
 }

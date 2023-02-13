@@ -24,8 +24,6 @@ public class ContentFeedProduct {
     @Column(name = "product_id")
     private Integer productId;
 
-
-
     public ContentFeedDto of() {
         return ContentFeedDto.builder()
                 .id(feed.getId())

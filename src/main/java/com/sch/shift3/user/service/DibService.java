@@ -38,7 +38,7 @@ public class DibService {
     public void removeDibProduct(Integer accountId, Integer productId) {
         dibRepository.removeDibProduct(accountId, productId);
     }
-
+    @Transactional
     public PageImpl<Product> getDibProductList(Integer accountId, Pageable page) {
         PageImpl<Dib> dibs = dibRepository.getDibProductList(accountId, page);
 
@@ -59,5 +59,14 @@ public class DibService {
 
         // change page and size to dibs
         return new PageImpl<>(content, dibs.getPageable(), dibs.getTotalElements());
+    }
+    @Transactional
+    public void removeDibShop(Integer id, Integer shopId) {
+        dibRepository.removeDibShop(id, shopId);
+    }
+
+    @Transactional
+    public void dibShop(Integer id, Integer shopId) {
+        dibRepository.dibShop(id, shopId);
     }
 }

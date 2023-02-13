@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
+    private final ProductRepository productRepository;
 
     public Product findProductById(int productId) {
         QProduct product = QProduct.product;
@@ -68,5 +69,13 @@ public class ProductRepositoryCustom {
                 .selectFrom(product)
                 .where(product.selectShop.name.eq(name))
                 .fetch();
+    }
+
+    public List<Product> getProductsByShopId(Integer shopId){
+        QProduct product = QProduct.product;
+        JPAQuery<Product> query = queryFactory.select(product).from(product)
+                .where(product.selectShop.id.eq(shopId));
+        return query.fetch();
+
     }
 }

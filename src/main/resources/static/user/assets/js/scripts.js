@@ -888,3 +888,99 @@ PAGE JS
     }
 
 })(jQuery);
+
+
+// 상품 찜 목록에 추가/제거 코드
+function dip(productId) {
+    // ajax /dib/product/productId
+    let dibButton = $('#dipBtn');
+    let heartIcon = $('.icon-heart');
+
+    $.ajax({
+        url: '/dib/product/' + productId,
+        type: 'GET',
+        success: function () {
+            dibButton.html('찜 해제');
+            dibButton.attr('onclick', 'unDip(' + productId + ')');
+            //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+            heartIcon.css('color', 'red');
+            heartIcon.css('font-weight', '600');
+
+            toastr.success('상품을 찜 하였습니다.', '');
+        },
+        error: function (error) {
+            toastr.error('상품을 찜을 실패 하였습니다.', '');
+        }
+    });
+}
+
+function unDip(productId) {
+    let dibButton = $('#dipBtn');
+    let heartIcon = $('.icon-heart');
+
+    $.ajax({
+        url: '/dib/product/remove/' + productId,
+        type: 'GET',
+        success: function () {
+            dibButton.html('찜하기');
+            dibButton.attr('onclick', 'dip(' + productId + ')');
+            //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+            // css remove
+            heartIcon.css('color', '');
+            heartIcon.css('font-weight', '');
+            toastr.success('상품 찜을 해제하였습니다.', '');
+        },
+        error: function (error) {
+            toastr.error('상품을 찜을 실패 하였습니다.', '');
+        }
+    });
+
+}
+
+// 끝끝끝끝끝끝끝    찜 목록에 추가/제거 코드
+
+
+// 스토어 찜 등록
+function shopDip(shopId) {
+    // ajax /dib/product/productId
+    let dibButton = $('#dipBtn');
+    let heartIcon = $('.icon-heart');
+
+    $.ajax({
+        url: '/dib/shop/' + shopId,
+        type: 'GET',
+        success: function () {
+            dibButton.attr('onclick', 'shopUnDip(' + shopId + ')');
+            //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+            heartIcon.css('color', 'red');
+            heartIcon.css('font-weight', '600');
+
+            toastr.success('편집샵을 찜 하였습니다.', '');
+        },
+        error: function (error) {
+            toastr.error('편집샵 찜을 실패 하였습니다.', '');
+        }
+    });
+}
+
+function shopUnDip(shopId) {
+    let dibButton = $('#dipBtn');
+    let heartIcon = $('.icon-heart');
+
+    $.ajax({
+        url: '/dib/shop/remove/' + shopId,
+        type: 'GET',
+        success: function () {
+            dibButton.attr('onclick', 'dip(' + shopId + ')');
+            //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+            // css remove
+            heartIcon.css('color', '');
+            heartIcon.css('font-weight', '');
+            toastr.success('편집샵 찜을 해제하였습니다.', '');
+        },
+        error: function (error) {
+            toastr.error('상품을 찜을 실패 하였습니다.', '');
+        }
+    });
+
+}

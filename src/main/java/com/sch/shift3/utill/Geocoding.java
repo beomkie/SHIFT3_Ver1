@@ -34,8 +34,8 @@ public class Geocoding {
 
         if (response.getStatusCode().is2xxSuccessful()) {
             MapGeoCodeResponse mapGeoCodeResponse = response.getBody();
-            double x = mapGeoCodeResponse.getAddresses().get(0).getX();
-            double y = mapGeoCodeResponse.getAddresses().get(0).getY();
+            double x = mapGeoCodeResponse.getAddresses().get(0).getY();
+            double y = mapGeoCodeResponse.getAddresses().get(0).getX();
             return new Address(x, y);
         } else {
             return new Address(0, 0);

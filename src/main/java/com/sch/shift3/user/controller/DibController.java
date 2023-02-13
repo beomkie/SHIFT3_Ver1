@@ -6,8 +6,10 @@ import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.service.DibService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +50,43 @@ public class DibController {
             throw new IllegalArgumentException("로그인이 필요합니다.");
 
         return dibService.getDibProductList(account.getId(), pageRequest);
+    }
+
+
+
+    @GetMapping("/dib/shop/{shopId}")
+    public void shopDib(@PathVariable Integer shopId, @CurrentUser Account account) {
+        if (shopId == null)
+            throw new IllegalArgumentException("해당 샵이 존재하지 않습니다.");
+
+        if (account == null)
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+
+        dibService.dibShop(account.getId(), shopId);
+    }
+
+    @GetMapping("/dib/shop/check/{shopId}")
+    public ResponseEntity<String> checkShopDib(@PathVariable Integer shopId, @CurrentUser Account account) {
+        if (shopId == null)
+            throw new IllegalArgumentException("해당 샵이 존재하지 않습니다.");
+
+        if (account == null)
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+
+        boolean isDib = dibService.isShopDib(account.getId(), shopId);
+        // return isDib Json
+
+        return ResponseEntity.ok(new JSONObject().put("isDib", isDib).toString());
+    }
+
+    @GetMapping("/dib/product/remove/{shopId}")
+    public void removeShopDib(@PathVariable Integer shopId, @CurrentUser Account account) {
+        if (shopId == null)
+            throw new IllegalArgumentException("해당 샵이 존재하지 않습니다.");
+
+        if (account == null)
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+
+        dibService.removeDibShop(account.getId(), shopId);
     }
 }

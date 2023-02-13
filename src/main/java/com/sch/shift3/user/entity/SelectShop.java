@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @Entity
 @Getter
 @Builder
@@ -103,5 +107,47 @@ public class SelectShop {
         this.contactNumber = selectShopDto.getContactNumber();
         this.operatingTime = selectShopDto.getOperatingTime();
         this.hitCount = selectShopDto.getHitCount();
+    }
+
+    public String getStreetAddressClear() {
+        // replace "(%s")" to ""
+        return streetAddress.replaceAll("\\(.*\\)", "");
+    }
+
+    public String toJson(){
+        // json Object
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id", id);
+        jsonObject.put("name", name);
+        jsonObject.put("introduce", introduce);
+        jsonObject.put("latitude", latitude);
+        jsonObject.put("longitude", longitude);
+        jsonObject.put("streetAddress", streetAddress);
+        jsonObject.put("streetAddressDetail", streetAddressDetail);
+        jsonObject.put("contactNumber", contactNumber);
+        jsonObject.put("operatingTime", operatingTime);
+        jsonObject.put("hitCount", hitCount);
+        jsonObject.put("createdAt", createdAt);
+        jsonObject.put("streetAddressClear", getStreetAddressClear());
+
+        JSONArray imageSelectShops = new JSONArray();
+        this.imageSelectShops.forEach(imageSelectShop -> {
+            JSONObject imageObj = new JSONObject();
+            imageObj.put("imageName", imageSelectShop.getImageName());
+            imageSelectShops.put(imageObj);
+        });
+
+        JSONArray brandArray = new JSONArray();
+        this.selectShopBrands.forEach(selectShopBrand -> {
+            JSONObject brandObj = new JSONObject();
+            brandObj.put("brandName", selectShopBrand.getBrandName());
+            brandArray.put(brandObj);
+        });
+
+
+        jsonObject.put("imageSelectShops", imageSelectShops);
+        jsonObject.put("selectShopBrands", brandArray);
+
+        return jsonObject.toString();
     }
 }

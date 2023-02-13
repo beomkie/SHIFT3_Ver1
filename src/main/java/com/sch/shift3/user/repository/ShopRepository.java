@@ -33,9 +33,15 @@ public class ShopRepository {
         } else {
             if (shopRequest.getLocation().equals("서울특별시")) {
                 // subLocation 검사
-                List<String> fullLocationList = shopRequest.getFullLocationList();
-                log.info("fullLocationList: {}", fullLocationList);
-                fullLocationList.forEach(fullLocation -> builder.and(qSelectShop.streetAddress.contains(fullLocation)));
+                if (shopRequest.getSubLocation().equals("전체")) {
+                    builder.and(qSelectShop.streetAddress.contains(shopRequest.getLocation()));
+                } else {
+                    BooleanBuilder subLocationBuilder = new BooleanBuilder();
+                    List<String> fullLocationList = shopRequest.getFullLocationList();
+                    log.info("fullLocationList: {}", fullLocationList);
+                    fullLocationList.forEach(fullLocation -> subLocationBuilder.or(qSelectShop.streetAddress.contains(fullLocation)));
+                    builder.and(subLocationBuilder);
+                }
             } else {
                 builder.and(qSelectShop.streetAddress.contains(shopRequest.getLocation()));
             }
@@ -65,5 +71,4 @@ public class ShopRepository {
         }
         return query.fetch();
     }
-
 }

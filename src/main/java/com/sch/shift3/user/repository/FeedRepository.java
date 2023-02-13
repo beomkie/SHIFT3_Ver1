@@ -3,14 +3,18 @@ package com.sch.shift3.user.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sch.shift3.user.entity.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class FeedRepository{
     private final JPAQueryFactory queryFactory;
+    private final ContentFeedRepository contentFeedRepository;
+    private final ProductRepositoryCustom productRepositoryCustom;
 
 
     public ContentFeed getFeedDetail(int id){
@@ -65,6 +69,33 @@ public class FeedRepository{
                 .where(QContentFeedProduct.contentFeedProduct.productId.eq(productId))
                 .limit(2)
                 .orderBy(QContentFeedProduct.contentFeedProduct.id.desc())
+                .fetch();
+    }
+
+    public List<ContentFeed> getRelatedFeedByShopId(Integer shopId){
+        QContentFeedProduct qContentFeedProduct = QContentFeedProduct.contentFeedProduct;
+        QContentFeed qContentFeed = QContentFeed.contentFeed;
+
+        List<Product> products = productRepositoryCustom.getProductsByShopId(shopId);
+        List<ContentFeedProduct> list = queryFactory
+                .select(qContentFeedProduct)
+                .from(qContentFeedProduct)
+                .where(
+                        qContentFeedProduct.productId.in(products.stream().map(Product::getId).toList())
+                )
+                .orderBy(QContentFeedProduct.contentFeedProduct.id.desc())
+                .fetch();
+
+        return queryFactory
+                .select(qContentFeed)
+                .from(qContentFeed)
+                .where(
+                        qContentFeed.id.in(list.stream().map(
+                                item -> item.getFeed().getId()
+                        ).toList())
+                )
+                .orderBy(QContentFeed.contentFeed.id.desc())
+                .limit(3)
                 .fetch();
     }
 }

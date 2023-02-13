@@ -6,6 +6,8 @@
 
 <div layout:fragment="content" class="content">
 
+	<script th:src="@{/user/assets/js/shop-list.js}"></script>
+
 	<style>
         .address_filter span {
             width: 50px !important;
@@ -94,7 +96,12 @@
             .hoverMap {
                 width: 100%;
                 height: 100%;
+                background-color: rgba(255, 255, 255, 0.9);
             }
+        }
+
+        #feedList {
+            min-height: 20vh;
         }
 
 
@@ -142,6 +149,26 @@
             color: #4d4d4d !important;
             font-size: 1rem;
             font-weight: 350;
+        }
+
+        #custom-overlay {
+            background-color: #000;
+            opacity: 0.7;
+            overflow: hidden;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+
+        .thumbnail {
+            border-radius: 1.3em;
+            width: 4em;
+            height: 4em;
         }
 
 	</style>
@@ -244,7 +271,7 @@
 								<span class="">서초구</span>
 								<span class="">강남구</span>
 								<span class="">송파구</span>
-								<span class="">강서구/양서구</span>
+								<span class="">강서구/양천구</span>
 								<span class="">구로구/금천구</span>
 								<span class="">용등포구/동작구</span>
 								<span class="">관악구</span>
@@ -299,27 +326,33 @@
                                             $("#shopList").html("");
                                             data.forEach(function (item) {
                                                 $("#shopList").append(renderShop(item));
+                                                drawMap(item);
                                             });
                                         }
                                     });
                                 }
 
                                 function renderShop(shop) {
-                                    let json = JSON.stringify(shop);
+                                    let shopJson = JSON.stringify(shop);
 
-                                    let html = `<div class="row mb-3" onclick='detailShop(` + json + `)'>
-                                                <div class="col-4">
-                                                    <img src="
-                                                    ${shop.imageSelectShops[0] ? '/file/' + shop.imageSelectShops[0].imageName : 'https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg'}
-                                                    "
-                                                         class="w-100"/>
-                                                </div>
-                                                <div class="col-8">
-                                                    <div class="name">${shop.name}</div>
-                                                    <div class="introduce">${shop.introduce}</div>
-                                                    <div class="address">${shop.address}</div>
-                                                </div>
-                                            </div>`;
+                                    let html = `<div class="shop-item card mb-3" data-shop='${shopJson}'>
+													<div class="row g-0">
+														<div class="col-md-4">
+										${(shop.imageSelectShops.length !== 0) ?
+                                        `<img src="/file/${shop.imageSelectShops[0].imageName}" class="img-fluid rounded-start">` :
+                                        `<img src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg" class="img-fluid rounded-start">`}
+														</div>
+
+														<div class="col-md-8">
+															<div class="card-body">
+															<h5 class="name">${shop.name}</h5>
+															<ul><li class="introduce">${shop.introduce}</li>
+															<li class="address text-muted">${shop.streetAddressClear}</li>
+															</ul>
+															</div>
+														</div>
+													</div>
+												</div>`;
                                     return html;
                                 }
 							</script>
@@ -348,7 +381,8 @@
 
 						<div class="result" id="shopList">
 							<!--/*@thymesVar id="shop" type="com.sch.shift3.user.entity.SelectShop"*/-->
-							<div class="card mb-3" th:each="shop : ${shopList}">
+							<div class="shop-item card mb-3" th:each="shop : ${shopList}"
+							     th:data-shop="${shop.toJson()}">
 								<div class="row g-0">
 									<div class="col-md-4">
 										<!--								<img th:unless="${Object.nonNull(shop.imageSelectShops)}"-->
@@ -365,7 +399,9 @@
 											<h5 class="name" th:text="${shop.name}"></h5>
 											<ul>
 												<li class="introduce" th:text="${shop.introduce}">한줄소개</li>
-												<li class="address text-muted" th:text="${shop.streetAddress}">주소</li>
+												<li class="address text-muted"
+												    th:text="${shop.getStreetAddressClear()}">주소
+												</li>
 											</ul>
 										</div>
 									</div>
@@ -378,9 +414,45 @@
 			</div>
 			<div class="col-md-9 col-sm-12 map" id="map">
 				<div id="shopDetail" class="hoverMap p-4" style="display:none">
-					<!--					style="display:none"-->
-					<p class="title">상호명</p>
-					<p class="content" id="name"></p>
+					<div class="close float-end" onclick="$(this).parent().hide();">
+						<i class="fas fa-times"></i>
+					</div>
+
+					<a class="me-3 float-end" href="#">
+										<span id="dipBtn" style="font-weight: bold;"
+										      data-shop-id="">
+											<i class="icon-heart"></i>
+										</span>
+					</a>
+
+					<div class="row">
+						<div class="col-10">
+							<h4 id="name"></h4>
+						</div>
+					</div>
+
+					<div id="shopImages" class="carousel slide mt-2 mb-4" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100"
+								     data-src="holder.js/800x400?auto=yes&amp;bg=777&amp;fg=555&amp;text=First slide"
+								     data-holder-rendered="true">
+							</div>
+						</div>
+						<button class="carousel-control-prev" type="button" data-bs-target="#shopImages"
+						        data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#shopImages"
+						        data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+
+					<!--					<p class="title">상호명</p>-->
+					<!--					<p class="content" id="name"></p>-->
 
 
 					<p class="title">주소</p>
@@ -400,34 +472,136 @@
 
 					<div class="row">
 						<p class="title">취급 브랜드</p>
-						<p></p>
+						<p id="brandList"></p>
 					</div>
 
 					<div class="row">
 						<p class="title">컨텐츠 피드</p>
+						<div id="feedLoading" class="spinner-grow text-primary m-2" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+
+						<div id="contentFeedList" class="contentFeedList row g-1">
+
+						</div>
 					</div>
 				</div>
 
 				<script>
                     function detailShop(shop) {
-                        console.log(shop)
+                        $("#shopDetail").show();
+
+                        let feedLoading = $('#feedLoading');
+
+                        feedLoading.show();
+
+                        $('#shopDetail').loading({
+                            theme: 'dark',
+                            message: 'WORKING...'
+                        });
+
+
+                        let dipBtn = $("#shopDetail #dipBtn");
+
                         $("#shopDetail #name").text(shop.name);
                         $("#shopDetail #address").text(shop.address);
-                        $("#shopDetail #contact").text(shop.contact);
+                        $("#shopDetail #contact").text(shop.contactNumber);
                         $("#shopDetail #operatingTime").text(shop.operatingTime);
+                        $("#shopDetail #shopImages .carousel-inner").empty();
 
-                        $("#shopDetail").animate({
-                            width: "toggle"
-                        }, 90, "linear");
+                        shop.imageSelectShops.forEach(function (image, index) {
+                            let html = `
+								<div class="carousel-item ${index === 0 ? "active" : ""}">
+									<img class="d-block w-100" src="/file/${image.imageName}">
+								</div>
+							`;
+                            $("#shopDetail #shopImages .carousel-inner").append(html);
+                        });
 
+                        // promise list
+                        let queue = [];
+
+
+                        // 찜 버튼
+                        dipBtn.attr("data-shop-id", shop.id);
+                        let heartBtn = dipBtn.find("i");
+
+                        $.ajax({
+                            url: "/dib/shop/check/" + shop.id,
+                            type: "GET",
+                            success: function (data) {
+                                data = JSON.parse(data);
+                                $(dipBtn).show();
+
+                                if (data.isDib == true) {
+                                    heartBtn.attr("style", "color: red; font-weight: bold;");
+                                    dipBtn.attr("onclick", "shopUnDip(" + shop.id + ")");
+                                } else {
+                                    heartBtn.attr("style", "color: black; font-weight: normal;");
+                                    dipBtn.attr("onclick", "shopDip(" + shop.id + ")");
+                                }
+                            },
+                            fail: function (error) {
+                                dipBtn.attr("onclick", "alert('로그인이 필요합니다.');");
+                            }
+                        });
+
+                        // 연관 피드
+                        // queue.push(
+                        let feedList = $("#contentFeedList");
+                        feedList.empty();
+
+                        $.ajax({
+                            url: "/feed/related.do?shopId=" + shop.id,
+                            type: "GET",
+                            success: function (data) {
+                                // data = JSON.parse(data);
+                                console.log(data);
+                                data.forEach(function (item) {
+                                    let html = `
+                                         <div class="col-6">
+                                             <div class="card">
+                                             <div class="card-img-top square-image" style="background-image: url('/file/${item.thumbnailFileName}')"></div>
+                                                 <div class="card-body" onclick="location.href='/feed/${item.id}'">
+                                                     <h5 class="card-title">${item.title}</h5>
+                                                     <p class="card-text">${item.description}</p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     `;
+                                    feedList.append(html);
+                                    // });
+                                });
+
+                                feedLoading.hide();
+                                // $('#contentFeedList').loading('stop');
+                            }
+                        });
+                        // }));
+
+                        // 브랜드
+                        let brandList = $("#shopDetail #brandList");
+                        brandList.empty();
+                        shop.selectShopBrands.forEach(function (item) {
+                            brandList.append(`<span class="badge bg-secondary m-2">${item.brandName}</span>`);
+                        });
+
+                        $('#shopDetail').loading('stop');
                     }
+
+                    // click shop-item
+                    $(document).on("click", ".shop-item", function (event) {
+                        // get shop data
+                        let item = $(event.target).closest(".shop-item");
+                        let shop = item.attr("data-shop");
+                        shop = JSON.parse(shop);
+                        detailShop(shop);
+                    });
 				</script>
 				<div id="naverMap" class="w-100 h-100"></div>
 			</div>
 		</div>
 	</div>
-
-
 </div>
 
 

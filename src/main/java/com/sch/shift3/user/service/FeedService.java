@@ -44,4 +44,17 @@ public class FeedService {
     public List<ContentFeed> getRelatedFeed(Integer productId) {
         return feedRepository.getRelatedFeed(productId);
     }
+
+    public List<ContentFeed> getRelatedFeedByShopId(Integer shopId) {
+        List<ContentFeed> feeds = feedRepository.getRelatedFeedByShopId(shopId);
+        feeds.forEach(feed -> {
+            String description = feed.getDescriptionNoHtml();
+            if(description.length() > 15){
+                description = description.substring(0, 15) + "...";
+            }
+            feed.setDescription(description);
+        });
+
+        return feeds;
+    }
 }
