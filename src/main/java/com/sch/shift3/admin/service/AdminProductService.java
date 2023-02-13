@@ -6,6 +6,7 @@ import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.repository.ImageProductRepository;
 import com.sch.shift3.user.repository.ProductRepository;
+import com.sch.shift3.user.repository.ProductRepositoryCustom;
 import com.sch.shift3.user.repository.SelectShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class AdminProductService {
     private final ProductRepository productRepository;
     private final SelectShopRepository selectShopRepository;
     private final ImageProductRepository imageProductRepository;
+    private final ProductRepositoryCustom productRepositoryCustom;
     private final AdminImageService adminImageService;
 
     public List<ProductDto> getAllProductList(){
@@ -71,8 +73,8 @@ public class AdminProductService {
     }
 
     public List<Product> findProductByName(String name) {
-        List<Product> productsByName = productRepository.findByNameContaining(name);
-        List<Product> productsByShopName = productRepository.findBySelectShopName(name);
+        List<Product> productsByName = productRepositoryCustom.findProductsByNameContainingNoImage(name);
+        List<Product> productsByShopName = productRepositoryCustom.findProductsBySelectShopNameNoImage(name);
         productsByShopName.forEach(product -> {
             if (!productsByName.contains(product)) {
                 productsByName.add(product);

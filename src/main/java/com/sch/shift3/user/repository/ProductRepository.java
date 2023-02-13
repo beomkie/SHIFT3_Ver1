@@ -8,15 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @EntityGraph(attributePaths = {"images"})
-    List<Product> findAll();
 
     @EntityGraph(attributePaths = {"images"})
     Optional<Product> findByIdOrderByIdAsc(Integer id);
-
-    @EntityGraph(attributePaths = {"images"})
-    Optional<Product> findByIdOrderByImagesId(Integer id);
-
     @EntityGraph(attributePaths = {"images"})
     List<Product> findByNameContaining(String name);
 

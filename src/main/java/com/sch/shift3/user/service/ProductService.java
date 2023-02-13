@@ -3,8 +3,11 @@ package com.sch.shift3.user.service;
 import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.repository.FeedRepository;
 import com.sch.shift3.user.repository.ProductRepository;
+import com.sch.shift3.user.repository.ProductRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,14 +18,18 @@ import java.util.List;
 public class ProductService {
     private final FeedRepository feedRepository;
     private final ProductRepository productRepository;
+    private final ProductRepositoryCustom productRepositoryCustom;
 
     public Product getProductById(int productId){
-        // todo 이미지 순서 보장
-        Product product = productRepository.findByIdOrderByImagesId(productId).orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+        Product product = productRepositoryCustom.findProductById(productId);
         return product;
     }
 
     public List<Product> getProductsByFeed(int feedId) {
         return feedRepository.getFeedProducts(feedId);
+    }
+
+    public PageImpl<Product> getProductList(List<Integer> productIds, Pageable pageable) {
+        return productRepositoryCustom.getProductList(productIds, pageable);
     }
 }

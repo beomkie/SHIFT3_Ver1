@@ -3,7 +3,82 @@
       layout:decorate="~{/user/layout/mypage_layout}" lang="ko">
 
 <div layout:fragment="content" class="content">
+	<style>
+        #product-list {
+            min-height: 30vh;
+        }
+	</style>
+	<script>
+        function loadProducts(page) {
+            $('#product-list').loading({
+                theme: 'dark'
+            });
 
+            fetch(`/dib/product?page=${page}&size=3&sort=id,DESC`)
+                .then(response => response.json())
+                .then(json => {
+                    const pagination = document.querySelector(".pagination");
+                    pagination.innerHTML = "";
+
+                    $("#product-count").html(`<h6>총 ${json.totalElements}개의 상품이 있습니다.</h6>`);
+
+                    for (let i = 0; i < json.totalPages; i++) {
+                        const pageElem = document.createElement("li");
+                        pageElem.classList.add("page-item");
+
+                        const pageLink = document.createElement("a");
+                        pageLink.classList.add("page-link");
+                        pageLink.innerText = i + 1;
+                        pageLink.href = "#";
+                        pageLink.onclick = function () {
+                            loadProducts(i);
+                        }
+
+                        pageElem.appendChild(pageLink);
+                        pagination.appendChild(pageElem);
+                    }
+
+                    return json;
+                })
+                .then(json => json.content)
+                .then(products => {
+                    const productList = document.querySelector("#product-list");
+                    productList.innerHTML = "";
+
+                    products.forEach(product => {
+                        const productElem = document.createElement("div");
+                        productElem.classList.add("col-4");
+
+                        productElem.innerHTML = `
+				          <div class="card mb-4">
+				          <div class="card-img-top square-image">
+				            <img src="/file/${product.images[0].imageName}" class="w-100" alt="${product.name}">
+				            </div>
+				            <div class="card-body">
+				              <h5 class="card-title">${product.name}</h5>
+				              <p class="card-text">${product.description}</p>
+				              <p class="card-text">
+				                <small class="text-muted">${product.price.toLocaleString('ko-KR')} 원</small>
+				              </p>
+				            </div>
+				          </div>
+				        `;
+
+                        productList.appendChild(productElem);
+                    });
+                })
+                .then(() => {
+                    $('#product-list').loading('stop');
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+        window.onload = function () {
+            loadProducts(0);
+        }
+	</script>
 	<!--        bootstrap5 상품, 설렉트샵 탭 -->
 	<div class="card">
 		<div class="card-body">
@@ -24,11 +99,23 @@
 							</li>
 						</ul>
 						<div class="tab-content" id="myTabContent">
-							<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-								...
+							<div class="tab-pane fade show active" id="product" role="tabpanel"
+							     aria-labelledby="product-tab">
+								<div class="container">
+									<div class="row" id="product-list">
+										<!-- Products will be dynamically added here -->
+									</div>
+									<div class="row" id="product-count">
+									</div>
+									<nav aria-label="Page navigation example">
+										<ul class="pagination justify-content-center">
+
+										</ul>
+									</nav>
+								</div>
 							</div>
-							<div class="tab-pane fade" id="product" role="tabpanel" aria-labelledby="product-tab">...
-							</div>
+
+
 							<div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">...
 							</div>
 						</div>

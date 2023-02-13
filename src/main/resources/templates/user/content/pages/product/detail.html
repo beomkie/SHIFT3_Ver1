@@ -14,6 +14,54 @@
         }
 	</style>
 
+	<script>
+		function dip(productId){
+			// ajax /dib/product/productId
+            let dibButton = $('#dipBtn');
+            let heartIcon = $('.icon-heart');
+
+			$.ajax({
+				url: '/dib/product/' + productId,
+				type: 'GET',
+				success: function () {
+                    dibButton.html('찜 해제');
+                    dibButton.attr('onclick', 'unDip(' + productId + ')');
+                    //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+					heartIcon.css('color', 'red');
+                    heartIcon.css('font-weight', '600');
+
+                    toastr.success('상품을 찜 하였습니다.', '');
+				},
+				error: function (error) {
+                    toastr.error('상품을 찜을 실패 하였습니다.', '');
+				}
+			});
+		}
+
+        function unDip(productId){
+            let dibButton = $('#dipBtn');
+            let heartIcon = $('.icon-heart');
+
+            $.ajax({
+                url: '/dib/product/remove/' + productId,
+                type: 'GET',
+                success: function () {
+                    dibButton.html('찜하기');
+                    dibButton.attr('onclick', 'dip(' + productId + ')');
+                    //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+                    // css remove
+                    heartIcon.css('color', '');
+                    heartIcon.css('font-weight', '');
+                    toastr.success('상품 찜을 해제하였습니다.', '');
+                },
+                error: function (error) {
+                    toastr.error('상품을 찜을 실패 하였습니다.', '');
+                }
+            });
+
+		}
+	</script>
+
 	<!-- START SECTION SHOP -->
 	<div class="section">
 		<div class="container">
@@ -86,8 +134,9 @@
 							<div class="col-4 pt-2 text-center">
 								<th:block th:if="${isDibs}">
 									<a class="add_wishlist" href="#">
-										<span class="me-2" style="font-weight: bold;"
-										      th:data-product-id="${product.id}">
+										<span class="me-2" th:id="dipBtn" style="font-weight: bold;"
+										      th:data-product-id="${product.id}"
+										      th:onclick="'unDip(' + ${product.id} + ')'">
 											찜 해제
 										</span>
 										<i class="icon-heart" style="color:red; font-weight: 600;"></i>
@@ -96,8 +145,10 @@
 
 								<th:block th:unless="${isDibs}">
 									<a class="add_wishlist" href="#">
-										<span class="me-2" style="font-weight: bold;"
-										      th:data-product-id="${product.id}">
+										<span class="me-2" id="dipBtn"
+										      style="font-weight: bold;"
+										      th:data-product-id="${product.id}"
+										      th:onclick="'dip(' + ${product.id} + ')'">
 											찜하기
 										</span>
 										<i class="icon-heart"></i>
