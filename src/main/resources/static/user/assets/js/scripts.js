@@ -971,7 +971,7 @@ function shopUnDip(shopId) {
         url: '/dib/shop/remove/' + shopId,
         type: 'GET',
         success: function () {
-            dibButton.attr('onclick', 'dip(' + shopId + ')');
+            dibButton.attr('onclick', 'shopDip(' + shopId + ')');
             //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
             // css remove
             heartIcon.css('color', '');
@@ -979,7 +979,7 @@ function shopUnDip(shopId) {
             toastr.success('편집샵 찜을 해제하였습니다.', '');
         },
         error: function (error) {
-            toastr.error('상품을 찜을 실패 하였습니다.', '');
+            toastr.error('편집샵 찜 해제를 실패 하였습니다.', '');
         }
     });
 

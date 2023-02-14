@@ -65,6 +65,17 @@ public class DibController {
         dibService.dibShop(account.getId(), shopId);
     }
 
+    @GetMapping("/dib/shop/remove/{shopId}")
+    public void shopUnDib(@PathVariable Integer shopId, @CurrentUser Account account) {
+        if (shopId == null)
+            throw new IllegalArgumentException("해당 샵이 존재하지 않습니다.");
+
+        if (account == null)
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+
+        dibService.removeDibShop(account.getId(), shopId);
+    }
+
     @GetMapping("/dib/shop/check/{shopId}")
     public ResponseEntity<String> checkShopDib(@PathVariable Integer shopId, @CurrentUser Account account) {
         if (shopId == null)
