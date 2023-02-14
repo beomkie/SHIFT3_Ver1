@@ -5,9 +5,6 @@
 
 
 <div layout:fragment="content" class="content">
-
-	<script th:src="@{/user/assets/js/shop-list.js}"></script>
-
 	<style>
         .address_filter span {
             width: 50px !important;
@@ -167,13 +164,18 @@
 
         .thumbnail {
             border-radius: 1.3em;
-            width: 4em;
-            height: 4em;
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            object-fit: cover;
         }
 
 	</style>
 	<script type="text/javascript"
 	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+
+	<script th:src="@{/user/assets/js/custom-overlay.js}"></script>
+	<script th:src="@{/user/assets/js/shop-list.js}"></script>
+
 	<script type="text/javascript">
         window.initMap = function () {
             let mapDiv = document.getElementById('naverMap');
@@ -191,7 +193,7 @@
         width: 100%;">
 		<div class="row h-100" id="main">
 			<div class="col-md-3 col-sm-12 p-4 side overflow-scroll" id="search"
-			     style="height:100vh">
+			     style="height:100vh;     padding-bottom: 80px!important;">
 				<div class="title mb-3 pc-show">지도</div>
 
 				<div class="row mb-3 g-0">
@@ -455,6 +457,8 @@
 					<!--					<p class="content" id="name"></p>-->
 
 
+					<input type="hidden" id="shopId" hidden>
+
 					<p class="title">주소</p>
 					<p class="content" id="address"></p>
 
@@ -476,8 +480,9 @@
 					</div>
 
 					<div class="row">
-						<p class="title">컨텐츠 피드</p>
-						<div id="feedLoading" class="spinner-grow text-primary m-2" role="status">
+						<p class="title" id="contentFeedTitle">컨텐츠 피드</p>
+
+						<div id="feedLoading" class="spinner-border text-primary m-3" role="status">
 							<span class="visually-hidden">Loading...</span>
 						</div>
 
@@ -491,9 +496,11 @@
                     function detailShop(shop) {
                         $("#shopDetail").show();
 
+                        let contentFeedTitle = $("#contentFeedTitle");
                         let feedLoading = $('#feedLoading');
 
                         feedLoading.show();
+                        contentFeedTitle.hide();
 
                         $('#shopDetail').loading({
                             theme: 'dark',
@@ -503,6 +510,7 @@
 
                         let dipBtn = $("#shopDetail #dipBtn");
 
+                        $("#shopDetail #shopId").val(shop.id);
                         $("#shopDetail #name").text(shop.name);
                         $("#shopDetail #address").text(shop.address);
                         $("#shopDetail #contact").text(shop.contactNumber);
@@ -572,7 +580,7 @@
                                     feedList.append(html);
                                     // });
                                 });
-
+                                contentFeedTitle.show();
                                 feedLoading.hide();
                                 // $('#contentFeedList').loading('stop');
                             }
