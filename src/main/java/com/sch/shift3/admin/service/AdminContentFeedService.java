@@ -43,6 +43,7 @@ public class AdminContentFeedService {
                                 connectedProducts.add(new ContentFeedProduct(null, contentFeed, item.getId()));
                             });
 
+        contentFeedRepository.save(contentFeed);
         contentFeedProductRepository.saveAll(connectedProducts);
     }
 

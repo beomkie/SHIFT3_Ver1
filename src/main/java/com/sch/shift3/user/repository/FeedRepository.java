@@ -53,11 +53,12 @@ public class FeedRepository{
 
     }
 
-    public List<ContentFeedProduct> findTop3ByFeedCategory(String category) {
+    public List<ContentFeed> findTop3ByFeedCategory(String category) {
+        QContentFeed feed = QContentFeed.contentFeed;
         return queryFactory
-                .selectFrom(QContentFeedProduct.contentFeedProduct)
-                .where(QContentFeedProduct.contentFeedProduct.feed.category.eq(category))
-                .orderBy(QContentFeedProduct.contentFeedProduct.id.desc())
+                .selectFrom(feed)
+                .where(feed.category.eq(category))
+                .orderBy(feed.id.desc())
                 .limit(3)
                 .fetch();
     }
