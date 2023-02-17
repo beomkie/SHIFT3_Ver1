@@ -1038,6 +1038,10 @@ button:focus:not(:focus-visible) {
 /*===================================*
   02.START HEADER STYLE
 *===================================*/
+.logo_light .logo_dark{
+	width: 100px !important;
+}
+
 .navbar-brand {
 	/*padding: 10px 0;*/
 	vertical-align: top;
