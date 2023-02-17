@@ -2,106 +2,209 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/user/layout/default_layout}" lang="ko">
 
-    <div layout:fragment="content" class="content">
+<div layout:fragment="content" class="content">
 
-        <style>
+	<style>
 
-             .sort_type span {
-                cursor: pointer;
-                text-transform: uppercase;
-                width: 6rem;
-                display: inline-block;
-                /*border: 2px solid #ddd;*/
-                text-align: center;
-                height: 32px;
-                line-height: 28px;
-                font-size: 14px;
-                margin-bottom: 3px;
-                color: black;
-                 font-weight: lighter;
+        .sort_type span {
+            cursor: pointer;
+            text-transform: uppercase;
+            width: 6rem;
+            display: inline-block;
+            /*border: 2px solid #ddd;*/
+            text-align: center;
+            height: 32px;
+            line-height: 28px;
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: black;
+            font-weight: lighter;
+        }
+
+        .sort_type span.active {
+            /*edited hun*/
+            /*border-color: #525151;*/
+            color: black;
+            font-weight: bold;
+            /*color: #fff;*/
+        }
+	</style>
+
+	<script>
+
+        // ajax /feed/search.do
+
+        $(function () {
+
+            window.feedSearchOption = {
+                keyword: '',
+                category: '전체',
+                sort: 'id,desc',
+                page: 1,
+                size: 9
+            };
+
+            window.feedItems = $('#feedItems');
+
+            window.searchFeed = function () {
+                window.feedItems.loading({
+                    theme: 'dark',
+                    message: '불러오는중...'
+                });
+
+                $.ajax({
+                    url: '/feed/search.do',
+                    type: 'GET',
+                    data: {
+                        keyword: feedSearchOption.keyword,
+                        sort: feedSearchOption.sort,
+                        page: feedSearchOption.page - 1,
+                        category: feedSearchOption.category,
+                        size: feedSearchOption.size
+                    },
+                    success: function (data) {
+                        let feedList = data.content;
+                        window.feedItems.loading('stop');
+                        feedItems.empty();
+
+                        if (feedList.length === 0) {
+                            feedItems.append(`<div class="col-12 text-center">검색 결과가 없습니다.</div>`);
+                            return;
+                        }
+
+                        for (const feed of feedList) {
+                            let feedHtml =
+                                `<div class="col-md-4 col-sm-6">
+	                            <div class="card w-100">
+	                                <div class="img-container43">
+	                                    <img src="/file/${feed.thumbnailFileName}"
+	                                         class="card-img-top rounded"
+	                                         alt="피드 썸네일 이미지">
+	                                </div>
+	                                <div class="card-body">
+	                                    <h5 class="card-title">${feed.title}</h5>
+	                                    <p class="card-text">${feed.description}</p>
+	                                    <a href="/feed/${feed.id}"
+	                                       class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+	                                </div>
+	                            </div>
+	                        </div>`;
+                            feedItems.append(feedHtml);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
             }
 
-            .sort_type span.active {
-                /*edited hun*/
-                /*border-color: #525151;*/
-                color: black;
-                font-weight: bold;
-                /*color: #fff;*/
-            }
-        </style>
+            window.onload = searchFeed;
+
+            const element = document.querySelector('form');
+            element.addEventListener('submit', event => {
+                $("#searchBtn").click();
+                event.preventDefault();
+            });
+        });
+	</script>
 
 
-        <div class="breadcrumb_section bg_gray page-title-mini">
-            <div class="container"><!-- STRART CONTAINER -->
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <div class="page-title">
-                            <h1>컨텐츠 피드</h1>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <ol class="breadcrumb justify-content-md-end">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active">Contents Feed</li>
-                        </ol>
-                    </div>
-                </div>
-            </div><!-- END CONTAINER-->
-        </div>
+	<div class="breadcrumb_section bg_gray page-title-mini">
+		<div class="container"><!-- STRART CONTAINER -->
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<div class="page-title">
+						<h1>컨텐츠 피드</h1>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<ol class="breadcrumb justify-content-md-end">
+						<li class="breadcrumb-item"><a href="/">Home</a></li>
+						<li class="breadcrumb-item active">Contents Feed</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- END CONTAINER-->
+	</div>
 
-        <div class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="row">
-                            <div class="col-7">
-                                <div class="pr_switch_wrap sort_type">
-                                    <label style="float: left; margin-right: 1rem">정렬 기준</label>
-                                    <div class="sort_type">
-                                        <span class="active">기본 정렬순</span>
-                                        <span class="">조회순</span>
-                                    </div>
-                                </div>
-                            </div>
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="row mb-3">
+						<div class="col-7">
+							<div class="pr_switch_wrap sort_type">
+								<label style="float: left; margin-right: 1rem">정렬 기준</label>
+								<div class="sort_type">
+									<span class="active"
+									      onclick="window.feedSearchOption.sort='id,desc'; searchFeed();">기본 정렬순</span>
+									<span class=""
+									      onclick="window.feedSearchOption.sort='hit,desc'; searchFeed();">조회순</span>
+								</div>
+							</div>
+						</div>
 
-                            <div class="col-5">
-                                <div class="widget">
-                                    <div class="search_form">
-                                        <form>
-                                            <input required="" class="form-control" placeholder="검색어를 입력하세요" type="text">
-                                            <button type="submit" title="Subscribe" class="btn icon_search" name="submit" value="Submit">
-                                                <i class="ion-ios-search-strong"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+						<div class="col-5">
+							<div class="widget">
+								<div class="search_form">
+									<form>
+										<input class="form-control" placeholder="검색어를 입력하세요" type="text"
+										       id="keyword">
+										<button type="button" class="btn icon_search" id="searchBtn"
+										        onclick="window.feedSearchOption.keyword = $('#keyword').val(); searchFeed();">
+											<i class="ion-ios-search-strong"></i>
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="feedItems">
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<!--						<div class="col-md-4 col-sm-6" th:each="feed: ${feedList}">
+													<div class="card w-100">
+														<div class="img-container43">
+															<img th:src="'/file/' + *{feed.getThumbnailFileName()}"
+																 class="card-img-top rounded"
+																 alt="피드 썸네일 이미지">
+														</div>
+														<div class="card-body">
+															<h5 class="card-title" th:text="${feed.title}"></h5>
+															<th:block>
+																<p class="card-text" th:text="${feed.description}">
+																</p>
+															</th:block>
+															<a th:href="'/feed/' + *{feed.id}"
+															   class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+														</div>
+													</div>
+												</div>-->
+					</div>
+				</div>
 
 
-                    <div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
-                        <div class="sidebar">
-                            <div class="widget">
-                                <h5 class="widget_title">카테고리</h5>
-                                <div class="tags">
-                                    <a href="#">ALL</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">카테고리</a>
-                                    <a href="#">기타</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+				<div class="col-lg-3 order-lg-first mt-4 pt-2 mt-lg-0 pt-lg-0">
+					<div class="sidebar">
+						<div class="widget">
+							<h5 class="widget_title">카테고리</h5>
+							<div class="tags" style="display:grid">
+								<a onclick="window.feedSearchOption.category = '전체'; searchFeed();">ALL</a>
+								<a onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
+								<a onclick="window.feedSearchOption.category = '전자제품'; searchFeed();">전자제품</a>
+								<a onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    </div>
+</div>
 
 
 </html>

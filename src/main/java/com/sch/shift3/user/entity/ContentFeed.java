@@ -42,6 +42,10 @@ public class ContentFeed {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @Builder.Default
+    @Column(name="hit")
+    private Integer hit = 0;
+
     public String getDescriptionNoHtml() {
         return Jsoup.parse(this.description).text();
     }
@@ -61,6 +65,14 @@ public class ContentFeed {
                 .category(category)
                 .thumbnailFileName(thumbnailFileName)
                 .createdAt(createdAt)
+                .hit(hit)
                 .build();
+    }
+
+    public void increaseHit() {
+        if (this.hit == null) {
+            this.hit = 0;
+        }
+        this.hit++;
     }
 }
