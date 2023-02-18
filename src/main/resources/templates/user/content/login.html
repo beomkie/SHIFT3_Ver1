@@ -3,68 +3,77 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/user/layout/default_layout}" lang="ko">
 
-    <div layout:fragment="content" class="content">
+<div layout:fragment="content" class="content">
 
-        <div class="login_register_wrap section" sec:authorize="!isAuthenticated()">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-md-10">
-                        <div class="login_wrap">
-                            <div class="padding_eight_all bg-white">
-                                <div class="heading_s1">
-                                    <h3>안녕하세요!</h3>
-                                    <span>SHIFT3에 오신 것을 환영합니다.</span>
-                                </div>
-                                <form th:action="@{/login.do}" method="post">
-                                    <div class="form-group mb-3">
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="이메일" required autofocus>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <input class="form-control" type="password" id="password"
-                                               name="password" placeholder="비밀번호" required>
-                                    </div>
-                                    <div class="login_footer form-group mb-3">
-                                        <div class="chek-form">
-                                            <div class="custome-checkbox">
-                                                <input class="form-check-input" type="checkbox" name="checkbox" id="emailSaveCheckbox" value="">
-                                                <label class="form-check-label" for="emailSaveCheckbox"><span>이메일 저장하기</span></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <button type="submit" class="btn btn-fill-out btn-block" name="login">Log in</button>
-                                        <p class="text-danger" th:if="${param.error}" th:text="'잘못된 이메일 혹은 비밀번호입니다.'"></p>
-                                    </div>
-                                </form>
-                                <div class="different_login">
-                                    <span> or</span>
-                                </div>
+	<div class="login_register_wrap section" sec:authorize="!isAuthenticated()">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-6 col-md-10">
+					<div class="login_wrap">
+						<div class="padding_eight_all bg-white">
+							<div class="heading_s1">
+								<h3>안녕하세요!</h3>
+								<span>SHIFT3에 오신 것을 환영합니다.</span>
+							</div>
+							<form th:action="@{/login.do}" method="post">
+								<div class="form-group mb-3">
+									<input type="text" class="form-control" id="username" name="username"
+									       placeholder="이메일" required autofocus>
+								</div>
+								<div class="form-group mb-3">
+									<input class="form-control" type="password" id="password"
+									       name="password" placeholder="비밀번호" required>
+								</div>
+								<div class="login_footer form-group mb-3">
+									<div class="chek-form">
+										<div class="custome-checkbox">
+											<input class="form-check-input" type="checkbox" name="checkbox"
+											       id="emailSaveCheckbox" value="">
+											<label class="form-check-label"
+											       for="emailSaveCheckbox"><span>이메일 저장하기</span></label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group mb-3">
+									<button type="submit" class="btn btn-fill-out btn-block" name="login">Log in
+									</button>
+									<p class="text-danger" th:if="${param.error}" th:text="'잘못된 이메일 혹은 비밀번호입니다.'"></p>
+								</div>
+							</form>
+							<div class="different_login">
+								<span> or</span>
+							</div>
 
-                                <ul class="row sns-login list_none text-center g-0">
-                                    <div class="col-4">
-                                        <li><a href="#"><i><img th:src="@{/user/assets/images/icon_kakaotalk_login.png}"/></i>카카오톡</a></li>
-                                    </div>
-                                    <div class="col-4">
-                                        <li><a href="#"><i><img th:src="@{/user/assets/images/icon_facebook_login.png}"/></i>페이스북</a></li>
-                                    </div>
-                                    <div class="col-4">
-                                        <li><a href="#"><i><img th:src="@{/user/assets/images/icon_naver_login.png}"/></i>네이버</a></li>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
+							<ul class="row sns-login list_none text-center g-0">
+								<div class="col-4">
+									<li>
+										<a href="https://kauth.kakao.com/oauth/authorize?client_id=10b4089090b3c8756eb564cabf6e1c81&redirect_uri=http://localhost:8080/login/oauth2/code/kakao&response_type=code"><i><img
+												th:src="@{/user/assets/images/icon_kakaotalk_login.png}"/></i>카카오톡</a>
+									</li>
+								</div>
+								<div class="col-4">
+									<li><a href="#"><i><img
+											th:src="@{/user/assets/images/icon_facebook_login.png}"/></i>페이스북</a></li>
+								</div>
+								<div class="col-4">
+									<li><a href="#"><i><img th:src="@{/user/assets/images/icon_naver_login.png}"/></i>네이버</a>
+									</li>
+								</div>
+							</ul>
+						</div>
+					</div>
 
-                        <div class="form-note text-center">아직 SHIFT3 회원이 아니세요? <a href="/signup">무료 회원가입</a></div>
-                        <div class="form-note text-center">아이디/비밀번호를 잊으셨나요? <a href="/forgot">아이디/비밀번호 찾기</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="form-note text-center">아직 SHIFT3 회원이 아니세요? <a href="/signup">무료 회원가입</a></div>
+					<div class="form-note text-center">아이디/비밀번호를 잊으셨나요? <a href="/forgot">아이디/비밀번호 찾기</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-        <div class="login_register_wrap section" sec:authorize="isAuthenticated()">
-            <h3>이미 로그인 되어 있습니다.</h3>
-        </div>
-    </div>
+	<div class="login_register_wrap section" sec:authorize="isAuthenticated()">
+		<h3>이미 로그인 되어 있습니다.</h3>
+	</div>
+</div>
 
 
 </html>
