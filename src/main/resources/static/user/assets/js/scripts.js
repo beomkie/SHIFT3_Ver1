@@ -852,8 +852,6 @@ PAGE JS
 
             let diff = popupIdList.filter(x => !disabledPopupIdList.includes(x));
 
-            console.log(diff);
-
             // open first popup
             if (diff.length > 0) {
                 $("div[data-popup-id='" + diff[cnt] + "']").modal("show");
@@ -873,7 +871,7 @@ PAGE JS
 
                 cnt++;
             });
-        }, 1500);
+        }, 1200);
     });
 
 
