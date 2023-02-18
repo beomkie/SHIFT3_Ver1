@@ -1,9 +1,13 @@
 package com.sch.shift3.user.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sch.shift3.user.entity.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,11 +22,61 @@ public class FeedRepository{
 
 
     public ContentFeed getFeedDetail(int id){
+        // increase hit count
+        ContentFeed feed = contentFeedRepository.findById(id).orElse(null);
+        if(feed != null){
+            feed.increaseHit();
+            contentFeedRepository.save(feed);
+        }
+
         return queryFactory
                 .selectFrom(QContentFeed.contentFeed)
                 .where(QContentFeed.contentFeed.id.eq(id))
                 .fetchOne();
     }
+
+    public PageImpl<ContentFeed> searchFeed(String keyword, String category, Pageable pageable) {
+        QContentFeed feed = QContentFeed.contentFeed;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if (keyword != null) {
+            builder.and(feed.title.contains(keyword)
+                        .or(feed.description.contains(keyword)));
+        }
+
+        if (category != null && !category.equals("전체")) {
+            builder.and(feed.category.eq(category));
+        }
+
+        OrderSpecifier<?> orderSpecifier = feed.id.desc();
+
+        if (pageable.getSort().getOrderFor("id") != null){
+            orderSpecifier = pageable.getSort().getOrderFor("id").isAscending() ?  feed.id.asc() : feed.id.desc();
+        } else if (pageable.getSort().getOrderFor("hit") != null){
+            orderSpecifier = pageable.getSort().getOrderFor("hit").isAscending() ?  feed.hit.asc() : feed.hit.desc();
+        } else if (pageable.getSort().getOrderFor("createdAt") != null){
+            orderSpecifier = pageable.getSort().getOrderFor("createdAt").isAscending() ?  feed.createdAt.asc() : feed.createdAt.desc();
+        }
+
+        List<ContentFeed> feeds = queryFactory
+                .selectFrom(feed)
+                .where(builder)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(orderSpecifier)
+                .fetch();
+
+
+        Long count = queryFactory
+                .select(feed.count())
+                .where(builder)
+                .from(feed)
+                .fetchOne();
+
+        return new PageImpl<>(feeds, pageable, count);
+    }
+
+
 
     public List<Product> getFeedProducts(int id){
         QContentFeedProduct qContentFeedProduct = QContentFeedProduct.contentFeedProduct;
