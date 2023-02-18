@@ -9,6 +9,15 @@
 
 window.infowindow = [];
 
+window.removeAllMarker = function () {
+    infowindow.forEach(function (e) {
+        let ele = e.getElement();
+        $(ele).remove();
+    });
+
+    window.infowindow = [];
+}
+
 window.drawMap = function (shop) {
     let lat = shop.latitude;
     let lng = shop.longitude;
@@ -43,6 +52,7 @@ window.drawMap = function (shop) {
                 <img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">
             </div> 
         </div>`,
+
         htmlMarker = new naver.maps.Marker({
             position: position,
             map: map,
@@ -52,6 +62,8 @@ window.drawMap = function (shop) {
                 anchor: new naver.maps.Point(11, 30)
             }
         }), elHtmlMarker = htmlMarker.getElement();
+
+    window.infowindow.push(htmlMarker);
 
     $(elHtmlMarker).on('click', 'img', function (e) {
         if ($("#shopDetail #shopId").val() != shop.id) {

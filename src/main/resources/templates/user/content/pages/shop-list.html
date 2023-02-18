@@ -320,6 +320,8 @@
                                 });
 
                                 function search() {
+
+                                    removeAllMarker();
                                     // ajax
                                     $.ajax({
                                         url: '/shop-list/search.do',
