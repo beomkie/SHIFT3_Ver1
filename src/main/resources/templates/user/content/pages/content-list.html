@@ -28,6 +28,11 @@
             font-weight: bold;
             /*color: #fff;*/
         }
+
+        .tags a.active {
+            color: white;
+            background-color: #001c63;
+        }
 	</style>
 
 	<script>
@@ -192,10 +197,19 @@
 						<div class="widget">
 							<h5 class="widget_title">카테고리</h5>
 							<div class="tags" style="display:grid">
-								<a onclick="window.feedSearchOption.category = '전체'; searchFeed();">ALL</a>
+								<a class="active" onclick="window.feedSearchOption.category = '전체'; searchFeed();">전체
+									보기</a>
 								<a onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
 								<a onclick="window.feedSearchOption.category = '전자제품'; searchFeed();">전자제품</a>
 								<a onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
+								<script>
+                                    $(document).ready(function () {
+                                        $('.tags a').click(function () {
+                                            $('.tags a').removeClass('active');
+                                            $(this).addClass('active');
+                                        });
+                                    });
+								</script>
 							</div>
 						</div>
 					</div>

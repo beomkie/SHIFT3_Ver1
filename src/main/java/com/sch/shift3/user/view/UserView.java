@@ -5,6 +5,7 @@ import com.sch.shift3.admin.service.PopupService;
 import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
 import com.sch.shift3.user.entity.Account;
+import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.repository.ShopRepository;
 import com.sch.shift3.user.service.DibService;
 import com.sch.shift3.user.service.FeedService;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -143,7 +146,11 @@ public class UserView {
     @GetMapping("/feed/{id}")
     public String feedPage(Model model, @PathVariable Integer id){
         model.addAttribute("disableLoading", true);
-        model.addAttribute("feed", feedService.getFeedById(id));
+        ContentFeed feed = feedService.getFeedById(id);
+        model.addAttribute("feed", feed);
+        List<ContentFeed> resemblanceFeedList = feedService.getResemblanceFeed(feed, 3);
+        log.info("resemblanceFeedList : {}", resemblanceFeedList);
+        model.addAttribute("relatedFeedList", resemblanceFeedList);
         model.addAttribute("products", productService.getProductsByFeed(id));
 
         return "user/content/pages/feed/read";
