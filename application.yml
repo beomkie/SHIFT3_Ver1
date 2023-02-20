@@ -1,19 +1,33 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 'peneksoft@gmail.com'
+    password: 'roqxrsaenjwefeup'
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   mvc:
     favicon:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://139.162.77.184/shift3?zeroDateTimeBehavior=convertToNull"
+    url: "jdbc:mysql://211.42.156.199/shift3?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC"
     username: "root"
-    password: "Peneksoftsz00!"
+    password: "shift32022@"
   jpa:
     database: mysql
     hibernate:
-      dialect: org.hibernate.dialect.MySQL8Dialect
+      driverClassName: com.mysql.cj.jdbc.Driver
+      dialect: com.sch.shift3.config.CustomDialect
       ddl-auto: none #create update none
       format_sql: true
       use_sql_comment: true
+      jdbc:
+        time_zone: UTC
     show-sql: true
   # file upload max size (파일 업로드 크기 설정)
   servlet:
@@ -33,3 +47,6 @@ spring:
 
 server:
   port: 8080
+
+
+
