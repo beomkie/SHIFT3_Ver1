@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Slf4j
 public class ImageUtil {
-    static String uploadPath = "src/main/resources/static/imageFile/";
+    static String uploadPath = "src/main/resources/static/ImageFile/";
 
     public enum Uses {
         SHOP_IMAGE(800),
