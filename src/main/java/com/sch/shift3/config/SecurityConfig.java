@@ -1,5 +1,6 @@
 package com.sch.shift3.config;
 
+import com.sch.shift3.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
@@ -16,8 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig {
-
+    private final CustomOAuth2UserService oAuth2UserService;
     private final CustomUserDetailsService customUserDetails;
+    private final OAuth2SuccessHandler  oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,14 +47,24 @@ public class SecurityConfig {
             .failureUrl("/login?error=true")
             .permitAll()
 
+//            .and()
+//            .oauth2Login()
+//            .loginPage("/login")
+//            .userInfoEndpoint()
+//                .userService(kakaoOAuth2UserService())
+
             .and()
             .logout()
             .logoutSuccessUrl("/")
-            .invalidateHttpSession(true);
-//            .and()
-//            .oauth2Login()
-//            .userInfoEndpoint();
-//            .userService(customOAuth2UserService);
+            .invalidateHttpSession(true)
+
+
+            .and()
+            .oauth2Login().loginPage("/login")
+                .successHandler(oAuth2SuccessHandler)
+                .failureUrl("/login?oauthError=true")
+            .userInfoEndpoint()
+            .userService(oAuth2UserService);
 
         return http.build();
     }

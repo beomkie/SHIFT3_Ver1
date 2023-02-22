@@ -115,7 +115,7 @@
                 background: white;
                 position: absolute;
                 left: 25vw;
-                z-index: 99999999;
+                z-index: 500;
                 height: 100vh;
                 border-right: 2px solid #e0e0e0;
                 border-top: 2px solid #e0e0e0;
@@ -185,6 +185,14 @@
                 maxZoom: 16,
                 minZoom: 6,
             });
+
+            // when dom is ready
+            $(document).ready(function () {
+                // get all shop-item data-shop
+                $('.shop-item').map(function () {
+                    window.drawMap($(this).data('shop'));
+                })
+            });
         }
 	</script>
 
@@ -216,7 +224,7 @@
 					</div>
 
 					<div class="col-lg-3 col-md-4 col-sm-3 col-3">
-						<button type="button" class="form-control btn-shiftBtn">검색</button>
+						<button type="button" class="form-control btn-shiftBtn" onclick="search()">검색</button>
 					</div>
 
 				</div>
@@ -388,6 +396,7 @@
 							<!--/*@thymesVar id="shop" type="com.sch.shift3.user.entity.SelectShop"*/-->
 							<div class="shop-item card mb-3" th:each="shop : ${shopList}"
 							     th:data-shop="${shop.toJson()}">
+
 								<div class="row g-0">
 									<div class="col-md-4">
 										<!--								<img th:unless="${Object.nonNull(shop.imageSelectShops)}"-->
@@ -418,7 +427,7 @@
 				</div>
 			</div>
 			<div class="col-md-9 col-sm-12 map" id="map">
-				<div id="shopDetail" class="hoverMap p-4" style="display:none">
+				<div id="shopDetail" class="hoverMap p-4" style="display:none; overflow-y: scroll;">
 					<div class="close float-end" onclick="$(this).parent().hide();">
 						<i class="fas fa-times"></i>
 					</div>

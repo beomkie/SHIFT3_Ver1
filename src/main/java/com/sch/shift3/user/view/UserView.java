@@ -38,20 +38,12 @@ public class UserView {
     @GetMapping("/")
     public String mainPage(Model model){
 
-        /*List<PopupDto> popupList = new ArrayList<>();
-        List<ContentFeed> recentFeed = new ArrayList<>();
-        List<ContentFeedProduct> clothes_category = new ArrayList<>();
-
-        model.addAttribute("popupList", popupList);
-        model.addAttribute("recentFeed", recentFeed);
-        model.addAttribute("clothes_category", clothes_category);*/
-
-
         model.addAttribute("disableLoading", true);
         model.addAttribute("popupList", popupService.getAllPopupList());
         model.addAttribute("recentFeed", feedService.getRecentFeed());
         // category Feed
         model.addAttribute("clothes_category", feedService.getFeedByCategory("옷"));
+        model.addAttribute("ele_category", feedService.getFeedByCategory("전자기기"));
 
         return "user/content/main";
     }
@@ -62,7 +54,8 @@ public class UserView {
     }
 
     @GetMapping("/introduce")
-    public String introducePage() {
+    public String introducePage(Model model) {
+        model.addAttribute("disableLoading", true);
         return "user/content/pages/introduce";
     }
 
@@ -72,8 +65,15 @@ public class UserView {
         return "user/content/login";
     }
 
+    @GetMapping("/signup")
+    public String signupPage(Model model) {
+        model.addAttribute("disableLoading", true);
+        return "user/content/signup";
+    }
+
     @GetMapping("/forgot")
-    public String forgotPage(){
+    public String forgotPage(Model model){
+        model.addAttribute("disableLoading", true);
         return "user/content/forgot";
     }
 

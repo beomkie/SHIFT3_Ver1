@@ -90,6 +90,34 @@
             font-weight: bold;
         }
 
+        .category {
+
+        }
+
+        .title {
+            color: white;
+            background: black;
+            border-radius: 0.3em;
+            padding: 0.3em;
+        }
+
+
+        /*mobile*/
+        @media screen and (max-width: 990px) {
+            .title {
+                font-size: 1.7em;
+                word-break: keep-all;
+            }
+        }
+
+        #write_section div {
+            width: auto !important;
+        }
+
+        #write_section p {
+            width: auto !important;
+        }
+
 	</style>
 
 	<div class="feed_section">
@@ -101,37 +129,37 @@
 	</div>
 
 	<script>
-        var img = document.getElementById("banner-img");
-        var colorThief = new ColorThief();
-        img.onload = function () {
-            var centerX = img.width / 2;
-            var centerY = img.height / 2;
-            var sampleSize = 50;
-            var canvas = document.createElement("canvas");
-            canvas.width = sampleSize;
-            canvas.height = sampleSize;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, centerX - sampleSize / 2, centerY - sampleSize / 2, sampleSize, sampleSize, 0, 0, sampleSize, sampleSize);
-            var sampleData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
-            var red = 0;
-            var green = 0;
-            var blue = 0;
-            for (var i = 0; i < sampleData.length; i += 4) {
-                red += sampleData[i];
-                green += sampleData[i + 1];
-                blue += sampleData[i + 2];
-            }
-            var numPixels = sampleSize * sampleSize;
-            red = Math.floor(red / numPixels);
-            green = Math.floor(green / numPixels);
-            blue = Math.floor(blue / numPixels);
-            var avgColor = (red + green + blue) / 3;
-            console.log(avgColor)
-            if (avgColor <= 128) {
-                document.getElementById("category").style.color = "white";
-                document.getElementById("title").style.color = "white";
-            }
-        }
+        /*        var img = document.getElementById("banner-img");
+				var colorThief = new ColorThief();
+				img.onload = function () {
+					var centerX = img.width / 2;
+					var centerY = img.height / 2;
+					var sampleSize = 50;
+					var canvas = document.createElement("canvas");
+					canvas.width = sampleSize;
+					canvas.height = sampleSize;
+					var ctx = canvas.getContext("2d");
+					ctx.drawImage(img, centerX - sampleSize / 2, centerY - sampleSize / 2, sampleSize, sampleSize, 0, 0, sampleSize, sampleSize);
+					var sampleData = ctx.getImageData(0, 0, sampleSize, sampleSize).data;
+					var red = 0;
+					var green = 0;
+					var blue = 0;
+					for (var i = 0; i < sampleData.length; i += 4) {
+						red += sampleData[i];
+						green += sampleData[i + 1];
+						blue += sampleData[i + 2];
+					}
+					var numPixels = sampleSize * sampleSize;
+					red = Math.floor(red / numPixels);
+					green = Math.floor(green / numPixels);
+					blue = Math.floor(blue / numPixels);
+					var avgColor = (red + green + blue) / 3;
+					console.log(avgColor)
+					if (avgColor <= 128) {
+						document.getElementById("category").style.color = "white";
+						document.getElementById("title").style.color = "white";
+					}
+				}*/
 	</script>
 
 	<div id="column_section" class="section mb-3">
@@ -156,7 +184,8 @@
 					<div class="product-info">
 						<div class="product-name" th:text="${product.name}"></div>
 						<div class="product-price"
-						     th:text="${product.price} + '원'"></div>
+						     th:with="price=${#numbers.formatInteger(product.price.doubleValue(), 0)}"
+						     th:text="${#numbers.formatCurrency(price)}"></div>
 					</div>
 				</div>
 				<div class="text-center">
@@ -172,7 +201,7 @@
 			<h3>유사한 피드</h3>
 			<hr/>
 
-			<div class="card-group d-flex flex-wrap p-3">
+			<div class="card-group flex-wrap p-3">
 				<div class="card" th:each="relatedFeed : ${relatedFeedList}">
 					<div class="img-container43">
 						<img th:src="'/file/' + ${relatedFeed.thumbnailFileName}" class="card-img-top rounded"

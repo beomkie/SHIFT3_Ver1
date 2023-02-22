@@ -29,6 +29,9 @@ dependencies {
     // == 스프링 부트 3.0 이상 ==
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     implementation 'org.json:json:20220924'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.0.2'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:3.0.2'
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
@@ -44,7 +47,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.31'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.32'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -33,6 +33,13 @@
             color: white;
             background-color: #001c63;
         }
+
+        /*mobile*/
+        @media (max-width: 767px) {
+            #search-menu div[class^="col-"] {
+                width: 100%;
+            }
+        }
 	</style>
 
 	<script>
@@ -136,7 +143,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9">
-					<div class="row mb-3">
+					<div class="row mb-3" id="search-menu">
 						<div class="col-7">
 							<div class="pr_switch_wrap sort_type">
 								<label style="float: left; margin-right: 1rem">정렬 기준</label>
@@ -200,7 +207,7 @@
 								<a class="active" onclick="window.feedSearchOption.category = '전체'; searchFeed();">전체
 									보기</a>
 								<a onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
-								<a onclick="window.feedSearchOption.category = '전자제품'; searchFeed();">전자제품</a>
+								<a onclick="window.feedSearchOption.category = '전자기기'; searchFeed();">전자기기</a>
 								<a onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
 								<script>
                                     $(document).ready(function () {

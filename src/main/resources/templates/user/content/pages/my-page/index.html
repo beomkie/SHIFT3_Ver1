@@ -8,6 +8,17 @@
 		<div class="card-header">
 			회원 정보
 		</div>
+		<div class="welcome"></div>
+		<script>
+            // get parameter 'firstLogin'
+            var firstLogin = new URLSearchParams(window.location.search).get('firstLogin');
+            if (firstLogin) {
+                $('.welcome').html(`
+					<div class="alert alert-success mb-0" role="alert">환영합니다. 회원가입을 축하드립니다 🎉</div>
+					<div class="alert alert-warning" role="alert">원할한 서비스 이용을 위해 회원정보를 입력 후 수정버튼을 눌러주세요.</div>
+					`);
+            }
+		</script>
 		<div class="card-body">
 			<h5 class="card-title">개발중..</h5>
 			<p class="card-text">개발중입니다.</p>

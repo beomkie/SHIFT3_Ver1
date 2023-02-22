@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+
+	<script>
+        window.verifyEmail = function () {
+            $("#emailVerifyDiv").css("display", "block");
+
+        }
+	</script>
+
+	<div class="login_register_wrap section" sec:authorize="!isAuthenticated()">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-6 col-md-10">
+					<div class="login_wrap">
+						<div class="padding_eight_all bg-white">
+							<div class="heading_s1">
+								<h3>회원가입</h3>
+							</div>
+							<form action="/signup.do" method="post">
+
+								<div class="row">
+
+									<div class="form-group mb-4">
+										<input class="form-control" type="text" id="name" name="name"
+										       placeholder="이름" required="">
+									</div>
+
+									<div class="col-7 form-group mb-2">
+										<input type="text" required="" class="form-control" name="email"
+										       placeholder="이메일">
+										<span id="email-muted" class="text-muted">로그인에 사용할 이메일을 적어주세요.</span>
+									</div>
+
+									<div class="col-5 form-group">
+										<button type="button" class="btn btn-block btn-gray" name="verifyEmail"
+										        onclick="window.verifyEmail()">인증번호 발송
+										</button>
+									</div>
+
+									<div id="emailVerifyDiv" class="col-12 form-group mb-4" style="display:none">
+										<input type="text" required="" class="form-control" name="emailCode"
+										       placeholder="이메일 인증번호">
+										<span class="text-muted">인증번호가 전송되었습니다. 유효시간 내로 가입해주세요.</span><br/>
+										<span>유효시간 : <span id="emailVerifyTime"
+										                   class="text-warning">10:00</span>
+											</span>
+									</div>
+
+
+									<div class="form-group mb-3">
+										<input class="form-control" type="password" id="password" name="password"
+										       placeholder="비밀번호" required="">
+									</div>
+									<div class="form-group mb-3">
+										<input class="form-control" type="password" id="passwordChk" name="passwordChk"
+										       placeholder="비밀번호 확인" required="">
+									</div>
+
+									<div class="form-group mb-3">
+										<button type="submit" class="btn btn-fill-out btn-block" name="login">회원가입
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block sec:authorize="isAuthenticated()">
+		<script>
+            // move location to /
+            window.location.href = "/";
+		</script>
+	</th:block>
+</div>
+
+
+</html>

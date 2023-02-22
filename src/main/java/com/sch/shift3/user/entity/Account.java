@@ -2,10 +2,12 @@ package com.sch.shift3.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "account")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
@@ -14,26 +16,32 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "phone_number", nullable = false, length = 15)
+    @Column(name = "phone_number", length = 15)
     private String phoneNumber;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 80)
+    @Column(name = "password", length = 80)
     private String password;
 
+    @Builder.Default
     @Column(name = "role", length = 15)
-    private String role;
+    private String role = "ROLE_USER";
 
     @Column(name = "ban")
-    private Boolean ban;
+    @Builder.Default
+    private Boolean ban = false;
 
-    @Column(name = "information_to_third_parties", nullable = false)
+    @Builder.Default
+    @Column(name = "information_to_third_parties")
     private Boolean informationToThirdParties = false;
 
-    @Column(name = "name", nullable = false, length = 15)
+    @Column(name = "name", length = 15)
     private String name;
+
+    @Column(name = "provider", length = 15)
+    private String provider;
 
     public Integer getId() {
         return id;
@@ -99,4 +107,7 @@ public class Account {
         this.name = name;
     }
 
+    public boolean isFirstLogin() {
+        return this.name == null || this.phoneNumber == null;
+    }
 }

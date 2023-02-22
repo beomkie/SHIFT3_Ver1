@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+      layout:decorate="~{/user/layout/default_layout}" lang="ko"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div layout:fragment="content" class="content">
 
@@ -11,55 +12,67 @@
                 width: 100% !important;
                 margin-bottom: 2rem !important;
             }
+
+            .price {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem !important;
+            }
+
+            #related_feed .col-4 {
+                width: 50% !important;
+            }
         }
 	</style>
 
 	<script>
-/*		function dip(productId){
-			// ajax /dib/product/productId
-            let dibButton = $('#dipBtn');
-            let heartIcon = $('.icon-heart');
+        /*		function dip(productId){
+					// ajax /dib/product/productId
+					let dibButton = $('#dipBtn');
+					let heartIcon = $('.icon-heart');
 
-			$.ajax({
-				url: '/dib/product/' + productId,
-				type: 'GET',
-				success: function () {
-                    dibButton.html('찜 해제');
-                    dibButton.attr('onclick', 'unDip(' + productId + ')');
-                    //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
-					heartIcon.css('color', 'red');
-                    heartIcon.css('font-weight', '600');
+					$.ajax({
+						url: '/dib/product/' + productId,
+						type: 'GET',
+						success: function () {
+							dibButton.html('찜 해제');
+							dibButton.attr('onclick', 'unDip(' + productId + ')');
+							//<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+							heartIcon.css('color', 'red');
+							heartIcon.css('font-weight', '600');
 
-                    toastr.success('상품을 찜 하였습니다.', '');
-				},
-				error: function (error) {
-                    toastr.error('상품을 찜을 실패 하였습니다.', '');
+							toastr.success('상품을 찜 하였습니다.', '');
+						},
+						error: function (error) {
+							toastr.error('상품을 찜을 실패 하였습니다.', '');
+						}
+					});
 				}
-			});
-		}
 
-        function unDip(productId){
-            let dibButton = $('#dipBtn');
-            let heartIcon = $('.icon-heart');
+				function unDip(productId){
+					let dibButton = $('#dipBtn');
+					let heartIcon = $('.icon-heart');
 
-            $.ajax({
-                url: '/dib/product/remove/' + productId,
-                type: 'GET',
-                success: function () {
-                    dibButton.html('찜하기');
-                    dibButton.attr('onclick', 'dip(' + productId + ')');
-                    //<i class="icon-heart" style="color:red; font-weight: 600;"></i>
-                    // css remove
-                    heartIcon.css('color', '');
-                    heartIcon.css('font-weight', '');
-                    toastr.success('상품 찜을 해제하였습니다.', '');
-                },
-                error: function (error) {
-                    toastr.error('상품을 찜을 실패 하였습니다.', '');
-                }
-            });
+					$.ajax({
+						url: '/dib/product/remove/' + productId,
+						type: 'GET',
+						success: function () {
+							dibButton.html('찜하기');
+							dibButton.attr('onclick', 'dip(' + productId + ')');
+							//<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+							// css remove
+							heartIcon.css('color', '');
+							heartIcon.css('font-weight', '');
+							toastr.success('상품 찜을 해제하였습니다.', '');
+						},
+						error: function (error) {
+							toastr.error('상품을 찜을 실패 하였습니다.', '');
+						}
+					});
 
-		}*/
+				}*/
 	</script>
 
 	<!-- START SECTION SHOP -->
@@ -70,15 +83,25 @@
 					<div class="product-image">
 						<div class="product_img_box">
 							<img id="product_img" th:src="'/file/' + ${product.images[0].imageName}"
-							     data-zoom-image="assets/images/product_zoom_img1.jpg" alt="product_img1"/>
+							     th:data-zoom-image="'/file/' + ${product.images[0].imageName}" alt="product_img1"/>
 							<a href="#" class="product_img_zoom" title="Zoom">
 								<span class="linearicons-zoom-in"></span>
 							</a>
 						</div>
-						<div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4"
+						<div id="pr_item_gallery"
+						     class="product_gallery_item slick_slider"
+						     th:data-slides-to-show="${product.images.size()}"
 						     data-slides-to-scroll="1" data-infinite="false">
-							<div class="item" th:if="${product.images.size() >= 2}">
+							<div class="item" th:if="${product.images.size() >= 1}">
 								<a href="#" class="product_gallery_item active"
+								   th:data-image="'/file/' + ${product.images[0].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[0].imageName}">
+									<img th:src="'/file/' + ${product.images[0].imageName}"
+									     alt="img1"/>
+								</a>
+							</div>
+							<div class="item" th:if="${product.images.size() >= 2}">
+								<a href="#" class="product_gallery_item"
 								   th:data-image="'/file/' + ${product.images[1].imageName}"
 								   th:data-zoom-image="'/file/' + ${product.images[1].imageName}">
 									<img th:src="'/file/' + ${product.images[1].imageName}"
@@ -106,7 +129,23 @@
 								   th:data-image="'/file/' + ${product.images[4].imageName}"
 								   th:data-zoom-image="'/file/' + ${product.images[4].imageName}">
 									<img th:src="'/file/' + ${product.images[4].imageName}"
-									     alt="img3"/>
+									     alt="img4"/>
+								</a>
+							</div>
+							<div class="item" th:if="${product.images.size() >= 6}">
+								<a href="#" class="product_gallery_item"
+								   th:data-image="'/file/' + ${product.images[5].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[5].imageName}">
+									<img th:src="'/file/' + ${product.images[5].imageName}"
+									     alt="img5"/>
+								</a>
+							</div>
+							<div class="item" th:if="${product.images.size() >= 7}">
+								<a href="#" class="product_gallery_item"
+								   th:data-image="'/file/' + ${product.images[6].imageName}"
+								   th:data-zoom-image="'/file/' + ${product.images[6].imageName}">
+									<img th:src="'/file/' + ${product.images[6].imageName}"
+									     alt="img6"/>
 								</a>
 							</div>
 						</div>
@@ -114,16 +153,18 @@
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<div class="pr_detail">
-						<div class="product_description">
+						<div class="product_description row" style="width: 100%; word-break: break-word;">
 							<h4 class="product_title" th:text="${product.name}"></h4>
 							<!--							<div class="product_price">-->
-							<span class="price" th:text="${product.price}"></span>
+							<span class="price"
+							      th:with="price=${#numbers.formatInteger(product.price.doubleValue(), 0)}"
+							      th:text="${#numbers.formatCurrency(price)}"></span>
 							<!--							</div>-->
 
 							<br/>
 
-							<div class="pr_desc" th:inline="text">
-								<div class="subtitle text-black" style="font-size: 1.4rem;">
+							<div class="pr_desc mb-1" th:inline="text">
+								<div class="subtitle text-black mb-2" style="font-size: 1.4rem;">
 									상품 설명
 								</div>
 								<p th:remove="tag" th:text="${product.description}"></p>
@@ -132,33 +173,43 @@
 						<hr/>
 						<div class="row">
 							<div class="col-4 pt-2 text-center">
-								<th:block th:if="${isDibs}">
-									<a class="add_wishlist" href="#">
-										<span class="me-2" th:id="dipBtn" style="font-weight: bold;"
-										      th:data-product-id="${product.id}"
-										      th:onclick="'unDip(' + ${product.id} + ')'">
-											찜 해제
-										</span>
-										<i class="icon-heart" style="color:red; font-weight: 600;"></i>
-									</a>
-								</th:block>
+								<th:block sec:authorize="isAuthenticated()">
+									<th:block th:if="${isDibs}">
+										<a class="add_wishlist" href="#">
+											<span class="me-2" th:id="dipBtn" style="font-weight: bold;"
+											      th:data-product-id="${product.id}"
+											      th:onclick="'unDip(' + ${product.id} + ')'">
+												찜 해제
+											</span>
+											<i class="icon-heart" style="color:red; font-weight: 600;"></i>
+										</a>
+									</th:block>
 
-								<th:block th:unless="${isDibs}">
-									<a class="add_wishlist" href="#">
-										<span class="me-2" id="dipBtn"
-										      style="font-weight: bold;"
-										      th:data-product-id="${product.id}"
-										      th:onclick="'dip(' + ${product.id} + ')'">
-											찜하기
-										</span>
-										<i class="icon-heart"></i>
-									</a>
+									<th:block th:unless="${isDibs}">
+										<a class="add_wishlist" href="#">
+											<span class="me-2" id="dipBtn"
+											      style="font-weight: bold;"
+											      th:data-product-id="${product.id}"
+											      th:onclick="'dip(' + ${product.id} + ')'">
+												찜하기
+												<i class="icon-heart"></i>
+											</span>
+										</a>
+									</th:block>
 								</th:block>
 							</div>
 
 							<div class="col-8">
 								<div class="cart_btn">
-									<a class="btn btn-more" th:href="${product.url}" target="_blank">
+									<a sec:authorize="isAuthenticated()" class="btn btn-more" th:href="${product.url}"
+									   target="_blank">
+										구매링크 이동
+										<i class="icon-arrow-right"></i>
+									</a>
+
+									<a sec:authorize="isAnonymous()" class="btn btn-more"
+									   onclick="alert('로그인 후 이용 가능합니다.')"
+									   target="_blank">
 										구매링크 이동
 										<i class="icon-arrow-right"></i>
 									</a>
@@ -178,37 +229,70 @@
 			<div class="row">
 				<div class="col-6">
 					<div class="heading_s1">
-						<h3>편집샵 정보</h3>
-						<p th:text="${product.selectShop.name}"></p>
-						<p th:text="${product.selectShop.introduce}"></p>
-						<p th:text="${product.selectShop.operatingTime}"></p>
-						<p th:text="${product.selectShop.contactNumber}"></p>
-					</div>
+						<h3 class="mb-2">편집샵 정보</h3>
+						<!--						<p th:text="${product.selectShop.name}"></p>-->
+						<!--						<p th:text="${product.selectShop.introduce}"></p>-->
+						<!--						<p th:text="${product.selectShop.operatingTime}"></p>-->
+						<!--						<p th:text="${product.selectShop.contactNumber}"></p>-->
 
+						<!--						vertical table-->
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<tbody>
+								<tr>
+									<th scope="row">상호명</th>
+									<td th:text="${product.selectShop.name}"></td>
+								</tr>
+								<tr>
+									<th scope="row">한줄소개</th>
+									<td th:text="${product.selectShop.introduce}"></td>
+								</tr>
+								<tr>
+									<th scope="row">운영시간</th>
+									<td th:text="${product.selectShop.operatingTime}"></td>
+								</tr>
+								<tr>
+									<th scope="row">연락처</th>
+									<td th:text="${product.selectShop.contactNumber}"></td>
+								</tr>
+								<tr>
+									<th scope="row">주소지</th>
+									<td th:utext="${product.selectShop.streetAddressClear} +
+									 ${(product.selectShop.streetAddressDetail != '') ? '<br/>' + product.selectShop.streetAddressDetail : ''} "></td>
+								</tr>
+								</tbody>
+							</table>
 
-				</div>
-
-				<div class="col-6">
-					<div class="heading_s1">
-						<h3>연관 컨텐츠 피드</h3>
-						<div class="card-group flex-wrap">
-							<div class="card" th:each="feed : ${relatedFeed}">
-								<div class="img-container43">
-									<img th:src="'/file/' + ${feed.thumbnailFileName}"
-									     class="card-img-top rounded" alt="피드 썸네일 이미지">
-								</div>
-								<div class="card-body">
-									<h5 class="card-title" th:text="${feed.title}"></h5>
-<!--									<p class="card-text" th:text="${feed.description}"></p>-->
-									<a th:href="'/feed/' + ${feed.id} " class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
-								</div>
-							</div>
-							</div>
 						</div>
 					</div>
 				</div>
 
+				<div class="col-6" id="related_feed">
+					<div class="row">
+						<h3 class="mb-2 heading_s1">연관 컨텐츠 피드</h3>
+						<div class="card-group">
+							<div class="card" th:each="feed : ${relatedFeed}">
+								<a th:href="'/feed/' + ${feed.id} ">
+									<div class="img-container43">
+										<img th:src="'/file/' + ${feed.thumbnailFileName}"
+										     class="card-img-top rounded" alt="피드 썸네일 이미지">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title" th:text="${feed.title}"></h5>
+										<!--									<p class="card-text" th:text="${feed.description}"></p>-->
+										<!--									<a th:href="'/feed/' + ${feed.id} " class="btn btn-primary btn-more rounded-pill">더-->
+										<!--										알아보기</a>-->
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
+
+		<div class="container">
+
 			<div class="row">
 				<div class="col-12">
 					<div class="small_divider"></div>
@@ -216,6 +300,7 @@
 					<div class="medium_divider"></div>
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-12">
 					<div class="heading_s1">
@@ -223,22 +308,14 @@
 					</div>
 					<div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20"
 					     data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
+
+
 						<div class="item">
 							<div class="product">
 								<div class="product_img">
 									<a href="shop-product-detail.html">
 										<img src="/user/assets/images/product_img1.jpg" alt="product_img1">
 									</a>
-									<div class="product_action_box">
-										<ul class="list_none pr_action_btn">
-											<li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add
-												To Cart</a></li>
-											<li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-											<li><a href="shop-quick-view.html" class="popup-ajax"><i
-													class="icon-magnifier-add"></i></a></li>
-											<li><a href="#"><i class="icon-heart"></i></a></li>
-										</ul>
-									</div>
 								</div>
 								<div class="product_info">
 									<h6 class="product_title"><a href="shop-product-detail.html">Blue Dress For
@@ -250,172 +327,25 @@
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
 											massa enim. Nullam id varius nunc id varius nunc.</p>
 									</div>
-									<div class="pr_switch_wrap">
-										<div class="product_color_switch">
-											<span class="active" data-color="#87554B"></span>
-											<span data-color="#333333"></span>
-											<span data-color="#DA323F"></span>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
-						<div class="item">
-							<div class="product">
-								<div class="product_img">
-									<a href="shop-product-detail.html">
-										<img src="/user/assets/images/product_img2.jpg" alt="product_img2">
-									</a>
-									<div class="product_action_box">
-										<ul class="list_none pr_action_btn">
-											<li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add
-												To Cart</a></li>
-											<li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-											<li><a href="shop-quick-view.html" class="popup-ajax"><i
-													class="icon-magnifier-add"></i></a></li>
-											<li><a href="#"><i class="icon-heart"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="product_info">
-									<h6 class="product_title"><a href="shop-product-detail.html">Lether Gray Tuxedo</a>
-									</h6>
-									<div class="product_price">
-										<span class="price">20,000원</span>
-									</div>
-									<div class="pr_desc">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
-											massa enim. Nullam id varius nunc id varius nunc.</p>
-									</div>
-									<div class="pr_switch_wrap">
-										<div class="product_color_switch">
-											<span class="active" data-color="#847764"></span>
-											<span data-color="#0393B5"></span>
-											<span data-color="#DA323F"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="product">
-								<span class="pr_flash">New</span>
-								<div class="product_img">
-									<a href="shop-product-detail.html">
-										<img src="/user/assets/images/product_img3.jpg" alt="product_img3">
-									</a>
-									<div class="product_action_box">
-										<ul class="list_none pr_action_btn">
-											<li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add
-												To Cart</a></li>
-											<li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-											<li><a href="shop-quick-view.html" class="popup-ajax"><i
-													class="icon-magnifier-add"></i></a></li>
-											<li><a href="#"><i class="icon-heart"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="product_info">
-									<h6 class="product_title"><a href="shop-product-detail.html">woman full sliv
-										dress</a></h6>
-									<div class="product_price">
-										<span class="price">20,000원</span>
-									</div>
-									<div class="pr_desc">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
-											massa enim. Nullam id varius nunc id varius nunc.</p>
-									</div>
-									<div class="pr_switch_wrap">
-										<div class="product_color_switch">
-											<span class="active" data-color="#333333"></span>
-											<span data-color="#7C502F"></span>
-											<span data-color="#2F366C"></span>
-											<span data-color="#874A3D"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="product">
-								<div class="product_img">
-									<a href="shop-product-detail.html">
-										<img src="/user/assets/images/product_img4.jpg" alt="product_img4">
-									</a>
-									<div class="product_action_box">
-										<ul class="list_none pr_action_btn">
-											<li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add
-												To Cart</a></li>
-											<li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-											<li><a href="shop-quick-view.html" class="popup-ajax"><i
-													class="icon-magnifier-add"></i></a></li>
-											<li><a href="#"><i class="icon-heart"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="product_info">
-									<h6 class="product_title"><a href="shop-product-detail.html">light blue Shirt</a>
-									</h6>
-									<div class="product_price">
-										<span class="price">20,000원</span>
-									</div>
-									<div class="pr_desc">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
-											massa enim. Nullam id varius nunc id varius nunc.</p>
-									</div>
-									<div class="pr_switch_wrap">
-										<div class="product_color_switch">
-											<span class="active" data-color="#333333"></span>
-											<span data-color="#A92534"></span>
-											<span data-color="#B9C2DF"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="product">
-								<div class="product_img">
-									<a href="shop-product-detail.html">
-										<img src="/user/assets/images/product_img5.jpg" alt="product_img5">
-									</a>
-									<div class="product_action_box">
-										<ul class="list_none pr_action_btn">
-											<li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add
-												To Cart</a></li>
-											<li><a href="shop-compare.html"><i class="icon-shuffle"></i></a></li>
-											<li><a href="shop-quick-view.html" class="popup-ajax"><i
-													class="icon-magnifier-add"></i></a></li>
-											<li><a href="#"><i class="icon-heart"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="product_info">
-									<h6 class="product_title"><a href="shop-product-detail.html">blue dress for
-										woman</a></h6>
-									<div class="product_price">
-										<span class="price">20,000원</span>
-									</div>
-									<div class="pr_desc">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
-											massa enim. Nullam id varius nunc id varius nunc.</p>
-									</div>
-									<div class="pr_switch_wrap">
-										<div class="product_color_switch">
-											<span class="active" data-color="#87554B"></span>
-											<span data-color="#333333"></span>
-											<span data-color="#5FB7D4"></span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- END SECTION SHOP -->
+
+	<div class="zoomContainer"
+	     style="transform: translateZ(0px); position: absolute; left: 353px; top: 401.656px; height: 586.664px; width: 528px;">
+		<div class="zoomWindowContainer" style="width: 400px;">
+			<div style="z-index: 999; overflow: hidden; margin-left: 0px; margin-top: 0px; background-position: -12.1364px -313.344px; width: 528px; height: 586.664px; float: left; cursor: crosshair; background-repeat: no-repeat; position: absolute; background-image: url(&quot;assets/images/product_zoom_img1.jpg&quot;); top: 0px; left: 0px; background-size: 810px 900px; display: none;"
+			     class="zoomWindow">&nbsp;
+			</div>
+		</div>
+	</div>
 
 </div>
 
