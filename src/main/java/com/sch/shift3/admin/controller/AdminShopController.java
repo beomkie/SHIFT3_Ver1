@@ -5,12 +5,14 @@ import com.sch.shift3.admin.service.AdminShopService;
 import com.sch.shift3.user.dto.SelectShopDto;
 import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.repository.ImageSelectShopRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -47,6 +49,20 @@ public class AdminShopController {
         adminShopService.editShopBrand(selectShop, selectShopDto.getBrand());
 
         return ResponseEntity.noContent().build();
+    }
+
+    // remove shop
+    @Transactional
+    @GetMapping("/remove.do")
+    public void removeShop(@RequestParam Integer id, HttpServletResponse response) {
+        // remove shop
+        adminShopService.removeShop(id);
+
+        try {
+            response.sendRedirect("/admin/shop/list");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/search.do")

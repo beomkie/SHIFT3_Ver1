@@ -100,8 +100,9 @@ public class ImageUtil {
     public static String upload(MultipartFile file) {
         try {
             String uuid = UUID.randomUUID().toString();
-            //    @Value("${servlet.multipart.location}")
-            String fileName = uuid + file.getOriginalFilename();
+            // get 확장자 with dot
+            String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName = uuid + extension;
             Path imgPath = Paths.get(uploadPath + "/" + fileName);
             File dest = new File(imgPath.toUri());
             file.transferTo(dest);

@@ -16,6 +16,7 @@ import java.util.List;
 public class ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     private final ProductRepository productRepository;
+    private final ContentFeedProductRepository contentFeedProductRepository;
 
     public Product findProductById(int productId) {
         QProduct product = QProduct.product;
@@ -77,5 +78,15 @@ public class ProductRepositoryCustom {
                 .where(product.selectShop.id.eq(shopId));
         return query.fetch();
 
+    }
+
+    public void deleteAllProductBySelectShopId(Integer shopId){
+        List<Product> products = getProductsByShopId(shopId);
+        if (products != null && !products.isEmpty()) {
+            productRepository.deleteAll(products);
+            for (Product product : products) {
+                contentFeedProductRepository.deleteAllByProductId(product.getId());
+            }
+        }
     }
 }

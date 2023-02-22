@@ -89,15 +89,4 @@ public class DibController {
 
         return ResponseEntity.ok(new JSONObject().put("isDib", isDib).toString());
     }
-
-    @GetMapping("/dib/product/remove/{shopId}")
-    public void removeShopDib(@PathVariable Integer shopId, @CurrentUser Account account) {
-        if (shopId == null)
-            throw new IllegalArgumentException("해당 샵이 존재하지 않습니다.");
-
-        if (account == null)
-            throw new IllegalArgumentException("로그인이 필요합니다.");
-
-        dibService.removeDibShop(account.getId(), shopId);
-    }
 }

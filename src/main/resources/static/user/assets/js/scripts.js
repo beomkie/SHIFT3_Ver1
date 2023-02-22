@@ -871,7 +871,7 @@ PAGE JS
 
                 cnt++;
             });
-        }, 1200);
+        }, 200);
     });
 
 
@@ -881,7 +881,7 @@ PAGE JS
         let popupId = popup.data("popup-id");
         // set cookie
 
-        handleCookie.setCookie("DISABLE_POP_" + popupId, "no", 1);
+        handleCookie.setCookie("DISABLE_POP_" + popupId, "no", 7);
         popup.modal("hide");
     }
 

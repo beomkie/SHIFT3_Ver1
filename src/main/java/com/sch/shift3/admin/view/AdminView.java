@@ -88,11 +88,11 @@ public class AdminView {
     @GetMapping("/shop/create")
     public String shopCreatePage(Model model){
         SelectShopDto selectShopDto = new SelectShopDto();
-        selectShopDto.setStreetAddress("서울특별시 강남구 역삼동 824-1");
-        selectShopDto.setName("테스트");
-        selectShopDto.setIntroduce("테스트");
-        selectShopDto.setStreetAddressDetail("테스트");
-        selectShopDto.setContactNumber("010-1234-5678");
+//        selectShopDto.setStreetAddress("서울특별시 강남구 역삼동 824-1");
+//        selectShopDto.setName("테스트");
+//        selectShopDto.setIntroduce("테스트");
+//        selectShopDto.setStreetAddressDetail("테스트");
+//        selectShopDto.setContactNumber("010-1234-5678");
         selectShopDto.setOperatingTime("09:00 ~ 18:00");
 
         model.addAttribute("SelectShopDto", selectShopDto);
@@ -125,10 +125,10 @@ public class AdminView {
     @GetMapping("/product/create")
     public String productCreatePage(Model model){
         ProductDto productDto = new ProductDto();
-        productDto.setName("상품");
-        productDto.setPrice(1000);
-        productDto.setUrl("https://www.naver.com");
-        productDto.setDescription("Lorem Blaaaaaa");
+//        productDto.setName("상품");
+//        productDto.setPrice(1000);
+//        productDto.setUrl("https://www.naver.com");
+//        productDto.setDescription("Lorem Blaaaaaa");
 
         model.addAttribute("ProductDto", productDto);
 

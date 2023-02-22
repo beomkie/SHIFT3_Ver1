@@ -49,7 +49,7 @@ window.drawMap = function (shop) {
             </div>
 <!--            todo marker image change-->
             <div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">
-                <img src="https://ssl.pstatic.net/static/maps/img/icons/pin_s_3.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 22px; height: 30px; left: 0px; top: 0px;">
+                <img src="/user/assets/images/pin.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 30px; height: 30px; left: 0px; top: 0px;">
             </div> 
         </div>`,
 

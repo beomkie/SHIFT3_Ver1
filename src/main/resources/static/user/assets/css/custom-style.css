@@ -5,6 +5,14 @@
     margin-bottom: 0.75rem;
 }
 
+.recent_feed_title {
+    word-break: keep-all;
+}
+
+.recent_feed_subtitle {
+    word-break: keep-all;
+}
+
 .navbar-button {
     border: 1px solid darkgray;
     float: right;
@@ -191,7 +199,7 @@ body{
 }
 
 .main-card:not(:first-child) img {
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px 0px 0px 10px;
 }
 
 @media (min-width: 1250px) {
@@ -270,3 +278,29 @@ body{
 }
 
 /* 끝 */
+
+
+.hover-big:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    transition: all .2s ease-in-out;
+}
+
+
+.circle-top {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+
+.hover-right-top {
+    position: absolute;
+    top: 1em;
+    background-color: #f8f9fa;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #212529;
+    z-index: 99;
+
+}

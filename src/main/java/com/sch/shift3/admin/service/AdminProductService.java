@@ -37,8 +37,8 @@ public class AdminProductService {
         return productList;
     }
 
-    public ProductDto getProduct(Integer shopId){
-        Product product = productRepository.findByIdOrderByIdAsc(shopId).orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+    public ProductDto getProduct(Integer productId){
+        Product product = productRepository.findByIdOrderByIdAsc(productId).orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
         return product.of();
     }
 

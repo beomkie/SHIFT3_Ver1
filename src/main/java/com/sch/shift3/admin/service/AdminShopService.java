@@ -5,6 +5,7 @@ import com.sch.shift3.user.entity.ImageSelectShop;
 import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.entity.SelectShopBrand;
 import com.sch.shift3.user.repository.ImageSelectShopRepository;
+import com.sch.shift3.user.repository.ProductRepositoryCustom;
 import com.sch.shift3.user.repository.SelectShopBrandRepository;
 import com.sch.shift3.user.repository.SelectShopRepository;
 import com.sch.shift3.utill.Address;
@@ -26,7 +27,7 @@ public class AdminShopService {
     private final SelectShopBrandRepository selectShopBrandRepository;
     private final ImageSelectShopRepository imageSelectShopRepository;
     private final SelectShopBrandRepository shopBrandRepository;
-    private final AdminImageService adminImageService;
+    private final ProductRepositoryCustom productRepositoryCustom;
     private final Geocoding geocoding;
 
     public List<SelectShopDto> getAllShopList(){
@@ -115,5 +116,15 @@ public class AdminShopService {
     @Transactional
     public List<SelectShop> findShopByName(String name) {
         return selectShopRepository.findByNameContaining(name);
+    }
+
+    public void removeShop(Integer id) {
+        // remove products
+        productRepositoryCustom.deleteAllProductBySelectShopId(id);
+
+        // remove shop
+        SelectShop selectShop = selectShopRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 편집샵이 존재하지 않습니다."));
+        selectShopRepository.delete(selectShop);
+
     }
 }

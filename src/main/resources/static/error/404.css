@@ -115,7 +115,7 @@ h1{
 
 .second-four{
   position: relative;
-  right:13vmin;
+  right:8vmin;
   z-index: -1;
   font-size:40vmin;
 }
@@ -131,7 +131,7 @@ h1{
   font-family: "Montserrat", sans-serif;
   position: absolute;
   bottom:15vmin;
-  padding:3vmin 12vmin 3vmin 3vmin;
   font-weight:600;
+  font-size:9vmin;
   color:#092532;
 }

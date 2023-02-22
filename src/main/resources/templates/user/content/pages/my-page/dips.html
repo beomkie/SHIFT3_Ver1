@@ -50,17 +50,19 @@
                         productElem.classList.add("col-4");
 
                         productElem.innerHTML = `
-				          <div class="card mb-4">
-				          <div class="card-img-top square-image">
-				            <img src="/file/${product.images[0].imageName}" class="w-100" alt="${product.name}">
-				            </div>
-				            <div class="card-body">
-				              <h5 class="card-title">${product.name}</h5>
-				              <p class="card-text">${product.description}</p>
-				              <p class="card-text">
-				                <small class="text-muted">${product.price.toLocaleString('ko-KR')} 원</small>
-				              </p>
-				            </div>
+				          <div class="card mb-4 hover-big">
+				          <a href="/product/${product.id}" target="_blank">
+					          <div class="card-img-top square-image">
+					            <img src="/file/${product.images[0].imageName}" class="w-100" alt="${product.name}">
+					            </div>
+					            <div class="card-body">
+					              <h5 class="card-title">${product.name}</h5>
+					              <p class="card-text">${product.description}</p>
+					              <p class="card-text">
+					                <small class="text-muted">${product.price.toLocaleString('ko-KR')} 원</small>
+					              </p>
+					            </div>
+				            </a>
 				          </div>
 				        `;
 

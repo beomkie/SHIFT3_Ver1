@@ -18,4 +18,5 @@ public interface ContentFeedProductRepository extends JpaRepository<ContentFeedP
     List<ContentFeedProduct> findTop3ByFeedCategoryOrderByIdDesc(String category);
 
     void deleteAllByFeed(ContentFeed feed);
+    void deleteAllByProductId(int productId);
 }
