@@ -28,9 +28,9 @@
 									<div class="chek-form">
 										<div class="custome-checkbox">
 											<input class="form-check-input" type="checkbox" name="checkbox"
-											       id="emailSaveCheckbox" value="">
+											       id="remember-me" value="">
 											<label class="form-check-label"
-											       for="emailSaveCheckbox"><span>이메일 저장하기</span></label>
+											       for="remember-me"><span>이메일 저장하기</span></label>
 										</div>
 									</div>
 								</div>
@@ -72,6 +72,51 @@
 				</div>
 			</div>
 		</div>
+		<script th:inline="javascript">
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            $(document).ready(function () {
+                var rememberMeCheckbox = $('#remember-me');
+                var usernameField = $('#username');
+
+                // 체크박스가 체크된 경우
+                rememberMeCheckbox.change(function () {
+                    if (rememberMeCheckbox.is(':checked')) {
+                        // 쿠키를 설정하고 아이디 필드에 값을 채움
+                        setCookie("rememberedUsername", usernameField.val(), 999);
+                    } else {
+                        // 쿠키를 삭제하고 아이디 필드를 비움
+                        setCookie("rememberedUsername", "", 999);
+                        usernameField.val('');
+                    }
+                });
+
+                let remembered = getCookie("rememberedUsername");
+                if (remembered) {
+                    usernameField.val(remembered);
+                    rememberMeCheckbox.attr('checked', true);
+                }
+            });
+		</script>
 	</div>
 
 	<div class="login_register_wrap section" sec:authorize="isAuthenticated()">
