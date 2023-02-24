@@ -1,11 +1,14 @@
 package com.sch.shift3.user.entity;
 
+import com.sch.shift3.user.dto.AccountDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @Table(name = "account")
 @Builder
 @NoArgsConstructor
@@ -43,53 +46,8 @@ public class Account {
     @Column(name = "provider", length = 15)
     private String provider;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Boolean getBan() {
-        return ban;
-    }
-
-    public void setBan(Boolean ban) {
-        this.ban = ban;
-    }
+    @Column(name = "interest")
+    private String interest;
 
     public Boolean getInformationToThirdParties() {
         return informationToThirdParties;
@@ -99,15 +57,29 @@ public class Account {
         this.informationToThirdParties = informationToThirdParties;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public boolean isFirstLogin() {
         return this.name == null || this.phoneNumber == null;
+    }
+
+    public void updateInformation(AccountDto accountDto){
+        if (accountDto.getPassword() != null){
+            this.password = accountDto.getPassword();
+        }
+
+        if (accountDto.getName() != null){
+            this.name = accountDto.getName();
+        }
+
+        if (accountDto.getInterest() != null){
+            this.interest = accountDto.getInterest();
+        }
+
+        if (accountDto.getPhoneNumber() != null){
+            this.phoneNumber = accountDto.getPhoneNumber();
+        }
+
+        if (accountDto.getInformationToThirdParties() != null){
+            this.informationToThirdParties = accountDto.getInformationToThirdParties();
+        }
     }
 }

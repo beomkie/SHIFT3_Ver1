@@ -28,6 +28,11 @@ public class EmailVerifyUtil {
         return attempts >= 3;
     }
 
+    public boolean verify(String email, String code){
+        LocalDateTime now = LocalDateTime.now();
+        return emailAuthLogRepository.findByEmailAndCodeAndExpireAtGreaterThanEqual(email, code, now).isPresent();
+    }
+
     public String getClientIP(HttpServletRequest request){
         String ip = request.getHeader("X-FORWARDED-FOR");
 

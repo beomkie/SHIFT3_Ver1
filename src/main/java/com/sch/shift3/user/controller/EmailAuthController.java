@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailAuthController {
     private final AccountEmailService accountEmailService;
 
-    @GetMapping("/auth/email/send")
+    @GetMapping("/auth/email/send.do")
     public ResponseEntity<String> sendAuth(String email, HttpServletRequest request) {
 
         accountEmailService.sendAuthCode(email, request);

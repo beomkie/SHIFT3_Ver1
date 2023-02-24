@@ -7,72 +7,296 @@
 
 
 	<script>
+
+        function $ComTimer() {
+            //prototype extend
+        }
+
+        $ComTimer.prototype = {
+            comSecond: ""
+            , fnCallback: function () {
+            }
+            , timer: ""
+            , domId: ""
+            , fnTimer: function () {
+                var m = Math.floor(this.comSecond / 60) + "분 " + (this.comSecond % 60) + "초";	// 남은 시간 계산
+                this.comSecond--;					// 1초씩 감소
+                this.domId.innerText = m;
+                if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+                    clearInterval(this.timer);		// 타이머 해제
+                    alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+                }
+            }
+            , fnStop: function () {
+                clearInterval(this.timer);
+            }
+        }
+
         window.verifyEmail = function () {
-            $("#emailVerifyDiv").css("display", "block");
+
+            let email = getData().username;
+            // email 포맷팅
+            var emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            if (email.match(emailExp) == null) {
+                $("#emailDiv").append(
+                    `<span class="text-warning">이메일을 제대로 입력해주세요</span>`
+                )
+                return;
+            }
+
+            var AuthTimer = new $ComTimer()
+            AuthTimer.comSecond = 599;
+            AuthTimer.fnCallback = function () {
+                alert("다시인증을 시도해주세요.")
+            }
+            AuthTimer.timer = setInterval(function () {
+                AuthTimer.fnTimer()
+            }, 1000);
+            AuthTimer.domId = document.getElementById("emailVerifyTime");
+
+
+            $.ajax({
+                url: '/auth/email/send.do',
+                type: 'GET',
+                data: {
+                    "email": email
+                },
+                success: function (data) {
+                    $("#emailVerifyDiv").css("display", "block");
+                },
+                error: function (data) {
+                    alert("인증번호 전송에 실패하였습니다. 인증번호는 하루 3회 전송가능합니다.");
+                }
+
+            })
+
 
         }
 	</script>
 
+	<style>
+
+        .tags-look .tagify__dropdown__item {
+            display: inline-block;
+            border-radius: 3px;
+            padding: .3em .5em;
+            border: 1px solid #CCC;
+            background: #F3F3F3;
+            margin: .2em;
+            font-size: .85em;
+            color: black;
+            transition: 0s;
+        }
+
+        .tags-look .tagify__dropdown__item--active {
+            color: black;
+        }
+
+        .tags-look .tagify__dropdown__item:hover {
+            background: lightyellow;
+            border-color: gold;
+        }
+	</style>
+
 	<div class="login_register_wrap section" sec:authorize="!isAuthenticated()">
 		<div class="container">
+			<!--			<form action="/signup.do" method="post">-->
 			<div class="row justify-content-center">
-				<div class="col-xl-6 col-md-10">
+				<div class="col-xl-8 col-md-10 mb-4">
 					<div class="login_wrap">
 						<div class="padding_eight_all bg-white">
 							<div class="heading_s1">
 								<h3>회원가입</h3>
 							</div>
-							<form action="/signup.do" method="post">
 
-								<div class="row">
+							<div class="row">
 
-									<div class="form-group mb-4">
-										<input class="form-control" type="text" id="name" name="name"
-										       placeholder="이름" required="">
-									</div>
-
-									<div class="col-7 form-group mb-2">
-										<input type="text" required="" class="form-control" name="email"
-										       placeholder="이메일">
-										<span id="email-muted" class="text-muted">로그인에 사용할 이메일을 적어주세요.</span>
-									</div>
-
-									<div class="col-5 form-group">
-										<button type="button" class="btn btn-block btn-gray" name="verifyEmail"
-										        onclick="window.verifyEmail()">인증번호 발송
-										</button>
-									</div>
-
-									<div id="emailVerifyDiv" class="col-12 form-group mb-4" style="display:none">
-										<input type="text" required="" class="form-control" name="emailCode"
-										       placeholder="이메일 인증번호">
-										<span class="text-muted">인증번호가 전송되었습니다. 유효시간 내로 가입해주세요.</span><br/>
-										<span>유효시간 : <span id="emailVerifyTime"
-										                   class="text-warning">10:00</span>
-											</span>
-									</div>
-
-
-									<div class="form-group mb-3">
-										<input class="form-control" type="password" id="password" name="password"
-										       placeholder="비밀번호" required="">
-									</div>
-									<div class="form-group mb-3">
-										<input class="form-control" type="password" id="passwordChk" name="passwordChk"
-										       placeholder="비밀번호 확인" required="">
-									</div>
-
-									<div class="form-group mb-3">
-										<button type="submit" class="btn btn-fill-out btn-block" name="login">회원가입
-										</button>
-									</div>
+								<div class="form-floating mb-2" id="nameDiv">
+									<input class="form-control" type="text" id="name" name="name"
+									       placeholder="이름" required="">
+									<label for="name">이름</label>
 								</div>
-							</form>
+
+								<div class="form-group mb-5" id="phoneNumberDiv">
+									<input class="form-control" type="text" id="phoneNumber" name="phoneNumber"
+									       placeholder="핸드폰 번호" required=""
+									       oninput='autoHyphen(this);'
+									       maxlength="13">
+								</div>
+
+								<div class="col-7 form-group mb-2" id="emailDiv">
+									<input type="text" required="" class="form-control" id="username" name="username"
+									       placeholder="이메일">
+									<p id="email-muted" class="text-muted">로그인에 사용할 이메일을 적어주세요.</p>
+								</div>
+
+								<div class="col-5 form-group">
+									<button type="button" class="btn btn-block btn-gray" id="verifyEmail"
+									        name="verifyEmail"
+									        onclick="window.verifyEmail()">인증번호 발송
+									</button>
+								</div>
+
+								<div id="emailVerifyDiv" class="col-12 form-group mb-4" style="display:none">
+									<input type="text" required="" class="form-control" id="emailCode" name="emailCode"
+									       placeholder="이메일 인증번호">
+									<span class="text-muted">인증번호가 전송되었습니다. 유효시간 내로 가입해주세요.</span><br/>
+									<span>유효시간 : <span id="emailVerifyTime"
+									                   class="text-info"></span>
+											</span>
+								</div>
+
+
+								<div class="form-group mb-3" id="passwordDiv">
+									<input class="form-control" type="password" id="password" name="password"
+									       placeholder="비밀번호" required="">
+
+									<input class="form-control" type="password" id="passwordChk" name="passwordChk"
+									       placeholder="비밀번호 확인" required="">
+								</div>
+
+								<div class="form-check mb-3">
+									<input id="informationToThirdParties" type="checkbox"/>
+									<label class="form-check-label" for="informationToThirdParties">
+										개인정보 3자제공 동의
+									</label>
+								</div>
+
+							</div>
+
+							<div class="login_wrap mt-3 mb-3">
+								<div class="small_padding bg-white">
+									<div class="heading_s1">
+										<h5>관심사 설정</h5>
+									</div>
+
+									<div class="form-group" id="interestDiv">
+										<input
+												name='input'
+												id="interest"
+												class="form-control"
+												placeholder='관심사를 설정해주세요.'
+												value='옷'>
+									</div>
+
+									<script>
+                                        let inputElm = document.querySelector('input[id="interest"]');
+                                        // initialize Tagify on the above input node reference
+                                        loadingTag(inputElm);
+									</script>
+								</div>
+							</div>
+
+							<div class="form-group mb-3">
+								<button type="button" class="btn btn-fill-out btn-block" name="signup"
+								        onclick="signup()">회원가입
+								</button>
+
+								<script>
+                                    function getData() {
+                                        return {
+                                            "name": $("#name").val(),
+                                            "username": $("#username").val(),
+                                            "emailCode": $("#emailCode").val(),
+                                            "phoneNumber": $("#phoneNumber").val(),
+                                            "password": $("#password").val(),
+                                            "passwordChk": $("#passwordChk").val(),
+                                            "interest": $("#interest").val(),
+                                            "informationToThirdParties": $("#informationToThirdParties").is(":checked")
+                                        }
+                                    }
+
+                                    window.signup = function () {
+                                        let data = getData();
+                                        let pass = true;
+
+                                        console.log(data);
+
+                                        $(".login_wrap span.text-warning").remove();
+                                        if (data.name === "" || data.name.match(koreanRegex) == null) {
+                                            $("#nameDiv").append(
+                                                `<span class="text-warning">이름을 제대로 입력해주세요</span>`
+                                            );
+                                            pass = false;
+                                        }
+
+                                        // email 포맷팅
+                                        let emailExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                                        if (data.username.match(emailExp) == null) {
+                                            $("#emailDiv").append(
+                                                `<span class="text-warning">이메일을 제대로 입력해주세요</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (data.password !== data.passwordChk) {
+                                            $("#passwordDiv").append(
+                                                `<span class="text-warning">입력한 비밀번호가 서로 다릅니다</span>`
+                                            )
+                                            pass = false;
+                                        } else if (data.password.match(passwordRegex) == null) {
+                                            $("#passwordDiv").append(
+                                                `<span class="text-warning">비밀번호는 ${passwordRegexRule}를 만족해야 합니다</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (data.emailCode === "") {
+                                            $("#emailVerifyDiv").append(
+                                                `<span class="text-warning">인증번호를 입력해주세요</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (!$("#emailVerifyDiv").is(':visible')) {
+                                            $("#emailDiv").append(
+                                                `<span class="text-warning">인증번호를 전송해주세요</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (data.interest === "") {
+                                            $("#interestDiv").append(
+                                                `<span class="text-warning">관심사를 하나 이상 선택해주세요</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (data.phoneNumber.length !== 13) {
+                                            $("#phoneNumberDiv").append(
+                                                `<span class="text-warning">핸드폰 번호를 제대로 입력해주세요</span>`
+                                            )
+                                            pass = false;
+                                        }
+
+                                        if (pass === false)
+                                            return
+
+                                        // ajax post /account/login.do
+                                        $.ajax({
+                                            url: '/account/signup.do',
+                                            type: 'POST',
+                                            data: data,
+                                            success: function (data) {
+                                                alert('회원가입에 성공하였습니다.');
+                                                window.location.href = "/";
+                                            },
+                                            error: function (data) {
+                                                alert(data.responseText);
+                                            }
+                                        })
+
+                                    }
+								</script>
+							</div>
+
 						</div>
 					</div>
-
 				</div>
+
 			</div>
+			<!--			</form>-->
+
 		</div>
 	</div>
 

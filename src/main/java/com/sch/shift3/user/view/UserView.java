@@ -91,8 +91,13 @@ public class UserView {
     }
 
     @GetMapping("/mypage")
-    public String myPage(Model model){
+    public String myPage(Model model, @CurrentUser Account account){
         model.addAttribute("enable", "index");
+        model.addAttribute("account", account);
+
+        if (account == null)
+            return "user/content/login";
+
         return "user/content/pages/my-page/index";
     }
 

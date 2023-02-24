@@ -50,6 +50,18 @@
 										<td th:text="${question.account.username}"></td>
 									</tr>
 									<tr>
+										<th scope="row">관심사</th>
+										<td th:text="${question.account.interest}"></td>
+									</tr>
+									<tr>
+										<th scope="row">핸드폰 번호</th>
+										<td th:text="${question.account.phoneNumber}"></td>
+									</tr>
+									<tr>
+										<th scope="row">SNS 로그인 여부</th>
+										<td th:text="${(question.account.provider == '' || question.account.provider == null) ? 'X' : question.account.provider}"></td>
+									</tr>
+									<tr>
 										<th scope="row">개인정보 3자 제공</th>
 										<td th:text="${question.account.informationToThirdParties ? '동의' : '비동의'}"></td>
 									</tr>

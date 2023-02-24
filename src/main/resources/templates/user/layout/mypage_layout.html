@@ -3,6 +3,7 @@
 <!--/* 이곳에 각 view가 위치합니다. */-->
 
 <script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/user/assets/js/interest-tag.js}"></script>
 
 <head th:replace="~{/user/fragments/head :: headFragment}"></head>
 
@@ -34,6 +35,9 @@
 <!--</head>-->
 
 <body>
+
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
 
 <style>
     .shop_list {

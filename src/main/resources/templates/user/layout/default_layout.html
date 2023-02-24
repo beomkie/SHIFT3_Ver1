@@ -4,6 +4,7 @@
 
 <!-- Latest jQuery -->
 <script th:src="@{/user/assets/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/user/assets/js/interest-tag.js}"></script>
 
 <head th:replace="~{/user/fragments/head :: headFragment}"></head>
 
@@ -37,6 +38,10 @@
 <body>
 
 
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
+
+
 <!-- LOADER -->
 <div class="preloader" th:if="${disableLoading != true}">
 	<div class="lds-ellipsis">
@@ -47,7 +52,7 @@
 </div>
 <!-- END LOADER -->
 
-<div th:if="${enablePopup != null}" th:replace="/user/fragments/popup :: popup"></div>
+<div th:if="${enablePopup != null}" th:replace="~{/user/fragments/popup :: popup}"></div>
 
 <div th:replace="~{/user/fragments/header :: headerFragment}"></div>
 
@@ -85,7 +90,6 @@
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://unpkg.com/tippy.js@6"></script>
 <script th:src="@{/user/assets/js/global-tooltip.js}"></script>
-
 </body>
 
 <footer th:replace="~{/user/fragments/footer :: footerFragment}"></footer>

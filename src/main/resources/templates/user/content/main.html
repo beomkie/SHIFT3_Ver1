@@ -22,7 +22,7 @@
         }
 	</style>
 
-	<div th:replace="/user/fragments/banner :: banner"></div>
+	<div th:replace="~{/user/fragments/banner :: banner}"></div>
 
 	<!-- START 최근 피드 -->
 	<div class="section small_pt pb_20" th:if="${recentFeed.size() >= 3}">

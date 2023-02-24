@@ -6,7 +6,7 @@
 
 	<div class="card">
 		<div class="card-header">
-			회원 정보
+			회원정보 수정
 		</div>
 		<div class="welcome"></div>
 		<script>
@@ -20,9 +20,169 @@
             }
 		</script>
 		<div class="card-body">
-			<h5 class="card-title">개발중..</h5>
-			<p class="card-text">개발중입니다.</p>
-			<a href="#" class="btn btn-primary">개발중...</a>
+			<div class="card-text">
+
+				<div class="form-floating mb-2" id="nameDiv">
+					<input class="form-control" type="text" id="name" name="name"
+					       placeholder="이름" th:value="${account.name}">
+					<label for="name">이름</label>
+				</div>
+
+				<div class="form-floating mb-3" id="phoneNumberDiv">
+					<input class="form-control" type="text" id="phoneNumber" name="phoneNumber"
+					       placeholder="핸드폰 번호"
+					       oninput='autoHyphen(this);'
+					       maxlength="13"
+					       th:value="${account.phoneNumber}">
+					<label for="phoneNumber">핸드폰 번호</label>
+				</div>
+
+
+				<th:block th:if="${account.provider == '' || account.provider == null}">
+					<!--					<div class="form-group mb-3" id="passwordDiv">-->
+					<!--						<input class="form-control" type="password" id="nowPassword" name="nowPassword"-->
+					<!--						       placeholder="현재 비밀번호" required="">-->
+					<!--					</div>-->
+
+					<div class="form-group mb-4">
+						<div class="row" id="passwordDiv">
+							<div class="col-6 form-floating">
+								<input class="form-control" type="password" id="password" name="password"
+								       placeholder="바꿀 비밀번호">
+								<label for="password">변경할 비밀번호</label>
+							</div>
+
+							<div class="col-6 form-floating">
+								<input class="form-control" type="password" id="passwordChk" name="passwordChk"
+								       placeholder="바꿀 비밀번호 확인">
+								<label for="passwordChk">비밀번호 재입력</label>
+							</div>
+							<span class="text-muted">비밀번호 변경시에만 입력해주세요.</span>
+						</div>
+					</div>
+				</th:block>
+
+				<th:block th:unless="${account.provider == '' || account.provider == null}">
+					<div class="form-group mb-3">
+						<input class="form-control" type="password"
+						       value="password1234" id="nochange"
+						       placeholder="비밀번호" readonly>
+						<label for="nochange">SNS 계정 로그인 유저는 비밀번호 변경이 불가능합니다.</label>
+					</div>
+				</th:block>
+
+				<div class="form-check mb-4">
+					<input id="informationToThirdParties" type="checkbox"
+					       th:checked="${account.informationToThirdParties}"/>
+					<label class="form-check-label" for="informationToThirdParties">
+						개인정보 3자제공 동의
+					</label>
+				</div>
+
+
+				<div class="login_wrap mt-3 mb-3">
+					<div class="small_padding bg-white">
+						<div class="heading_s1">
+							<h5>관심사 설정</h5>
+						</div>
+
+						<div class="form-group" id="interestDiv">
+							<input
+									name='input'
+									id="interest"
+									class="form-control"
+									placeholder='관심사를 설정해주세요.'
+									th:value="${account.interest}">
+						</div>
+
+						<script>
+                            let inputElm = document.querySelector('input[id="interest"]');
+                            // initialize Tagify on the above input node reference
+                            loadingTag(inputElm);
+						</script>
+					</div>
+				</div>
+
+
+				<div class="form-group mb-3">
+					<button type="button" class="btn btn-fill-out btn-block" name="signup"
+					        onclick="editMyAccount()">회원정보 수정
+					</button>
+
+					<script>
+                        function getData() {
+                            return {
+                                "name": $("#name").val(),
+                                "phoneNumber": $("#phoneNumber").val(),
+                                "nowPassword": $("#nowPassword").val(),
+                                "password": $("#password").val(),
+                                "passwordChk": $("#passwordChk").val(),
+                                "interest": $("#interest").val(),
+                                "informationToThirdParties": $("#informationToThirdParties").is(":checked")
+                            }
+                        }
+
+                        window.editMyAccount = function () {
+                            let data = getData();
+                            let pass = true;
+
+                            $(".card span.text-warning").remove();
+
+                            if (data.name === "" || data.name.match(koreanRegex) == null) {
+                                $("#nameDiv").append(
+                                    `<span class="text-warning">이름을 제대로 입력해주세요</span>`
+                                );
+                                pass = false;
+                            }
+
+                            if (data.password !== "") {
+                                if (data.password !== data.passwordChk) {
+                                    $("#passwordDiv").append(
+                                        `<span class="text-warning">바꿀 비밀번호가 서로 다릅니다</span>`
+                                    )
+                                    pass = false;
+                                } else if (data.password.match(passwordRegex) == null) {
+                                    $("#passwordDiv").append(
+                                        `<span class="text-warning">비밀번호는 ${passwordRegexRule}를 만족해야 합니다</span>`
+                                    )
+                                    pass = false;
+                                }
+                            }
+
+                            if (data.interest === "") {
+                                $("#interestDiv").append(
+                                    `<span class="text-warning">관심사를 하나 이상 선택해주세요</span>`
+                                )
+                                pass = false;
+                            }
+
+                            if (data.phoneNumber.length !== 13) {
+                                $("#phoneNumberDiv").append(
+                                    `<span class="text-warning">핸드폰 번호를 제대로 입력해주세요</span>`
+                                )
+                                pass = false;
+                            }
+
+                            if (pass === false)
+                                return
+
+                            $.ajax({
+                                url: '/account/update.do',
+                                type: 'POST',
+                                data: data,
+                                success: function (data) {
+                                    alert('정보를 변경하였습니다.');
+                                    window.location.href = "/mypage";
+                                },
+                                error: function (data) {
+                                    alert(data.responseText);
+                                }
+                            })
+
+                        }
+					</script>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
