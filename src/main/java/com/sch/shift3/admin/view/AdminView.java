@@ -2,6 +2,7 @@ package com.sch.shift3.admin.view;
 
 import com.sch.shift3.admin.service.*;
 import com.sch.shift3.user.dto.*;
+import com.sch.shift3.user.entity.Account;
 import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.entity.Image;
 import com.sch.shift3.user.entity.Product;
@@ -33,10 +34,33 @@ public class AdminView {
     private final PopupService popupService;
     private final QuestionService questionService;
     private final AdminNoticeService adminNoticeService;
+    private final AdminAccountService adminAccountService;
 
     @GetMapping("")
     public String mainPage(){
         return "admin/content/main";
+    }
+
+    @GetMapping("/account/list")
+    public String accountListPage(Model model){
+        model.addAttribute("accounts", adminAccountService.getAllAccounts());
+        return "admin/content/pages/account/list";
+    }
+
+    @GetMapping("/account/detail/{accountId}")
+    public String accountDetailPage(Model model, @PathVariable Integer accountId){
+        Account account = adminAccountService.getAccountById(accountId)
+                        .orElse(new Account());
+        model.addAttribute("account", account);
+        return "admin/content/pages/account/view";
+    }
+
+    @GetMapping("/account/edit/{accountId}")
+    public String accountEditPage(Model model, @PathVariable Integer accountId){
+        Account account = adminAccountService.getAccountById(accountId)
+                .orElse(new Account());
+        model.addAttribute("account", account);
+        return "admin/content/pages/account/edit";
     }
 
     @GetMapping("/contents/list")

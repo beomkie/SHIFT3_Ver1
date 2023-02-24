@@ -14,6 +14,8 @@ public class AccountDto {
     private String emailCode;
     private String interest;
     private String phoneNumber;
+    private Boolean ban;
+    private String role;
     private Boolean informationToThirdParties;
 
     public Account toEntity(){

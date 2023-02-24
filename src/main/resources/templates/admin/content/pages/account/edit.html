@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+	<div class="card mt-3">
+		<div class="container">
+			<div class="card-body">
+				<table class="table table-bordered table-striped">
+					<!--					<tr>-->
+					<!--						<th scope="col">계정</th>-->
+					<!--						<input class="form-control" th:field="${account.username}">-->
+					<!--					</tr>-->
+					<tr hidden>
+						<th scope="col">#</th>
+						<td>
+							<input class="form-control" th:field="${account.id}" tabindex="-1">
+						</td>
+					</tr>
+					<tr>
+						<th scope="col">이름</th>
+						<td>
+							<input class="form-control" th:field="${account.name}">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">핸드폰 번호</th>
+						<td>
+							<input class="form-control" th:field="${account.phoneNumber}"
+							       oninput="autoHyphen(this)" maxlength="13">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">계정 권한 설정</th>
+						<td>
+							<select th:field="${account.role}">
+								<option value="ROLE_USER">일반사용자</option>
+								<option value="ROLE_ADMIN">관리자</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">밴 여부</th>
+						<td>
+							<select th:field="${account.ban}">
+								<option value="0">X</option>
+								<option value="1">O</option>
+							</select>
+						</td>
+					</tr>
+					<!--<tr>
+						<th scope="row">관심사</th>
+						<td>
+							<input th:field="${account.interest}">
+						</td>
+						<script>
+                            $(document).ready(function () {
+                                let interestInput = document.getElementById("interest");
+                                loadingTag(interestInput);
+                            });
+						</script>
+					</tr>-->
+				</table>
+				<button class="btn btn-info" onclick="editAccount()">수정하기</button>
+				<script>
+                    // 유효성 검증 함수
+                    function validateData(data) {
+                        if (data.id == null) {
+                            alert('해당 회원 정보를 수정할 수 없습니다.');
+                            return false;
+                        }
+                        // name 검증
+                        const nameRegex = /^[가-힣]+$/;
+                        if (!nameRegex.test(data.name)) {
+                            alert("이름은 한글만 입력 가능합니다.");
+                            return false;
+                        }
+
+                        // phoneNumber 검증
+                        const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+                        if (!phoneNumberRegex.test(data.phoneNumber)) {
+                            alert("전화번호는 000-0000-0000 형식으로 입력해주세요.");
+                            return false;
+                        }
+
+                        // role 검증
+                        if (!data.role.startsWith("ROLE_")) {
+                            alert("역할은 ROLE_로 시작해야 합니다.");
+                            return false;
+                        }
+
+                        // ban 검증
+                        if (data.ban !== "1" && data.ban !== "0") {
+                            alert("ban은 0 또는 1만 입력 가능합니다.");
+                            return false;
+                        }
+
+                        // 모든 검증 통과 시 true 반환
+                        return true;
+                    }
+
+                    window.editAccount = function () {
+                        let data = {
+                            'id': $('#id').val(),
+                            'name': $('#name').val(),
+                            'phoneNumber': $("#phoneNumber").val(),
+                            'role': $("#role").val(),
+                            'ban': $("#ban").val(),
+                        }
+
+                        if (!validateData(data))
+                            return;
+
+                        $.ajax({
+                            url: `/admin/account/edit/${data.id}`,
+                            type: 'POST',
+                            data: data,
+                            success: function (data) {
+                                window.location.href = `/admin/account/detail/${data.id}`;
+                            },
+                            error: function (data) {
+                                alert('에러 : ' + data.responseText);
+                            }
+                        })
+                    }
+				</script>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>

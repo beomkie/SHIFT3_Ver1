@@ -62,6 +62,10 @@ public class Account {
     }
 
     public void updateInformation(AccountDto accountDto){
+        if (accountDto.getBan() != null){
+            this.ban = accountDto.getBan();
+        }
+
         if (accountDto.getPassword() != null){
             this.password = accountDto.getPassword();
         }
@@ -81,5 +85,9 @@ public class Account {
         if (accountDto.getInformationToThirdParties() != null){
             this.informationToThirdParties = accountDto.getInformationToThirdParties();
         }
+    }
+
+    public void changeRole(String role){
+        this.role = role;
     }
 }

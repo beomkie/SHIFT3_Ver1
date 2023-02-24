@@ -8,6 +8,11 @@
 	<meta name="description" content=""/>
 	<meta name="author" content=""/>
 	<title>관리자 페이지</title>
+	<script th:src="@{/valid.js}"></script>
+
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
+	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css"/>
+
 
 	<!-- include libraries(jQuery, bootstrap) -->
 	<script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -22,6 +27,8 @@
 
 	<link th:href="@{/admin/css/styles.css}" rel="stylesheet"/>
 	<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+	<script th:src="@{/user/assets/js/interest-tag.js}"></script>
 
 	<!-- include datepicker css/js-->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
@@ -54,8 +61,6 @@
 			</div>
 		</main>
 	</div>
-
-	<!--      <script th:src="@{/js/scripts.js}"></script>-->
 
 	<footer th:replace="~{/admin/fragments/footer :: footerFragment}"></footer>
 </div>

@@ -14,7 +14,7 @@
             var firstLogin = new URLSearchParams(window.location.search).get('firstLogin');
             if (firstLogin) {
                 $('.welcome').html(`
-					<div class="alert alert-success mb-0" role="alert">환영합니다. 회원가입을 축하드립니다 🎉</div>
+					<div class="alert alert-success mb-0" role="alert">환영합니다 🎉🎉🎉</div>
 					<div class="alert alert-warning" role="alert">원할한 서비스 이용을 위해 회원정보를 입력 후 수정버튼을 눌러주세요.</div>
 					`);
             }
@@ -135,18 +135,22 @@
                                 pass = false;
                             }
 
-                            if (data.password !== "") {
-                                if (data.password !== data.passwordChk) {
-                                    $("#passwordDiv").append(
-                                        `<span class="text-warning">바꿀 비밀번호가 서로 다릅니다</span>`
-                                    )
-                                    pass = false;
-                                } else if (data.password.match(passwordRegex) == null) {
-                                    $("#passwordDiv").append(
-                                        `<span class="text-warning">비밀번호는 ${passwordRegexRule}를 만족해야 합니다</span>`
-                                    )
-                                    pass = false;
+                            if ($("#nochange") == null) {
+                                if (data.password !== "") {
+                                    if (data.password !== data.passwordChk) {
+                                        $("#passwordDiv").append(
+                                            `<span class="text-warning">바꿀 비밀번호가 서로 다릅니다</span>`
+                                        )
+                                        pass = false;
+                                    } else if (data.password.match(passwordRegex) == null) {
+                                        $("#passwordDiv").append(
+                                            `<span class="text-warning">비밀번호는 ${passwordRegexRule}를 만족해야 합니다</span>`
+                                        )
+                                        pass = false;
+                                    }
                                 }
+                            } else {
+                                data.password = null;
                             }
 
                             if (data.interest === "") {

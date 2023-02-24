@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+	<div class="card mt-3">
+		<div class="container">
+			<div class="card-body">
+				<table class="table table-bordered table-striped">
+					<tr>
+						<th scope="col">계정</th>
+						<td th:text="${account.username}"></td>
+					</tr>
+					<tr>
+						<th scope="col">이름</th>
+						<td th:text="${account.name}"></td>
+					</tr>
+					<tr>
+						<th scope="row">핸드폰 번호</th>
+						<td th:text="${account.phoneNumber}"></td>
+					</tr>
+					<tr>
+						<th scope="row">계정 유형</th>
+						<td th:if="${account.provider == ''}">자체 가입 회원</td>
+						<td th:unless="${account.provider == ''}">SNS 로그인 계정
+							<a th:text="${account.provider}"></a>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">관리자 여부</th>
+						<td th:if="${account.role == 'ROLE_ADMIN'}">관리자 계정</td>
+						<td th:unless="${account.role == 'ROLE_ADMIN'}">일반 계정</td>
+					</tr>
+					<tr>
+						<th scope="row">개인정보 제3자 제공 동의 여부</th>
+						<td th:if="${account.informationToThirdParties}">동의함</td>
+						<td th:unless="${account.informationToThirdParties}">동의하지 않음</td>
+					</tr>
+					<tr>
+						<th scope="row">밴 여부</th>
+						<td th:if="${account.ban}">예</td>
+						<td th:unless="${account.ban}">아니오</td>
+					</tr>
+					<tr>
+						<th scope="row">관심사</th>
+						<td>
+							<input th:value="${account.interest}" id="interest" readonly>
+						</td>
+						<script>
+                            $(document).ready(function () {
+                                let interestInput = document.getElementById("interest");
+                                loadingTag(interestInput);
+                            });
+						</script>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>
