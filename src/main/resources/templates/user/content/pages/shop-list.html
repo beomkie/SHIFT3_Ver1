@@ -499,6 +499,9 @@
 
 					<input type="hidden" id="shopId" hidden>
 
+					<p class="title">한줄소개</p>
+					<p class="content" id="introduce"></p>
+
 					<p class="title">주소</p>
 					<p class="content" id="address"></p>
 
@@ -559,7 +562,8 @@
 
                         $("#shopDetail #shopId").val(shop.id);
                         $("#shopDetail #name").text(shop.name);
-                        $("#shopDetail #address").text(shop.address);
+                        $("#shopDetail #introduce").text(shop.introduce);
+                        $("#shopDetail #address").text(shop.streetAddressClear + ' ' + shop.streetAddressDetail);
                         $("#shopDetail #contact").text(shop.contactNumber);
                         $("#shopDetail #operatingTime").text(shop.operatingTime);
                         $("#shopDetail #shopImages .carousel-inner").empty();

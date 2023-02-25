@@ -243,6 +243,10 @@ body{
     .mobile-show {
         display: block;
     }
+
+    .mobile-full {
+        width: 100% !important;
+    }
 }
 
 
@@ -304,3 +308,38 @@ body{
     z-index: 99;
 
 }
+
+/*카드뷰 길이 일정하게 만들기*/
+div.card .card-body .card-title {
+    margin-bottom: 0.5rem;
+    max-height: 2.3em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+/*카드뷰 길이 일정하게 만들기*/
+div.card .card-body .card-text {
+    margin-bottom: 0.5rem;
+    max-height: 2.3em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+
+.recent_feed_subtitle {
+    max-height: 3em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+.mh-2 {
+    max-height: 2em !important;
+}
+
+/*카드뷰 길이 일정하게 만들기 끝*/

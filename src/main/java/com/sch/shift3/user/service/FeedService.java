@@ -31,7 +31,7 @@ public class FeedService {
         feedByCategory.forEach(feed -> {
             String description = feed.getDescriptionNoHtml();
             if(description.length() > 50){
-                description = description.substring(0, 20) + "...";
+                description = description.substring(0, 47) + "...";
             }
             feed.setDescription(description);
         });
@@ -52,7 +52,7 @@ public class FeedService {
         feeds.forEach(feed -> {
             String description = feed.getDescriptionNoHtml();
             if(description.length() > 15){
-                description = description.substring(0, 15) + "...";
+                description = description.substring(0, 12) + "...";
             }
             feed.setDescription(description);
         });
@@ -65,7 +65,7 @@ public class FeedService {
         feeds.getContent().forEach(feed -> {
             String description = feed.getDescriptionNoHtml();
             if(description.length() > 50){
-                description = description.substring(0, 20) + "...";
+                description = description.substring(0, 47) + "...";
             }
             feed.setDescription(description);
         });
@@ -78,7 +78,7 @@ public class FeedService {
         feeds.forEach(feedItem -> {
             String description = feedItem.getDescriptionNoHtml();
             if(description.length() > 50){
-                description = description.substring(0, 20) + "...";
+                description = description.substring(0, 47) + "...";
             }
             feedItem.setDescription(description);
         });

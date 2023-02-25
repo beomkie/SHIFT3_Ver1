@@ -27,6 +27,8 @@
             padding-left: 0.3em;
             padding-right: 0.3em;
         }
+
+
 	</style>
 
 	<div th:replace="~{/user/fragments/banner :: banner}"></div>
@@ -68,7 +70,7 @@
 							<div class="product_info mobile-mt-3">
 								<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"
 								                                 th:text="${feed.title}"></a></h6>
-								<div class="recent_feed_subtitle mb-2" th:text="${feed.descriptionNoHtml}">
+								<div class="recent_feed_subtitle mh-2 mb-2" th:text="${feed.descriptionNoHtml}">
 								</div>
 								<a th:href="'/feed/' + ${feed.id}" class="btn btn-more rounded-pill mobile-mb-3">더
 									알아보기</a>
@@ -138,12 +140,11 @@
 		<!-- START 카테고리별 피드 1-->
 		<div class="section small_pt pb_20 mb-5">
 			<div class="container">
-				<div class="row justify-content-start">
+				<div class="row justify-content-start mb-3">
 					<div class="col-md-6">
-						<div class="text-start mb-2">
+						<div class="text-start">
 							<span class="category_split"><b>#</b>옷</span>
 						</div>
-						<div class="small_divider clearfix"></div>
 					</div>
 				</div>
 
@@ -174,12 +175,11 @@
 		<!-- START 카테고리별 피드 2-->
 		<div class="section small_pt pb_20 mb-5">
 			<div class="container">
-				<div class="row justify-content-start">
+				<div class="row justify-content-start mb-3">
 					<div class="col-md-6">
-						<div class="text-start mb-2">
+						<div class="text-start">
 							<span class="category_split"><b>#</b>전자기기</span>
 						</div>
-						<div class="small_divider clearfix"></div>
 					</div>
 				</div>
 
