@@ -175,6 +175,7 @@
 	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
 
 	<script th:src="@{/user/assets/js/custom-overlay.js}"></script>
+	<script th:src="@{/user/assets/js/MarkerClustering.js}"></script>
 	<script th:src="@{/user/assets/js/shop-list.js}"></script>
 
 	<script type="text/javascript">
@@ -186,12 +187,17 @@
                 minZoom: 6,
             });
 
+            window.markerClusterer.setOptions({
+                map: map
+            });
+
             // when dom is ready
             $(document).ready(function () {
                 // get all shop-item data-shop
                 $('.shop-item').map(function () {
                     window.drawMap($(this).data('shop'));
-                })
+                });
+                window.clusteringMap();
             });
         }
 	</script>
@@ -341,6 +347,7 @@
                                                 $("#shopList").append(renderShop(item));
                                                 drawMap(item);
                                             });
+                                            window.clusteringMap();
                                         }
                                     });
                                 }
@@ -506,6 +513,13 @@
 
 				<script>
                     function detailShop(shop) {
+                        let lat = shop.latitude;
+                        let lng = shop.longitude;
+                        let position = new naver.maps.LatLng(lat, lng);
+                        map.panTo(position);
+                        map.setZoom(12);
+
+
                         $("#shopDetail").show();
 
                         let contentFeedTitle = $("#contentFeedTitle");

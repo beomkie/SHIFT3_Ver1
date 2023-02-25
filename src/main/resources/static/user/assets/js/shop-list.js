@@ -8,6 +8,43 @@
 // }
 
 window.infowindow = [];
+const htmlMarker1 = {
+        content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(' + "/user/assets/images/cluster-marker-1.png" + ');background-size:contain;"></div>',
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker2 = {
+        content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(' + "/user/assets/images/cluster-marker-2.png" + ');background-size:contain;"></div>',
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker3 = {
+        content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(' + "/user/assets/images/cluster-marker-3.png" + ');background-size:contain;"></div>',
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker4 = {
+        content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(' + "/user/assets/images/cluster-marker-4.png" + ');background-size:contain;"></div>',
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    },
+    htmlMarker5 = {
+        content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(' + "/user/assets/images/cluster-marker-5.png" + ');background-size:contain;"></div>',
+        size: N.Size(40, 40),
+        anchor: N.Point(20, 20)
+    };
+
+window.markerClusterer = new MarkerClustering({
+    minClusterSize: 2,
+    maxZoom: 11,
+    disableClickZoom: false,
+    gridSize: 110,
+    icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
+    indexGenerator: [5, 10, 30, 50, 100],
+    stylingFunction: function (clusterMarker, count) {
+        $(clusterMarker.getElement()).find('div:first-child').text(count);
+    }
+});
 
 window.removeAllMarker = function () {
     infowindow.forEach(function (e) {
@@ -22,7 +59,6 @@ window.drawMap = function (shop) {
     let lat = shop.latitude;
     let lng = shop.longitude;
     let position = new naver.maps.LatLng(lat, lng);
-
 
     var markerContent =
             `<div style="position:absolute;">
@@ -47,7 +83,6 @@ window.drawMap = function (shop) {
                     </div>
                 </div>
             </div>
-<!--            todo marker image change-->
             <div class="pin_s" style="cursor: pointer; width: 22px; height: 30px;">
                 <img src="/user/assets/images/pin.png" alt="" style="margin: 0px; padding: 0px; border: 0px solid transparent; display: block; max-width: none; max-height: none; -webkit-user-select: none; position: absolute; width: 30px; height: 30px; left: 0px; top: 0px;">
             </div> 
@@ -65,11 +100,15 @@ window.drawMap = function (shop) {
 
     window.infowindow.push(htmlMarker);
 
+    // markerClusterer.addMarkers(htmlMarker);
+
     $(elHtmlMarker).on('click', 'img', function (e) {
         if ($("#shopDetail #shopId").val() != shop.id) {
             detailShop(shop)
         }
         $("#shopDetail").show();
+
+        $(".infowindow").hide();
 
         $(elHtmlMarker).find('.infowindow').show();
     });
@@ -93,44 +132,23 @@ window.drawMap = function (shop) {
         }
     });
 
-
-    // marker = new naver.maps.Marker({
-    //     map: map,
-    //     position: position
-    // });
-
-    // 지도 Zoom 레벨에 따라 InfoWindow 크기 조절
-    /*    map.addListener('zoom_changed', function () {
-            var zoomLevel = map.getZoom();
-            var fontSize = 15;
-            var heightSize = 6.5;
-
-            if (zoomLevel > 15) {
-                fontSize = 13;
-                heightSize = 7;
-            }
-            console.log(zoomLevel + "., " + fontSize);
-            $('.iw_inner').parent().parent().attr('style', `
-            position: absolute; top: 0px; left: 0px; z-index: 0; margin: 0px; padding: 0px; border: 0px solid rgb(51, 51, 51); display: block; cursor: default; box-sizing: content-box !important; background: white; border-radius: 50px;`);
-            $('.iw_inner').parent().attr('style', `
-            margin: 0px; padding: 0px; border: 0px solid transparent; display: inline-block; box-sizing: content-box !important;
-            font-size: ${fontSize}px; width:15em;  height: ${heightSize}em;`);
-        });*/
-
-    // all info window open
-    // iw.open(map, marker);
-    // $('.iw_inner').parent().parent().css('border-radius', '50px');
-
-    /*naver.maps.Event.addListener(marker, 'click', function (e) {
-        // info window open
-        iw.open(map, marker);
-        detailShop(shop);
+    /*// 지도 줌 레벨에 따라 클러스터링이 활성화/비활성화되도록 설정합니다.
+    naver.maps.Event.addListener(map, 'zoom_changed', function () {
+        var level = map.getZoom();
+        if (level <= 13) {
+            markerClusterer.setMap(map);
+        } else {
+            markerClusterer.setMap(null);
+        }
     });*/
 
-    // infowindow.push(iw);
-
-    // panto
     map.setZoom(13);
     map.panTo(position);
+}
+
+window.clusteringMap = function () {
+    window.markerClusterer.setOptions({
+        markers: infowindow
+    });
 }
 // initMap();
