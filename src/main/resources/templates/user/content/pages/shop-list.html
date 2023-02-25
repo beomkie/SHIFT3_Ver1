@@ -6,16 +6,37 @@
 
 <div layout:fragment="content" class="content">
 	<style>
+        span[data-enable-hover='true']:hover {
+            background: gray;
+            /* hover on에서만 발동한다. */
+            transition: all 0.5s;
+        }
+
+        #subLocation {
+            padding-left: 1rem;
+            border-left: 5px solid rgba(0, 25, 90, 0.67);
+        }
+
         .address_filter span {
             width: 50px !important;
+            border-radius: 10px;
         }
 
         .sort_filter span {
             width: 50px !important;
+            border-radius: 10px;
         }
 
         .sub_address_filter span {
             width: auto !important;
+            border-radius: 10px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        span.active {
+            background-color: rgb(0, 25, 91) !important;
+            color: white !important;
         }
 
 
@@ -257,45 +278,45 @@
 
 
 						<div id="location" class="product_size_switch address_filter mb-3">
-							<span class="active">내위치</span>
-							<span class="">서울</span>
-							<span class="">경기</span>
-							<span class="">인천</span>
-							<span class="">강원</span>
-							<span class="">대전</span>
-							<span class="">세종</span>
-							<span class="">충남</span>
-							<span class="">충북</span>
-							<span class="">부산</span>
-							<span class="">울산</span>
-							<span class="">경남</span>
-							<span class="">경북</span>
-							<span class="">대구</span>
-							<span class="">광주</span>
-							<span class="">전남</span>
-							<span class="">전북</span>
-							<span class="">제주</span>
+							<span class="active" data-enable-hover="true">내위치</span>
+							<span class="" data-enable-hover="true">서울</span>
+							<span class="" data-enable-hover="true">경기</span>
+							<span class="" data-enable-hover="true">인천</span>
+							<span class="" data-enable-hover="true">강원</span>
+							<span class="" data-enable-hover="true">대전</span>
+							<span class="" data-enable-hover="true">세종</span>
+							<span class="" data-enable-hover="true">충남</span>
+							<span class="" data-enable-hover="true">충북</span>
+							<span class="" data-enable-hover="true">부산</span>
+							<span class="" data-enable-hover="true">울산</span>
+							<span class="" data-enable-hover="true">경남</span>
+							<span class="" data-enable-hover="true">경북</span>
+							<span class="" data-enable-hover="true">대구</span>
+							<span class="" data-enable-hover="true">광주</span>
+							<span class="" data-enable-hover="true">전남</span>
+							<span class="" data-enable-hover="true">전북</span>
+							<span class="" data-enable-hover="true">제주</span>
 						</div>
 
-						<div id="subLocation" style="display: none">
+						<div id="subLocation" class="mb-2" style="display: none">
 							<div class="name mb-2">
 								상세지역
 							</div>
 
 
 							<div class="product_size_switch sub_address_filter">
-								<span class="active">전체</span>
-								<span class="">서초구</span>
-								<span class="">강남구</span>
-								<span class="">송파구</span>
-								<span class="">강서구/양천구</span>
-								<span class="">구로구/금천구</span>
-								<span class="">용등포구/동작구</span>
-								<span class="">관악구</span>
-								<span class="">강동구</span>
-								<span class="">도봉구/강북구</span>
-								<span class="">성북구/종로구/서대문구</span>
-								<span class="">은평구/마포구</span>
+								<span class="active" data-enable-hover="true">전체</span>
+								<span class="" data-enable-hover="true">서초구</span>
+								<span class="" data-enable-hover="true">강남구</span>
+								<span class="" data-enable-hover="true">송파구</span>
+								<span class="" data-enable-hover="true">강서구/양천구</span>
+								<span class="" data-enable-hover="true">구로구/금천구</span>
+								<span class="" data-enable-hover="true">용등포구/동작구</span>
+								<span class="" data-enable-hover="true">관악구</span>
+								<span class="" data-enable-hover="true">강동구</span>
+								<span class="" data-enable-hover="true">도봉구/강북구</span>
+								<span class="" data-enable-hover="true">성북구/종로구/서대문구</span>
+								<span class="" data-enable-hover="true">은평구/마포구</span>
 							</div>
 
 							<script>
@@ -367,7 +388,7 @@
 															<div class="card-body">
 															<h5 class="name">${shop.name}</h5>
 															<ul><li class="introduce">${shop.introduce}</li>
-															<li class="address text-muted">${shop.streetAddressClear}</li>
+															<li class="address">${shop.streetAddressClear}</li>
 															</ul>
 															</div>
 														</div>
@@ -386,8 +407,8 @@
 
 
 							<div class="product_size_switch sort_filter">
-								<span class="active">인기순</span>
-								<span class="">최신순</span>
+								<span class="active" data-enable-hover="true">인기순</span>
+								<span class="" data-enable-hover="true">최신순</span>
 							</div>
 
 						</div>
@@ -420,7 +441,7 @@
 											<h5 class="name" th:text="${shop.name}"></h5>
 											<ul>
 												<li class="introduce" th:text="${shop.introduce}">한줄소개</li>
-												<li class="address text-muted"
+												<li class="address"
 												    th:text="${shop.getStreetAddressClear()}">주소
 												</li>
 											</ul>
