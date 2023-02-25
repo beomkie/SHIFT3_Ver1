@@ -43,7 +43,6 @@
 	</style>
 
 	<script>
-
         // ajax /feed/search.do
 
         $(function () {
@@ -103,6 +102,7 @@
 	                        </div>`;
                             feedItems.append(feedHtml);
                         }
+                        ScrollReveal().reveal('.card', {interval: 10, reset: true});
                     },
                     error: function (error) {
                         console.log(error);

@@ -38,7 +38,7 @@ window.markerClusterer = new MarkerClustering({
     minClusterSize: 2,
     maxZoom: 11,
     disableClickZoom: false,
-    gridSize: 110,
+    gridSize: 130,
     icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
     indexGenerator: [5, 10, 30, 50, 100],
     stylingFunction: function (clusterMarker, count) {
