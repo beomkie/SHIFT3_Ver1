@@ -269,7 +269,6 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
 
     // KVO 이벤트 핸들러
     changed: function (key, value) {
-        console.log(key, value);
         if (!this.getMap()) return;
 
         switch (key) {
@@ -277,7 +276,6 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
             case 'minClusterSize':
             case 'gridSize':
             case 'averageCenter':
-                console.log('redraw called')
                 this._redraw();
                 break;
             case 'indexGenerator':
