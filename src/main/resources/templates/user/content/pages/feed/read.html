@@ -118,10 +118,15 @@
             width: auto !important;
         }
 
+        #feed-thumbnail {
+            max-height: 40vh;
+            object-fit: cover;
+        }
+
 	</style>
 
 	<div class="feed_section">
-		<img th:src="'/file/' + ${feed.thumbnailFileName}" class="img-fluid" id="banner-img"/>
+		<img th:src="'/file/' + ${feed.thumbnailFileName}" class="img-fluid" id="feed-thumbnail"/>
 		<div class="text-center text-on-image">
 			<h6 class="category" id="category" th:text="${feed.category}"></h6>
 			<h4 class="title" id="title" th:text="${feed.title}"></h4>
@@ -201,17 +206,19 @@
 			<h3>유사한 피드</h3>
 			<hr/>
 
-			<div class="card-group flex-wrap p-3">
-				<div class="card" th:each="relatedFeed : ${relatedFeedList}">
-					<div class="img-container43">
-						<img th:src="'/file/' + ${relatedFeed.thumbnailFileName}" class="card-img-top rounded"
-						     alt="your-image-alt">
-					</div>
-					<div class="card-body">
-						<h5 class="card-title" th:text="${relatedFeed.title}"></h5>
-						<p class="card-text" th:text="${relatedFeed.description}"></p>
-						<a th:href="'/feed/' + ${relatedFeed.id}" class="btn btn-primary btn-more rounded-pill">더
-							알아보기</a>
+			<div class="row">
+				<div class="col-3 mobile-full">
+					<div class="card" th:each="relatedFeed : ${relatedFeedList}">
+						<div class="img-container43">
+							<img th:src="'/file/' + ${relatedFeed.thumbnailFileName}" class="card-img-top rounded"
+							     alt="your-image-alt">
+						</div>
+						<div class="card-body">
+							<h5 class="card-title" th:text="${relatedFeed.title}"></h5>
+							<p class="card-text" th:text="${relatedFeed.description}"></p>
+							<a th:href="'/feed/' + ${relatedFeed.id}" class="btn btn-primary btn-more rounded-pill">더
+								알아보기</a>
+						</div>
 					</div>
 				</div>
 			</div>

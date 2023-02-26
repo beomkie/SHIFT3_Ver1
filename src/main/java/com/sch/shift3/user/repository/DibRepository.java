@@ -100,8 +100,6 @@ public class DibRepository {
         OrderSpecifier<Integer> orderSpecifier = pageable.getSort().getOrderFor("id").isAscending() ? dib.id.asc() : dib.id.desc();
         query.orderBy(orderSpecifier);
 
-        System.out.println("orderSpecifier = " + orderSpecifier);
-
         List<Dib> dibs = query.fetch();
 
         Long count = queryFactory
@@ -113,6 +111,32 @@ public class DibRepository {
         return new PageImpl<>(dibs, pageable, count);
     }
 
+    public PageImpl<Dib> getDibSelectShopList(int accountId, Pageable pageable){
+        QDib dib = QDib.dib;
+
+        var expression = dib.accountId.eq(accountId)
+                .and(dib.productId.isNull())
+                .and(dib.selectShopId.isNotNull());
+
+        JPAQuery<Dib> query = queryFactory
+                .selectFrom(dib)
+                .where(expression)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        OrderSpecifier<Integer> orderSpecifier = pageable.getSort().getOrderFor("id").isAscending() ? dib.id.asc() : dib.id.desc();
+        query.orderBy(orderSpecifier);
+
+        List<Dib> dibs = query.fetch();
+
+        Long count = queryFactory
+                .select(dib.count())
+                .where(expression)
+                .from(dib)
+                .fetchOne();
+
+        return new PageImpl<>(dibs, pageable, count);
+    }
     public void removeDibShop(Integer id, Integer shopId) {
         QDib dib = QDib.dib;
         queryFactory

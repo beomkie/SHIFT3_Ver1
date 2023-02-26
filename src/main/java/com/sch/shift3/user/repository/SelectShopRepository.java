@@ -11,4 +11,6 @@ public interface SelectShopRepository extends JpaRepository<SelectShop, Integer>
     List<SelectShop> findAll();
     List<SelectShop> findByNameContaining(String name);
 //    @EntityGraph(attributePaths = {"selectShopBrandList", "imageSelectShopList"})
+
+
 }

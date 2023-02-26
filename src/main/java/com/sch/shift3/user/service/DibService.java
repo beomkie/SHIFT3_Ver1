@@ -2,7 +2,9 @@ package com.sch.shift3.user.service;
 
 import com.sch.shift3.user.entity.Dib;
 import com.sch.shift3.user.entity.Product;
+import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.repository.DibRepository;
+import com.sch.shift3.user.repository.SelectShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -17,6 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DibService {
+    private final SelectShopRepository selectShopRepository;
     private final DibRepository dibRepository;
     private final ProductService productService;
 
@@ -68,5 +71,35 @@ public class DibService {
     @Transactional
     public void dibShop(Integer id, Integer shopId) {
         dibRepository.dibShop(id, shopId);
+    }
+
+    public PageImpl<SelectShop> getDibShopList(Integer id, Pageable pageRequest) {
+        PageImpl<Dib> dibs = dibRepository.getDibSelectShopList(id, pageRequest);
+        log.info("shopDibList : {}", dibs.getContent());
+
+        List<Integer> shopIds = dibs.stream()
+                .map(Dib::getSelectShopId)
+                .toList();
+
+        log.info("shopIds : {}", shopIds);
+
+        List<SelectShop> result = selectShopRepository.findAllById(shopIds);
+
+        log.info("results : {}", result);
+        List<SelectShop> content = new ArrayList<>();
+
+        // sort by dibs.CreatedAt
+
+
+        // dib order apply to product
+        dibs.forEach(dib -> {
+            result.stream()
+                    .filter(selectShop -> selectShop.getId().equals(dib.getSelectShopId()))
+                    .findFirst()
+                    .ifPresent(content::add);
+        });
+
+        // change page and size to dibs
+        return new PageImpl<>(content, dibs.getPageable(), dibs.getTotalElements());
     }
 }

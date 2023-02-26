@@ -7,6 +7,10 @@
         #product-list {
             min-height: 30vh;
         }
+
+        #shop-list {
+            min-height: 30vh;
+        }
 	</style>
 	<script>
         function loadProducts(page) {
@@ -17,10 +21,10 @@
             fetch(`/dib/product?page=${page}&size=3&sort=id,DESC`)
                 .then(response => response.json())
                 .then(json => {
-                    const pagination = document.querySelector(".pagination");
+                    const pagination = document.querySelector("#product .pagination");
                     pagination.innerHTML = "";
 
-                    $("#product-count").html(`<h6>총 ${json.totalElements}개의 상품이 있습니다.</h6>`);
+                    $("#product-count").html(`<h6>총 ${json.numberOfElements}개의 상품이 있습니다.</h6>`);
 
                     for (let i = 0; i < json.totalPages; i++) {
                         const pageElem = document.createElement("li");
@@ -77,8 +81,107 @@
                 });
         }
 
+        function loadSelectShop(page) {
+            $('#shop-list').loading({
+                theme: 'dark'
+            });
+
+            fetch(`/dib/shop?page=${page}&size=9&sort=id,DESC`)
+                .then(response => response.json())
+                .then(json => {
+                    const pagination = document.querySelector("#shop .pagination");
+                    pagination.innerHTML = "";
+
+                    // 총 n개 중 n개를 보여줌
+                    $("#shop-count").html(`<h6>총 ${json.numberOfElements}개의 편집샵이 있습니다.</h6>`);
+
+                    for (let i = 0; i < json.totalPages; i++) {
+                        const pageElem = document.createElement("li");
+                        pageElem.classList.add("page-item");
+
+                        const pageLink = document.createElement("a");
+                        pageLink.classList.add("page-link");
+                        pageLink.innerText = i + 1;
+                        pageLink.href = "#";
+                        pageLink.onclick = function () {
+                            loadProducts(i);
+                        }
+
+                        pageElem.appendChild(pageLink);
+                        pagination.appendChild(pageElem);
+                    }
+
+                    return json;
+                })
+                .then(json => json.content)
+                .then(shops => {
+                    let shopList = document.querySelector("#shop-list");
+                    shopList.innerHTML = '';
+
+
+                    let shopItemList = [];
+                    let row = document.createElement("div");
+                    row.classList.add("row", "row-cols-3", "g-0");
+
+                    for (let i = 0; i < shops.length; i++) {
+
+                        let shop = shops[i];
+                        let ele = document.createElement("div");
+                        ele.classList.add("col-4");
+                        row.appendChild(ele);
+
+                        let imageUrl = "/no-image-square.png";
+                        if (shop.imageSelectShops[0] && shop.imageSelectShops[0].imageName) {
+                            imageUrl = shop.imageSelectShops[0].imageName;
+                        }
+
+                        ele.innerHTML = `
+                        <div style="height: 0; padding-bottom: 100%; position: relative;" class="hover-small">
+                            <img src="/file/${imageUrl}" class="img-fluid h-100 w-100 position-absolute" alt="${shop.name}" style="object-fit: cover;">
+                        </div>
+				        `;
+
+                        shopItemList.push(ele);
+
+                        // check if shopItemList has 3 elements
+                        if (shopItemList.length === 3) {
+                            row.appendChild(shopItemList[0]);
+                            row.appendChild(shopItemList[1]);
+                            row.appendChild(shopItemList[2]);
+                            shopList.appendChild(row);
+                            shopItemList = [];
+                            row = document.createElement("div");
+                            row.classList.add("row", "row-cols-3", "g-0");
+                        }
+                    }
+
+                    // check if there are any remaining elements in shopItemList
+                    if (shopItemList.length > 0) {
+                        // add blank elements to fill in any missing spots in the grid
+                        while (shopItemList.length < 3) {
+                            let blankEle = document.createElement("div");
+                            blankEle.classList.add("col-4");
+                            row.appendChild(blankEle);
+                            shopItemList.push(blankEle);
+                        }
+                        row.appendChild(shopItemList[0]);
+                        row.appendChild(shopItemList[1]);
+                        row.appendChild(shopItemList[2]);
+                        shopList.appendChild(row);
+                    }
+                })
+                .then(() => {
+                    $('#shop-list').loading('stop');
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+
+
         window.onload = function () {
             loadProducts(0);
+            loadSelectShop(0);
         }
 	</script>
 	<!--        bootstrap5 상품, 설렉트샵 탭 -->
@@ -104,7 +207,7 @@
 							<div class="tab-pane fade show active" id="product" role="tabpanel"
 							     aria-labelledby="product-tab">
 								<div class="container">
-									<div class="row" id="product-list">
+									<div class="row mb-2" id="product-list">
 										<!-- Products will be dynamically added here -->
 									</div>
 									<div class="row" id="product-count">
@@ -118,7 +221,16 @@
 							</div>
 
 
-							<div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">...
+							<div class="tab-pane fade" id="shop" role="tabpanel" aria-labelledby="shop-tab">
+								<div class="container mb-2" id="shop-list">
+								</div>
+								<div class="row" id="shop-count">
+								</div>
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-center">
+
+									</ul>
+								</nav>
 							</div>
 						</div>
 					</div>

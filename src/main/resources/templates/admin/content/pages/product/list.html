@@ -99,10 +99,10 @@
 							<th scope="row">연락처</th>
 							<td th:text="${product.selectShop.contactNumber }"></td>
 						</tr>
-						<tr>
-							<th scope="row">해시태그</th>
-							<!--							<td th:utext="${}"></td>-->
-						</tr>
+						<!--						<tr>-->
+						<!--							<th scope="row">해시태그</th>-->
+						<!--							<td th:utext="${}"></td>-->
+						<!--						</tr>-->
 						<tr>
 							<th scope="row">생성시간</th>
 							<td th:text="${#temporals.format(product.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>

@@ -271,7 +271,7 @@
 					<div class="row">
 						<h3 class="mb-2 heading_s1">연관 컨텐츠 피드</h3>
 						<div class="card-group">
-							<div class="card" th:each="feed : ${relatedFeed}">
+							<div class="card" th:each="feed : ${relatedFeed}" data-same-height="true">
 								<a th:href="'/feed/' + ${feed.id} ">
 									<div class="img-container43">
 										<img th:src="'/file/' + ${feed.thumbnailFileName}"

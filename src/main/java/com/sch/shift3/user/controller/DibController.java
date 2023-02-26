@@ -3,6 +3,7 @@ package com.sch.shift3.user.controller;
 import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.entity.Account;
 import com.sch.shift3.user.entity.Product;
+import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.service.DibService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,15 @@ public class DibController {
             throw new IllegalArgumentException("로그인이 필요합니다.");
 
         return dibService.getDibProductList(account.getId(), pageRequest);
+    }
+
+    @GetMapping("/dib/shop")
+    public PageImpl<SelectShop> getDibShopList(@CurrentUser Account account,
+                                               Pageable pageRequest) {
+        if (account == null)
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+
+        return dibService.getDibShopList(account.getId(), pageRequest);
     }
 
 
