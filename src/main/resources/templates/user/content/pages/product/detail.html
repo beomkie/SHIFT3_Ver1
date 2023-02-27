@@ -156,9 +156,8 @@
 						<div class="product_description row" style="width: 100%; word-break: break-word;">
 							<h4 class="product_title" th:text="${product.name}"></h4>
 							<!--							<div class="product_price">-->
-							<span class="price"
-							      th:with="price=${#numbers.formatInteger(product.price.doubleValue(), 0)}"
-							      th:text="${#numbers.formatCurrency(price)}"></span>
+							<div class="price"
+							     th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')} + '원'"></div>
 							<!--							</div>-->
 
 							<br/>
@@ -301,31 +300,32 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row" th:if="${relatedProducts.size() > 0}">
 				<div class="col-12">
 					<div class="heading_s1">
 						<h3>비슷한 상품</h3>
 					</div>
 					<div class="releted_product_slider carousel_slider owl-carousel owl-theme" data-margin="20"
 					     data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "1199":{"items": "4"}}'>
-
-
-						<div class="item">
+						<!--/*@thymesVar id="relatedProduct" type="com.sch.shift3.user.entity.Product"*/-->
+						<div class="item" th:each="relatedProduct : ${relatedProducts}">
 							<div class="product">
 								<div class="product_img">
-									<a href="shop-product-detail.html">
-										<img src="/user/assets/images/product_img1.jpg" alt="product_img1">
+									<a th:href="'/product/' + ${relatedProduct.id}">
+										<img th:src="'/file/' + ${product.images[0].imageName}" alt="product image">
 									</a>
 								</div>
 								<div class="product_info">
-									<h6 class="product_title"><a href="shop-product-detail.html">Blue Dress For
-										Woman</a></h6>
+									<h6 class="product_title"><a
+											th:href="'/product/' + ${relatedProduct.id}"
+											th:text="${relatedProduct.name}"></a></h6>
 									<div class="product_price">
-										<span class="price">20,000원</span>
+										<span class="price"
+										      th:text="${#numbers.formatInteger(relatedProduct.price, 0, 'COMMA')} + '원'"></span>
 									</div>
 									<div class="pr_desc">
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit
-											massa enim. Nullam id varius nunc id varius nunc.</p>
+										<p th:href="'/product/' + ${relatedProduct.id}"
+										   th:text="${relatedProduct.description}"></p>
 									</div>
 								</div>
 							</div>

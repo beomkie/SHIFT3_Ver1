@@ -75,23 +75,19 @@ public class DibService {
 
     public PageImpl<SelectShop> getDibShopList(Integer id, Pageable pageRequest) {
         PageImpl<Dib> dibs = dibRepository.getDibSelectShopList(id, pageRequest);
-        log.info("shopDibList : {}", dibs.getContent());
+
+        dibs.forEach(dib -> log.info("dib: {}", dib.getSelectShopId()));
 
         List<Integer> shopIds = dibs.stream()
                 .map(Dib::getSelectShopId)
                 .toList();
 
-        log.info("shopIds : {}", shopIds);
-
         List<SelectShop> result = selectShopRepository.findAllById(shopIds);
-
-        log.info("results : {}", result);
         List<SelectShop> content = new ArrayList<>();
 
-        // sort by dibs.CreatedAt
+        // todo sort by dibs.CreatedAt
+        // todo image sort
 
-
-        // dib order apply to product
         dibs.forEach(dib -> {
             result.stream()
                     .filter(selectShop -> selectShop.getId().equals(dib.getSelectShopId()))

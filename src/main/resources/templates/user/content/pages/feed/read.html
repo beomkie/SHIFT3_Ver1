@@ -188,9 +188,11 @@
 					</div>
 					<div class="product-info">
 						<div class="product-name" th:text="${product.name}"></div>
+						<!--						<div class="product-price"-->
+						<!--						     th:with="price=${#numbers.formatInteger(product.price.doubleValue(), 0)}"-->
+						<!--						     th:text="${#numbers.formatCurrency(price)}"></div>-->
 						<div class="product-price"
-						     th:with="price=${#numbers.formatInteger(product.price.doubleValue(), 0)}"
-						     th:text="${#numbers.formatCurrency(price)}"></div>
+						     th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')} + '원'"></div>
 					</div>
 				</div>
 				<div class="text-center">

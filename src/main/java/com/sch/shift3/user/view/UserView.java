@@ -6,6 +6,7 @@ import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
 import com.sch.shift3.user.entity.Account;
 import com.sch.shift3.user.entity.ContentFeed;
+import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.repository.ShopRepository;
 import com.sch.shift3.user.service.DibService;
 import com.sch.shift3.user.service.FeedService;
@@ -163,7 +164,8 @@ public class UserView {
 
     @GetMapping("/product/{productId}")
     public String productPage(Model model, @PathVariable Integer productId, @CurrentUser Account account){
-        model.addAttribute("product", productService.getProductById(productId));
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
         model.addAttribute("disableLoading", true);
         if (account != null){
             model.addAttribute("isDibs", dibService.isProductDib(account.getId(), productId));
@@ -171,6 +173,8 @@ public class UserView {
             model.addAttribute("isDibs", false);
         }
         model.addAttribute("relatedFeed", feedService.getRelatedFeed(productId));
+        model.addAttribute("relatedProducts", productService.getRelatedProduct(product));
+
 
         return "user/content/pages/product/detail";
     }

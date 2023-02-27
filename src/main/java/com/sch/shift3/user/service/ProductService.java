@@ -32,4 +32,7 @@ public class ProductService {
     public PageImpl<Product> getProductList(List<Integer> productIds, Pageable pageable) {
         return productRepositoryCustom.getProductList(productIds, pageable);
     }
+    public List<Product> getRelatedProduct(Product product) {
+        return productRepository.getResemblanceProduct(product.getDescription(), product.getId(), 4);
+    }
 }

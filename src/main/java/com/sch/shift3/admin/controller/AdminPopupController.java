@@ -20,7 +20,7 @@ public class AdminPopupController {
 
     @Transactional
     @PostMapping("/create.do")
-    public ResponseEntity<String> createProduct(@ModelAttribute PopupDto popupDto){
+    public ResponseEntity<String> createPopup(@ModelAttribute PopupDto popupDto){
         popupService.createPopup(popupDto);
 
         return ResponseEntity.noContent().build();
@@ -28,7 +28,7 @@ public class AdminPopupController {
 
     @Transactional
     @PostMapping("/edit.do")
-    public ResponseEntity<String> editProduct(@ModelAttribute PopupDto popupDto){
+    public ResponseEntity<String> editPopup(@ModelAttribute PopupDto popupDto){
         popupService.editPopup(popupDto);
 
         return ResponseEntity.noContent().build();
@@ -36,7 +36,7 @@ public class AdminPopupController {
 
     @Transactional
     @GetMapping("/remove.do")
-    public void deleteProduct(@RequestParam Integer id, HttpServletResponse response){
+    public void deletePopup(@RequestParam Integer id, HttpServletResponse response){
         popupService.deletePopup(id);
 
         try {

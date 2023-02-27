@@ -145,4 +145,22 @@ public class DibRepository {
                         .and(dib.selectShopId.eq(shopId)))
                 .execute();
     }
+
+    public void removeAllShop(Integer id) {
+        QDib dib = QDib.dib;
+        queryFactory
+                .delete(dib)
+                .where(dib.selectShopId.eq(id)
+                        .and(dib.selectShopId.isNull()))
+                .execute();
+    }
+
+    public void removeAllProduct(Integer id) {
+        QDib dib = QDib.dib;
+        queryFactory
+                .delete(dib)
+                .where(dib.productId.eq(id)
+                        .and(dib.selectShopId.isNull()))
+                .execute();
+    }
 }

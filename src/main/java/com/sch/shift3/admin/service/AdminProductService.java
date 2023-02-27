@@ -4,10 +4,7 @@ import com.sch.shift3.user.dto.ProductDto;
 import com.sch.shift3.user.entity.ImageProduct;
 import com.sch.shift3.user.entity.Product;
 import com.sch.shift3.user.entity.SelectShop;
-import com.sch.shift3.user.repository.ImageProductRepository;
-import com.sch.shift3.user.repository.ProductRepository;
-import com.sch.shift3.user.repository.ProductRepositoryCustom;
-import com.sch.shift3.user.repository.SelectShopRepository;
+import com.sch.shift3.user.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,7 @@ public class AdminProductService {
     private final ImageProductRepository imageProductRepository;
     private final ProductRepositoryCustom productRepositoryCustom;
     private final AdminImageService adminImageService;
+    private final DibRepository dibRepository;
 
     public List<ProductDto> getAllProductList(){
         List<ProductDto> productList = new ArrayList<>();
@@ -83,4 +81,10 @@ public class AdminProductService {
         return productsByName;
     }
 
+    public void removeProduct(Integer id) {
+        // remove products
+        productRepositoryCustom.deleteProduct(id);
+        // remove from dib
+        dibRepository.removeAllProduct(id);
+    }
 }

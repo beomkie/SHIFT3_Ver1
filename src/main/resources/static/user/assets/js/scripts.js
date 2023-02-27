@@ -666,9 +666,8 @@ PAGE JS
     *===================================*/
     var image = $('#product_img');
     //var zoomConfig = {};
-    var zoomActive = false;
-
-    zoomActive = !zoomActive;
+    var zoomActive = true;
+    
     if (zoomActive) {
         if ($(image).length > 0) {
             $(image).elevateZoom({
@@ -735,6 +734,12 @@ PAGE JS
             if ($(this).next().val() > 1) $(this).next().val(+$(this).next().val() - 1);
         }
     });
+
+    // if pr_item_gallery is one item,
+    // hide product_img_zoom
+    if ($('#pr_item_gallery .item').length == 1) {
+        $(".product_img_box").hide();
+    }
 
     /*===================================*
    22. PRICE FILTER JS

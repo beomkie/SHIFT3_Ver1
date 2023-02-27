@@ -4,10 +4,7 @@ import com.sch.shift3.user.dto.SelectShopDto;
 import com.sch.shift3.user.entity.ImageSelectShop;
 import com.sch.shift3.user.entity.SelectShop;
 import com.sch.shift3.user.entity.SelectShopBrand;
-import com.sch.shift3.user.repository.ImageSelectShopRepository;
-import com.sch.shift3.user.repository.ProductRepositoryCustom;
-import com.sch.shift3.user.repository.SelectShopBrandRepository;
-import com.sch.shift3.user.repository.SelectShopRepository;
+import com.sch.shift3.user.repository.*;
 import com.sch.shift3.utill.Address;
 import com.sch.shift3.utill.Geocoding;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +26,7 @@ public class AdminShopService {
     private final SelectShopBrandRepository shopBrandRepository;
     private final ProductRepositoryCustom productRepositoryCustom;
     private final Geocoding geocoding;
+    private final DibRepository dibRepository;
 
     public List<SelectShopDto> getAllShopList(){
         List<SelectShopDto> selectShopList = new ArrayList<>();
@@ -125,6 +123,9 @@ public class AdminShopService {
         // remove shop
         SelectShop selectShop = selectShopRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 편집샵이 존재하지 않습니다."));
         selectShopRepository.delete(selectShop);
+
+        // remove from dib
+        dibRepository.removeAllShop(id);
 
     }
 }

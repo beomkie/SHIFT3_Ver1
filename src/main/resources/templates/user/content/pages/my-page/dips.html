@@ -24,7 +24,7 @@
                     const pagination = document.querySelector("#product .pagination");
                     pagination.innerHTML = "";
 
-                    $("#product-count").html(`<h6>총 ${json.numberOfElements}개의 상품이 있습니다.</h6>`);
+                    $("#product-count").html(`<h6>총 ${json.totalElements}개의 상품이 있습니다.</h6>`);
 
                     for (let i = 0; i < json.totalPages; i++) {
                         const pageElem = document.createElement("li");
@@ -93,7 +93,7 @@
                     pagination.innerHTML = "";
 
                     // 총 n개 중 n개를 보여줌
-                    $("#shop-count").html(`<h6>총 ${json.numberOfElements}개의 편집샵이 있습니다.</h6>`);
+                    $("#shop-count").html(`<h6>총 ${json.totalElements}개의 편집샵이 있습니다.</h6>`);
 
                     for (let i = 0; i < json.totalPages; i++) {
                         const pageElem = document.createElement("li");
@@ -104,7 +104,7 @@
                         pageLink.innerText = i + 1;
                         pageLink.href = "#";
                         pageLink.onclick = function () {
-                            loadProducts(i);
+                            loadSelectShop(i);
                         }
 
                         pageElem.appendChild(pageLink);

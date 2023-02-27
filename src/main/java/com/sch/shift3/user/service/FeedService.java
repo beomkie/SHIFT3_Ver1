@@ -4,6 +4,7 @@ import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.repository.ContentFeedProductRepository;
 import com.sch.shift3.user.repository.ContentFeedRepository;
 import com.sch.shift3.user.repository.FeedRepository;
+import com.sch.shift3.user.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FeedService {
+    private final ProductRepository productRepository;
     private final ContentFeedProductRepository contentFeedProductRepository;
     private final ContentFeedRepository contentFeedRepository;
     private final FeedRepository feedRepository;

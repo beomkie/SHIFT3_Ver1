@@ -89,4 +89,9 @@ public class ProductRepositoryCustom {
             }
         }
     }
+
+    public void deleteProduct(Integer id) {
+        productRepository.deleteById(id);
+        contentFeedProductRepository.deleteAllByProductId(id);
+    }
 }
