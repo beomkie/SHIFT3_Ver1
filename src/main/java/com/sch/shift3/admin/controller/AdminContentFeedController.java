@@ -2,14 +2,14 @@ package com.sch.shift3.admin.controller;
 
 import com.sch.shift3.admin.service.AdminContentFeedService;
 import com.sch.shift3.user.dto.ContentFeedDto;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -39,5 +39,18 @@ public class AdminContentFeedController {
         adminContentFeedService.editContentFeed(contentFeedDto);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @Transactional
+    @GetMapping("/remove.do")
+    public void deleteContents(@RequestParam Integer id, HttpServletResponse response){
+        adminContentFeedService.deleteContentFeed(id);
+
+        try {
+            response.sendRedirect("/admin/contents/list");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

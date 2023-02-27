@@ -28,6 +28,7 @@ public class ContentFeedDto implements Serializable {
     private LocalDateTime createdAt;
 
     private Integer hit;
+    private Boolean isBanner;
 
     @Builder.Default
     private List<Product> products = new ArrayList<>();
@@ -41,6 +42,7 @@ public class ContentFeedDto implements Serializable {
                 .category(category)
                 .thumbnailFileName(thumbnailFileName)
                 .createdAt(createdAt)
+                .isBanner(isBanner != null && isBanner)
                 .build();
     }
 }

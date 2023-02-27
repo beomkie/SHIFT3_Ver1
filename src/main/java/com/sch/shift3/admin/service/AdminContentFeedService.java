@@ -71,4 +71,10 @@ public class AdminContentFeedService {
         contentFeedRepository.save(contentFeed);
         contentFeedProductRepository.saveAllAndFlush(connectedProducts);
     }
+
+    public void deleteContentFeed(Integer id) {
+        ContentFeed contentFeed = contentFeedRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("content feed not found"));
+        contentFeedProductRepository.deleteAllByFeed(contentFeed);
+        contentFeedRepository.delete(contentFeed);
+    }
 }

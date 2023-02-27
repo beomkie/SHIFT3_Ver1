@@ -73,9 +73,9 @@ public class AdminView {
     @GetMapping("/contents/create")
     public String contentCreatePage(Model model){
         ContentFeedDto contentFeedDto = new ContentFeedDto();
-        contentFeedDto.setTitle("테스트");
-        contentFeedDto.setDescription("테스트");
-        contentFeedDto.setThumbnailFileName("eb2172fd-61b0-485d-826b-a65ca131074d2.png");
+//        contentFeedDto.setTitle("테스트");
+//        contentFeedDto.setDescription("테스트");
+//        contentFeedDto.setThumbnailFileName("eb2172fd-61b0-485d-826b-a65ca131074d2.png");
 
         model.addAttribute("ContentFeedDto", contentFeedDto);
         return "admin/content/pages/contents/create";
@@ -91,6 +91,7 @@ public class AdminView {
                 .category(contentFeed.getCategory())
                 .thumbnailFileName(contentFeed.getThumbnailFileName())
                 .createdAt(contentFeed.getCreatedAt())
+                .isBanner(contentFeed.getIsBanner())
                 .build();
 
         List<Product> products = productService.getProductsByFeed(feedId);
@@ -214,6 +215,12 @@ public class AdminView {
         model.addAttribute("notice", adminNoticeService.findNoticeById(id));
         model.addAttribute("editMode", true);
         return "admin/content/pages/notice/create";
+    }
+
+    @GetMapping("/banner/list")
+    public String bannerListPage(Model model){
+        model.addAttribute("bannerList", null);
+        return "admin/content/pages/banner/list";
     }
 
 }

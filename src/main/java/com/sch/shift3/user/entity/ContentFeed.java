@@ -46,6 +46,10 @@ public class ContentFeed {
     @Column(name="hit")
     private Integer hit = 0;
 
+    @Builder.Default
+    @Column(name = "is_banner")
+    private Boolean isBanner = false;
+
     public String getDescriptionNoHtml() {
         return Jsoup.parse(this.description).text();
     }
@@ -55,6 +59,7 @@ public class ContentFeed {
         this.title = contentFeedDto.getTitle();
         this.category = contentFeedDto.getCategory();
         this.thumbnailFileName = contentFeedDto.getThumbnailFileName();
+        this.isBanner = contentFeedDto.getIsBanner();
     }
 
     public ContentFeedDto of(){

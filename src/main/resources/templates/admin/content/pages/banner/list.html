@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html layout:decorate="~{/admin/layout/default_layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+
+<th:block layout:fragment="css">
+	<link href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet"/>
+	<style>
+        .btn-gray {
+            background: darkgray;
+            color: whitesmoke;
+        }
+	</style>
+</th:block>
+
+<th:block layout:fragment="script">
+	<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	<script th:src="@{/user/assets/js/mytable.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+	<!--<div class="modal" tabindex="-1" th:each="shop : ${shops}" th:attr="id=${'detailModal' + shop.id}">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" th:text="${shop.name}"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div th:id="'imageSlide' + ${shopStat.index}" class="carousel slide"
+					     data-ride="carousel">
+						<div class="carousel-indicators">
+							<button th:data-bs-target="'#imageSlide' + ${shopStat.index}"
+							        th:class="${imageStat.index == 0 ? 'active' : ''}"
+							        th:data-bs-slide-to="${imageStat.index}"
+							        th:each="image : ${shop.imageList}"
+							        th:aria-current="${imageStat == 0 ? 'true' : ''}"></button>
+						</div>
+						<div class="carousel-inner">
+							<div th:class="${imageStat.index == 0 ? 'carousel-item active' : 'carousel-item'}"
+							     th:each="image : ${shop.imageList}">
+								<img class="d-block w-100" th:data-src=" '/file/' + ${image.imageName}">
+							</div>
+						</div>
+						<a class="carousel-control-prev" th:data-bs-target="'#imageSlide' + ${shopStat.index}"
+						   role="button"
+						   data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</a>
+						<a class="carousel-control-next" th:data-bs-target="'#imageSlide' + ${shopStat.index}"
+						   role="button"
+						   data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</a>
+					</div>
+
+					<table class="table">
+						<tbody>
+						<tr>
+							<th scope="row">한줄 소개</th>
+							<td th:text="${shop.introduce}"></td>
+						</tr>
+						<tr>
+							<th scope="row">주소</th>
+							<td th:text="${shop.streetAddress + ' ' + shop.streetAddressDetail}"></td>
+						</tr>
+						<tr>
+							<th scope="row">연락처</th>
+							<td th:utext="${shop.contactNumber}"></td>
+						</tr>
+						<tr>
+							<th scope="row">운영 시간</th>
+							<td th:text="${shop.operatingTime}"></td>
+						</tr>
+						<tr>
+							<th scope="row">샵 생성일</th>
+							<td th:text="${#temporals.format(shop.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="modal-footer">
+					<button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>-->
+
+	<h1 class="mt-4">공지사항 관리</h1>
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item active">Notice</li>
+	</ol>
+	<div class="card-body">
+		<a href="/admin/notice/create" class="form-control btn btn-gray mb-3">공지사항 작성</a>
+		<table id="myTable">
+			<!--			index, name, address, created_at-->
+			<thead>
+			<tr>
+				<th style="width:5%"> #</th>
+				<th>제목</th>
+				<th style="width:10%" data-sortable="">작성일</th>
+				<th style="width:3%"></th>
+				<th style="width:3%"></th>
+				<th style="width:3%"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="banner : ${bannerList}">
+				<td th:text="${banner.id}"></td>
+				<td th:text="${banner.title}"></td>
+				<!--				make date to pretty format-->
+				<td th:text="${#temporals.format(banner.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+
+				<td>
+					<a th:href="@{/admin/banner/edit/{id}(id=${notice.id})}"
+					   style="text-decoration: none; color:black">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						     class="bi bi-pencil" viewBox="0 0 16 16">
+							<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+						</svg>
+					</a>
+				</td>
+				<td>
+					<a id="detailBtn" th:href="@{/banner/{id}(id=${notice.id})}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						     class="bi bi-search text-decoration-none" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+					</a>
+				</td>
+				<td>
+					<a th:href="@{/admin/banner/remove.do(id=${notice.id})}"
+					   th:attr="onclick=|return confirm('정말 삭제 하시겠습니까?')|" style="text-decoration: none; color:black">
+						<svg width="16" height="16" viewBox="-32 0 512 512" xmlns="http://www.w3.org/2000/svg">
+							<path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"/>
+						</svg>
+					</a>
+				</td>
+
+			</tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+</html>
