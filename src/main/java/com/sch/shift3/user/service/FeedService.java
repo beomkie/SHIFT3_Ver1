@@ -86,4 +86,8 @@ public class FeedService {
         });
         return feeds;
     }
+
+    public List<ContentFeed> getBannerFeed() {
+        return feedRepository.getBannerFeed();
+    }
 }

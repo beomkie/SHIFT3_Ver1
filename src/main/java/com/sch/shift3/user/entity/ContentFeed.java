@@ -71,6 +71,7 @@ public class ContentFeed {
                 .thumbnailFileName(thumbnailFileName)
                 .createdAt(createdAt)
                 .hit(hit)
+                .isBanner(isBanner)
                 .build();
     }
 

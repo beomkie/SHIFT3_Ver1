@@ -42,6 +42,7 @@ public class UserView {
         model.addAttribute("disableLoading", true);
         model.addAttribute("popupList", popupService.getAllPopupList());
         model.addAttribute("recentFeed", feedService.getRecentFeed());
+        model.addAttribute("bannerFeed", feedService.getBannerFeed());
         // category Feed
         model.addAttribute("clothes_category", feedService.getFeedByCategory("옷"));
         model.addAttribute("ele_category", feedService.getFeedByCategory("전자기기"));

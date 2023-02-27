@@ -153,4 +153,13 @@ public class FeedRepository{
                 .limit(3)
                 .fetch();
     }
+
+    public List<ContentFeed> getBannerFeed() {
+        return queryFactory
+                .selectFrom(QContentFeed.contentFeed)
+                .where(QContentFeed.contentFeed.isBanner.eq(true))
+                .orderBy(QContentFeed.contentFeed.id.desc())
+                .limit(3)
+                .fetch();
+    }
 }

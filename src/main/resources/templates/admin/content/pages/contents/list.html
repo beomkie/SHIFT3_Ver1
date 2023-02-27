@@ -40,6 +40,17 @@
 		<li class="breadcrumb-item active">Overview Contents</li>
 	</ol>
 	<div class="card-body">
+		<!--		배너 표시 컨텐츠만 노출 버튼-->
+		<div class="form-control mb-2">
+			<button type="button" class="btn btn-primary w-100" onclick="onlyBanner()">
+				배너 표시 컨텐츠만 노출
+			</button>
+		</div>
+		<script>
+            function onlyBanner() {
+                $("#myTable").DataTable().search("!@#$배너표시컨텐츠!@#$").draw();
+            }
+		</script>
 		<table id="myTable">
 			<thead>
 			<tr>
@@ -48,6 +59,7 @@
 				<th>카테고리</th>
 				<th>조회수</th>
 				<th style="width:10%" data-sortable="">작성일</th>
+				<th style="width:0; display: none">배너 여부</th>
 				<th style="width:3%"></th>
 				<th style="width:3%"></th>
 				<th style="width:3%"></th>
@@ -60,6 +72,8 @@
 				<td th:text="${content.category}"></td>
 				<td th:text="${content.hit}"></td>
 				<td th:text="${#temporals.format(content.createdAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+				<td style="width:0; display: none"
+				    th:text="${(content.isBanner == true ? '!@#$배너표시컨텐츠!@#$' : '')}"></td>
 				<!--				<td th:text="${content.description}"></td>-->
 				<!--				<td th:text="${product.description}"></td>-->
 				<!--				<td th:text="${product.selectShop.name}"></td>-->
