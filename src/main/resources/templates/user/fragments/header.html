@@ -159,37 +159,25 @@
 					<ul class="navbar-nav">
 						<li><a class="nav-link nav_item" href="/content-list">컨텐츠</a></li>
 						<li><a class="nav-link nav_item" href="/shop-list">편집샵 목록</a></li>
-						<!--<li class="dropdown">
-						  <a class="dropdown-toggle nav-link" href="/shop-list" data-bs-toggle="dropdown">편집샵 목록</a>
-						  <div class="dropdown-menu">
-							<ul>
-							  <li><a class="dropdown-item nav-link nav_item" href="about.html">About Us</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="contact.html">Contact Us</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="faq.html">Faq</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="404.html">404 Error Page</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="login">Login</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="signup.html">Register</a></li>
-							  <li><a class="dropdown-item nav-link nav_item" href="term-condition.html">Terms and Conditions</a></li>
-							</ul>
-						  </div>
-						</li>-->
-
 						<li><a class="nav-link nav_item" href="/introduce">서비스 소개</a></li>
 
-						<li id="mobile-menu">
+						<li id="mobile-menu" class="mobile-show">
 							<hr>
 						</li>
-						<li><a class="nav-link nav_item mobile-show" href="/login"
-						       sec:authorize="isAnonymous()">로그인</a></li>
-						<li><a class="nav-link nav_item mobile-show" href="/signup"
-						       sec:authorize="isAnonymous()">회원가입</a></li>
+						<th:block sec:authorize="isAnonymous()">
+							<li><a class="nav-link nav_item mobile-show" href="/login">로그인</a></li>
+							<li><a class="nav-link nav_item mobile-show" href="/signup" sec:authorize="isAnonymous()">회원가입</a>
+							</li>
+						</th:block>
 
 
-						<li class="menu-userInformation" sec:authorize="isAuthenticated()" style="display:none">
-							<a class="nav-link nav_item" sec:authentication="name"></a>
-							<a class="nav-link nav_item" href="/mypage">마이페이지</a>
-							<a class="nav-link nav_item" href="/logout">로그아웃</a>
-						</li>
+						<th:block sec:authorize="isAuthenticated()">
+							<li class="menu-userInformation">
+								<a class="nav-link nav_item mobile-show" sec:authentication="name"></a>
+								<a class="nav-link nav_item mobile-show" href="/mypage">마이페이지</a>
+								<a class="nav-link nav_item mobile-show" href="/logout">로그아웃</a>
+							</li>
+						</th:block>
 					</ul>
 				</div>
 				<ul class="navbar-nav attr-nav align-items-center">
@@ -227,9 +215,12 @@
 									<path fill-rule="evenodd"
 									      d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
 								</svg>
-								<div class="dropdown-content">
-									<a href="/mypage">마이페이지</a>
-									<a href="/logout">로그아웃</a>
+
+								<div class="pc-show">
+									<div class="dropdown-content">
+										<a href="/mypage">마이페이지</a>
+										<a href="/logout">로그아웃</a>
+									</div>
 								</div>
 							</div>
 

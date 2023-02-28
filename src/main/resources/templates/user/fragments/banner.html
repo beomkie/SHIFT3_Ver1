@@ -15,7 +15,8 @@
 								<div class="banner_content2">
 									<h6 class="mb-2 mb-sm-3 staggered-animation text-uppercase"
 									    data-animation="fadeInDown" data-animation-delay="0.2s"
-									    th:text="${banner.category}" style="text-shadow: 1px 1px 10px lightgrey;"></h6>
+									    th:text="${banner.category}"
+									    style="background: white;color: black;width: fit-content;padding-left: 2vw; padding-right: 2vw;"></h6>
 									<h2 class="staggered-animation" data-animation="fadeInDown"
 									    data-animation-delay="0.3s" th:text="${banner.title}"
 									    style="text-shadow: 0 0 20px black; color: white;"></h2>
@@ -34,50 +35,6 @@
 				</div>
 			</div>
 
-			<!--			<div class="carousel-item background_bg" th:data-img-src="@{/user/assets/images/banner9.jpg}">
-							<div class="banner_slide_content banner_content_inner">
-								<div class="container">
-									<div class="row">
-										<div class="col-lg-6 col-md-8 col-sm-9 col-10">
-											<div class="banner_content2">
-												<h6 class="mb-2 mb-sm-3 staggered-animation text-uppercase"
-													data-animation="fadeInDown" data-animation-delay="0.2s">카테고리</h6>
-												<h2 class="staggered-animation" data-animation="fadeInDown"
-													data-animation-delay="0.3s">컨텐츠 피드명22222</h2>
-												<p class="staggered-animation" data-animation="fadeInUp"
-												   data-animation-delay="0.4s">컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠
-													요약 </p>
-												<a class="btn btn-line-fill btn-radius staggered-animation text-uppercase"
-												   href="shop-left-sidebar.html" data-animation="fadeInUp"
-												   data-animation-delay="0.5s">더 알아보기</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item background_bg" th:data-img-src="@{/user/assets/images/banner9.jpg}">
-							<div class="banner_slide_content banner_content_inner">
-								<div class="container">
-									<div class="row">
-										<div class="col-lg-6 col-md-8 col-sm-9 col-10">
-											<div class="banner_content2">
-												<h6 class="mb-2 mb-sm-3 staggered-animation text-uppercase"
-													data-animation="fadeInDown" data-animation-delay="0.2s">카테고리</h6>
-												<h2 class="staggered-animation" data-animation="fadeInDown"
-													data-animation-delay="0.3s">컨텐츠 피드명 333333333</h2>
-												<p class="staggered-animation" data-animation="fadeInUp"
-												   data-animation-delay="0.4s">컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠 요약 컨텐츠
-													요약 </p>
-												<a class="btn btn-line-fill btn-radius staggered-animation text-uppercase"
-												   href="shop-left-sidebar.html" data-animation="fadeInUp"
-												   data-animation-delay="0.5s">더 알아보기</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>-->
 		</div>
 		<ol class="carousel-indicators indicators_style2">
 			<th:block th:each="banner : ${bannerFeed}">

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <!-- START FOOTER -->
-<footer class="footer_dark" th:fragment="footerFragment">
+<footer class="footer_dark" th:fragment="footerFragment" th:unless="${disableFooter == true}">
 	<div class="footer_top">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-6 col-sm-12">
 					<div class="widget">
-						<h6 class="widget_title">SHIFT 3</h6>
+						<img class="widget_title" th:src="@{/user/assets/images/logo_light.png}" alt="logo"
+						     width="120"/>
 						<ul class="contact_info contact_info_light">
 							<li>
 								우리는 이런 회사입니다.

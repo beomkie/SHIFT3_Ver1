@@ -82,6 +82,7 @@ public class UserView {
     @GetMapping("/shop-list")
     public String shopListPage(Model model){
         model.addAttribute("disableLoading", true);
+        model.addAttribute("disableFooter", true);
         model.addAttribute("shopList", shopRepository.getShopList(new ShopRequest()));
         return "user/content/pages/shop-list";
     }

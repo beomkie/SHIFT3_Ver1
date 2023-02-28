@@ -80,23 +80,28 @@
             padding: 0.6rem 0.6rem !important;
         }
 
+        #search {
+            padding-bottom: 80px !important;
+        }
+
         @media (max-width: 768px) {
             #search {
                 /*height: 50vh !important;*/
                 height: fit-content !important;
                 /*margin-bottom: 1.5vh !important;*/
                 overflow-y: scroll;
+                padding-bottom: 0 !important;
+            }
+
+            #shopDetail {
+                height: fit-content !important;
             }
 
             #map {
                 /*height: 100% !important;*/
                 /*flex: 1 1;*/
-                height: 60vh !important;
+                height: 80vh !important;
                 padding-bottom: 1rem;
-            }
-
-            footer {
-                /*margin-top: 15vh !important;*/
             }
 
             #main {
@@ -144,6 +149,10 @@
                 border-radius: 10px;
                 width: 25vw;
                 max-width: 450px;
+            }
+
+            #shopDetail {
+                overflow-y: scroll;
             }
         }
 
@@ -229,7 +238,7 @@
         width: 100%;">
 		<div class="row h-100" id="main">
 			<div class="col-md-3 col-sm-12 p-4 side overflow-scroll" id="search"
-			     style="height:100vh;     padding-bottom: 80px!important;">
+			     style="height:100vh;">
 				<div class="title mb-3 pc-show">지도</div>
 
 				<div class="row mb-3 g-0">
@@ -522,7 +531,7 @@
 						<p id="brandList"></p>
 					</div>
 
-					<div class="row">
+					<div class="row" id="contentFeedDiv">
 						<p class="title" id="contentFeedTitle">컨텐츠 피드</p>
 
 						<div id="feedLoading" class="spinner-border text-primary m-3" role="status">
@@ -546,11 +555,11 @@
 
                         $("#shopDetail").show();
 
-                        let contentFeedTitle = $("#contentFeedTitle");
+                        let contentFeedDiv = $("#contentFeedDiv");
                         let feedLoading = $('#feedLoading');
 
                         feedLoading.show();
-                        contentFeedTitle.hide();
+                        contentFeedDiv.hide();
 
                         $('#shopDetail').loading({
                             theme: 'dark',
@@ -615,13 +624,16 @@
                             type: "GET",
                             success: function (data) {
                                 // data = JSON.parse(data);
-                                console.log(data);
+                                if (data.length !== 0) {
+                                    contentFeedDiv.show();
+                                }
+
                                 data.forEach(function (item) {
                                     let html = `
                                          <div class="col-6">
                                              <div class="card">
                                              <div class="card-img-top square-image" style="background-image: url('/file/${item.thumbnailFileName}')"></div>
-                                                 <div class="card-body" onclick="location.href='/feed/${item.id}'">
+                                                 <div class="card-body" onclick="location.href='/feed/${item.id}'" data-same-height='true'>
                                                      <h5 class="card-title">${item.title}</h5>
                                                      <p class="card-text">${item.description}</p>
                                                  </div>
@@ -631,9 +643,8 @@
                                     feedList.append(html);
                                     // });
                                 });
-                                contentFeedTitle.show();
                                 feedLoading.hide();
-                                // $('#contentFeedList').loading('stop');
+                                document.getElementById('shopDetail').scrollIntoView();
                             }
                         });
                         // }));

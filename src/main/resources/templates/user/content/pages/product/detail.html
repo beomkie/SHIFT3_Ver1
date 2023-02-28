@@ -200,13 +200,14 @@
 
 							<div class="col-8">
 								<div class="cart_btn">
-									<a sec:authorize="isAuthenticated()" class="btn btn-more" th:href="${product.url}"
+									<a sec:authorize="isAuthenticated()" class="btn btn-primary btn-more"
+									   th:href="${product.url}"
 									   target="_blank">
 										구매링크 이동
 										<i class="icon-arrow-right"></i>
 									</a>
 
-									<a sec:authorize="isAnonymous()" class="btn btn-more"
+									<a sec:authorize="isAnonymous()" class="btn btn-primary btn-more"
 									   onclick="alert('로그인 후 이용 가능합니다.')"
 									   target="_blank">
 										구매링크 이동
@@ -270,13 +271,13 @@
 					<div class="row">
 						<h3 class="mb-2 heading_s1">연관 컨텐츠 피드</h3>
 						<div class="card-group">
-							<div class="card" th:each="feed : ${relatedFeed}" data-same-height="true">
+							<div class="card" th:each="feed : ${relatedFeed}">
 								<a th:href="'/feed/' + ${feed.id} ">
 									<div class="img-container43">
 										<img th:src="'/file/' + ${feed.thumbnailFileName}"
 										     class="card-img-top rounded" alt="피드 썸네일 이미지">
 									</div>
-									<div class="card-body">
+									<div class="card-body" data-same-height="true">
 										<h5 class="card-title" th:text="${feed.title}"></h5>
 										<!--									<p class="card-text" th:text="${feed.description}"></p>-->
 										<!--									<a th:href="'/feed/' + ${feed.id} " class="btn btn-primary btn-more rounded-pill">더-->

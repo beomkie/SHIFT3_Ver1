@@ -67,8 +67,9 @@ a {
 }
 a:hover {
 	/*hover wow*/
-	color: rgb(0, 25, 91);
+	color: white;
 	text-decoration: none;
+
 }
 a:focus {
 	outline: none;
@@ -2685,7 +2686,6 @@ input.text {
 }
 .carousel-item img {
 	position: relative;
-	z-index: -1;
 	width: 100%;
 }
 .carousel-control-next, .carousel-control-prev {
@@ -2821,6 +2821,8 @@ input.text {
 	margin-bottom: 20px;
 	font-weight: 600;
 	text-transform: capitalize;
+	min-width: 70vw;
+	word-break: keep-all;
 }
 .banner_content3 h2 {
 	font-size: 40px;
@@ -3843,6 +3845,7 @@ footer {
 .footer_dark {
 	background-color: #202325;
 	position: relative;
+	z-index: 9999999999;
 }
 .footer_top {
 	padding: 100px 0 70px;
@@ -3945,7 +3948,8 @@ footer .widget_title {
 	color: #fff;
 }
 .footer_dark a:hover, .footer_dark .widget_links li a:hover, .widget_links li a:hover, .footer_dark .footer_link li a:hover,.footer_link li a:hover {
-	color: rgb(0, 25, 91);
+	color: white;
+	font-weight: bolder;
 }
 .widget_contact_form {
 	background-color: #fff;

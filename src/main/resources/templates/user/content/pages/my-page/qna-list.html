@@ -22,7 +22,7 @@
 			<table class="table">
 				<thead>
 				<tr>
-					<th scope="col">질문 번호</th>
+					<th scope="col">문의 번호</th>
 					<th scope="col">문의 유형</th>
 					<th scope="col">문의 제목</th>
 					<th scope="col">문의 시간</th>
@@ -32,14 +32,16 @@
 				<tbody>
 				<tr th:each="question : ${questionList}">
 					<!--/*@thymesVar id="question" type="com.sch.shift3.user.dto.QnaRequest"*/-->
-					<th scope="row" th:text="${question.id}"></th>
-					<td th:text="${question.questionType}"></td>
-					<td th:text="${question.questionTitle}"></td>
-					<td th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
-					<td th:if="${not #strings.isEmpty(question.answer)}"><a class="btn-sm btn-gray"
-					                                                        th:href="'/mypage/qna/' + ${question.id}"
-					                                                        target="_blank">답변 확인</a></td>
-					<td th:unless="${not #strings.isEmpty(question.answer)}">답변 대기중</td>
+					<th data-label="문의 번호" th:text="${question.id}"></th>
+					<td data-label="문의 유형" th:text="${question.questionType}"></td>
+					<td data-label="문의 제목" th:text="${question.questionTitle}"></td>
+					<td data-label="문의 시간"
+					    th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+					<td data-label="답변" th:if="${not #strings.isEmpty(question.answer)}"><a class="btn-sm btn-gray"
+					                                                                        th:href="'/mypage/qna/' + ${question.id}"
+					                                                                        target="_blank">답변 확인</a>
+					</td>
+					<td data-label="답변" th:unless="${not #strings.isEmpty(question.answer)}">답변 대기중</td>
 				</tr>
 				</tbody>
 			</table>

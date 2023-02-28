@@ -111,30 +111,45 @@
 
 							<div class="row">
 
-								<div class="form-floating mb-2" id="nameDiv">
-									<input class="form-control" type="text" id="name" name="name"
-									       placeholder="이름" required="">
-									<label for="name">이름</label>
+								<div class="form-group">
+									<div class="form-floating mb-2" id="nameDiv">
+										<input class="form-control" type="text" id="name" name="name"
+										       placeholder="이름">
+										<label for="name">이름</label>
+									</div>
 								</div>
 
-								<div class="form-group mb-5" id="phoneNumberDiv">
-									<input class="form-control" type="text" id="phoneNumber" name="phoneNumber"
-									       placeholder="핸드폰 번호" required=""
-									       oninput='autoHyphen(this);'
-									       maxlength="13">
+								<div class="form-group">
+									<div class="form-floating mb-5" id="phoneNumberDiv">
+										<input class="form-control" type="text" id="phoneNumber" name="phoneNumber"
+										       placeholder="핸드폰 번호" required=""
+										       oninput='autoHyphen(this);'
+										       maxlength="13">
+										<label for="phoneNumber">핸드폰 번호</label>
+									</div>
 								</div>
 
-								<div class="col-7 form-group mb-2" id="emailDiv">
-									<input type="text" required="" class="form-control" id="username" name="username"
-									       placeholder="이메일">
-									<p id="email-muted" class="text-muted">로그인에 사용할 이메일을 적어주세요.</p>
-								</div>
+								<div class="form-group row">
+									<div class="col-7" id="emailDiv">
+										<div class="form-floating">
+											<input type="text" required="" class="form-control" id="username"
+											       name="username"
+											       placeholder="이메일">
+											<label for="username">이메일</label>
+										</div>
+									</div>
 
-								<div class="col-5 form-group">
-									<button type="button" class="btn btn-block btn-gray" id="verifyEmail"
-									        name="verifyEmail"
-									        onclick="window.verifyEmail()">인증번호 발송
-									</button>
+									<div class="col-5">
+										<button type="button" class="btn btn-block btn-gray" id="verifyEmail"
+										        name="verifyEmail"
+										        onclick="window.verifyEmail()">인증번호 발송
+										</button>
+									</div>
+
+									<div class="col-12">
+										<p id="email-muted" class="text-muted">로그인에 사용할 이메일을 적어주세요.</p>
+									</div>
+
 								</div>
 
 								<div id="emailVerifyDiv" class="col-12 form-group mb-4" style="display:none">

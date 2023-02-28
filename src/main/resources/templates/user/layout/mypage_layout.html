@@ -11,6 +11,57 @@
 <th:block layout:fragment="script"></th:block>
 <th:block layout:fragment="css"></th:block>
 
+<style>
+    /*mobile*/
+    @media (max-width: 767px) {
+        .col-6 {
+            width: 100% !important;
+        }
+
+        div.container-fluid {
+            padding: 0 !important;
+        }
+
+        div.container-fluid.shop_list .container {
+            padding: 0 !important;
+        }
+
+
+        table {
+            border: 0;
+        }
+
+        table thead {
+            display: none;
+        }
+
+        table tr {
+            margin-bottom: 10px;
+            display: block;
+            border-bottom: 2px solid #ddd;
+        }
+
+        table td {
+            display: block;
+            text-align: right;
+            font-size: 13px;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        table td:last-child {
+            border-bottom: 0;
+        }
+
+        table td:before {
+            content: attr(data-label);
+            float: left;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+    }
+</style>
+
 <!-- include libraries(jQuery, bootstrap) -->
 <!--	<script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>-->
 <!--	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>-->
