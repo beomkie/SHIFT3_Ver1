@@ -110,8 +110,13 @@ public class UserView {
     }
 
     @GetMapping("/content-list")
-    public String contentListPage(Model model){
+    public String contentListPage(Model model, String category){
         model.addAttribute("disableLoading", true);
+        if (category == null) {
+            category = "전체";
+        }
+
+        model.addAttribute("category", category);
         return "user/content/pages/content-list";
     }
 

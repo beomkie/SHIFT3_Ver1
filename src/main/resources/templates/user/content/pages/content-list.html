@@ -42,14 +42,14 @@
         }
 	</style>
 
-	<script>
+	<script th:inline="javascript">
         // ajax /feed/search.do
 
         $(function () {
 
             window.feedSearchOption = {
                 keyword: '',
-                category: '전체',
+                category: [[${category}]],
                 sort: 'id,desc',
                 page: 1,
                 size: 9
@@ -204,11 +204,15 @@
 						<div class="widget">
 							<h5 class="widget_title">카테고리</h5>
 							<div class="tags" style="display:grid">
-								<a class="active" onclick="window.feedSearchOption.category = '전체'; searchFeed();">전체
+								<a th:classappend="${category == '전체' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '전체'; searchFeed();">전체
 									보기</a>
-								<a onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
-								<a onclick="window.feedSearchOption.category = '전자기기'; searchFeed();">전자기기</a>
-								<a onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
+								<a th:classappend="${category == '옷' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
+								<a th:classappend="${category == '전자기기' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '전자기기'; searchFeed();">전자기기</a>
+								<a th:classappend="${category == '기타' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
 								<script>
                                     $(document).ready(function () {
                                         $('.tags a').click(function () {
