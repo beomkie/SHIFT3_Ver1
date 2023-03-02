@@ -137,7 +137,7 @@
                                 pass = false;
                             }
 
-                            if ($("#nochange") == null) {
+                            if (document.getElementById("nochange") == null) {
                                 if (data.password !== "") {
                                     if (data.password !== data.passwordChk) {
                                         $("#passwordDiv").append(
@@ -150,6 +150,8 @@
                                         )
                                         pass = false;
                                     }
+                                } else {
+                                    data.password = null;
                                 }
                             } else {
                                 data.password = null;

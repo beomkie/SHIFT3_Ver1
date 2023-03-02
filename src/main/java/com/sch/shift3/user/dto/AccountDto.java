@@ -31,7 +31,7 @@ public class AccountDto {
                 .informationToThirdParties(informationToThirdParties)
                 .phoneNumber(phoneNumber)
                 .interest(interest)
-                .provider("")
+                .provider(null)
                 .build();
     }
 }

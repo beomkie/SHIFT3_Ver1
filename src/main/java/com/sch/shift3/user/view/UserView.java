@@ -5,8 +5,10 @@ import com.sch.shift3.admin.service.PopupService;
 import com.sch.shift3.config.CurrentUser;
 import com.sch.shift3.user.dto.ShopRequest;
 import com.sch.shift3.user.entity.Account;
+import com.sch.shift3.user.entity.AccountPasswordChange;
 import com.sch.shift3.user.entity.ContentFeed;
 import com.sch.shift3.user.entity.Product;
+import com.sch.shift3.user.repository.AccountPasswordChangeRepository;
 import com.sch.shift3.user.repository.ShopRepository;
 import com.sch.shift3.user.service.DibService;
 import com.sch.shift3.user.service.FeedService;
@@ -22,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -35,6 +38,7 @@ public class UserView {
     private final QuestionService questionService;
     private final DibService dibService;
     private final AdminNoticeService adminNoticeService;
+    private final AccountPasswordChangeRepository accountPasswordChangeRepository;
 
     @GetMapping("/")
     public String mainPage(Model model){
@@ -179,6 +183,27 @@ public class UserView {
 
 
         return "user/content/pages/product/detail";
+    }
+
+
+    @GetMapping("/account/forgot/{hash}")
+    public String forgotPassword(@PathVariable String hash, Model model){
+        model.addAttribute("disableLoading", true);
+
+        if (hash == null || hash.isEmpty())
+            model.addAttribute("error", "잘못된 접근입니다.");
+
+        AccountPasswordChange accountPasswordChange = accountPasswordChangeRepository.findByHash(hash)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));
+
+        if (accountPasswordChange.getExpiredAt().isBefore(LocalDateTime.now())){
+            model.addAttribute("error", "만료된 링크입니다.");
+            return "user/content/forgot-change";
+        }
+
+        log.info("hash : {}", hash);
+        model.addAttribute("hash", hash);
+        return "user/content/forgot-change";
     }
 
 

@@ -14,68 +14,34 @@
 
 	<h3>1대1 문의 내역</h3>
 	<br/>
-	
-	<div class="card mb-3">
-		<div class="card-header">
-			<div class="row">
-				<div class="col-6">
-					문의 유형
-				</div>
-				<div class="col-6">
-					문의 날짜
-				</div>
-			</div>
-		</div>
-		<div class="card-body">
-			<div class="row">
-				<div class="col-6" th:text="${question.questionType}">
 
-				</div>
-				<div class="col-6"
-				     th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}">
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="mb-5">
-		<h4>문의 사항</h4>
-		<div class="card mb-3">
-			<div class="card-header" th:text="${question.questionTitle}">
-			</div>
-
-			<div class="card-body">
-				<div th:text="${question.questionDescription}">
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="mb-2">
-		<h4>답변</h4>
-		<div class="card mb-3" th:if="${!question.answer.isBlank()}">
-			<div class="card-header"
-			     th:text="${#temporals.format(question.answerAt, 'yyyy년 MM월 dd일 HH시 mm분 작성된 답변')}">
-			</div>
-
-			<div class="card-body">
-				<div th:text="${question.answer}">
-				</div>
-			</div>
-		</div>
-
-		<div class="card mb-3" th:unless="${!question.answer.isBlank()}">
-			<div class="card-header">
-			</div>
-
-			<div class="card-body">
-				<div>
-					작성된 답변이 없습니다.
-				</div>
-			</div>
-		</div>
-	</div>
+	<table class="table noResponsive">
+		<tr>
+			<th>문의 번호</th>
+			<td data-label="문의 번호" th:text="${question.id}"></td>
+		</tr>
+		<tr>
+			<th>문의 유형</th>
+			<td data-label="문의 유형" th:text="${question.questionType}"></td>
+		</tr>
+		<tr>
+			<th>문의 시간</th>
+			<td data-label="문의 시간"
+			    th:text="${#temporals.format(question.questionAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+		</tr>
+		<tr>
+			<th></th>
+			<td></td>
+		</tr>
+		<tr>
+			<th>답변</th>
+			<td data-label="답변" th:if="${not #strings.isEmpty(question.answer)}" th:text="${question.answer}">
+		</tr>
+		<tr>
+			<th>답변 시간</th>
+			<td data-label="답변 시간" th:if="${not #strings.isEmpty(question.answer)}"
+			    th:text="${#temporals.format(question.answerAt, 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+		</tr>
+	</table>
 </div>
 </html>

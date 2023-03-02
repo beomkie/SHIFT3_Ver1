@@ -4,53 +4,126 @@
 
 <div layout:fragment="content" class="content">
 
-  <div class="login_register_wrap section">
-    <div class="container">
-      <div class="row justify-content-center g-0">
-        <div class="col-xl-6 col-md-10">
-          <div class="login_wrap">
-            <div class="padding_eight_all bg-white">
-              <div class="heading_s1">
-                <h4>등록된 이메일로 비밀번호 찾기</h4>
-                <span>가입 당시 입력한 이메일을 통해 비밀번호를 변경할 수 있습니다.</span>
-              </div>
-              <form method="post">
-                <div class="row">
-                  <div class="col-12 form-group mb-3">
-                    <input type="text" required="" class="form-control" name="realName" placeholder="가입자 성함">
-                  </div>
-                  <div class="col-7 form-group mb-3">
-                    <input type="text" required="" class="form-control" name="email" placeholder="가입자 이메일">
-                  </div>
-                  <div class="col-5 form-group mb-3">
-                    <button type="submit" class="btn btn-block btn-gray" name="verifyEmail">인증번호 발송</button>
-                  </div>
-                </div>
-              </form>
+	<div class="login_register_wrap section">
+		<div class="container">
+			<div class="row justify-content-center g-0">
+				<div class="col-xl-6 col-md-10">
+					<div class="login_wrap">
+						<div class="padding_eight_all bg-white">
+							<div class="heading_s1">
+								<h4>등록된 이메일로 비밀번호 찾기</h4>
+								<span>가입 당시 입력한 이메일을 통해 비밀번호를 변경할 수 있습니다.</span>
+							</div>
+							<div class="row">
+								<div class="col-12 form-group mb-3">
+									<input type="text" required="" class="form-control" name="realName"
+									       placeholder="가입자 성함">
+								</div>
+								<div class="col-7 form-group mb-3">
+									<input type="text" required="" class="form-control" name="email"
+									       placeholder="가입자 이메일">
+								</div>
+								<div class="col-5 form-group mb-3">
+									<button type="button" class="btn btn-block btn-gray" name="verifyEmail"
+									        onclick="sendMail()">인증번호
+										발송
+									</button>
+								</div>
+							</div>
 
-              <div class="row">
-                <div class="row mb-3 ps-3">
-                  <div class="col-lg-8 col-8">
-                    <span class="text-danger">입력하신 번호로 인증번호가 발송되었습니다.</span>
-                  </div>
-                  <div class="col-lg-4 col-4">
-                    <span>유효시간 : 09:35</span>
-                  </div>
-                </div>
-                <div class="col-md-12 col-8 mb-3">
-                  <input type="number" class="form-control" name="verifyCode" placeholder="인증 번호 입력">
-                </div>
+							<div class="col-md-12 col-4 mb-3">
+								<div id="emailVerifyDiv" class="" style="display:none">
+									<input type="text" required="" class="form-control" id="verifyCode"
+									       name="verifyCode"
+									       placeholder="이메일 인증번호">
+									<span class="text-muted">인증번호가 전송되었습니다. 유효시간 내로 가입해주세요.</span><br/>
+									<span>유효시간 : <span id="emailVerifyTime"
+									                   class="text-info"></span>
+											</span>
+								</div>
+							</div>
 
-                <div class="col-md-12 col-4">
-                  <button type="button" class="btn btn-block btn-gray">확인</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+							<div class="col-md-12 col-4">
+								<button type="button" class="btn btn-shiftBtn w-100" onclick="verifyCode()">인증</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+        function $ComTimer() {
+            //prototype extend
+        }
+
+        $ComTimer.prototype = {
+            comSecond: ""
+            , fnCallback: function () {
+            }
+            , timer: ""
+            , domId: ""
+            , fnTimer: function () {
+                var m = Math.floor(this.comSecond / 60) + "분 " + (this.comSecond % 60) + "초";	// 남은 시간 계산
+                this.comSecond--;					// 1초씩 감소
+                this.domId.innerText = m;
+                if (this.comSecond < 0) {			// 시간이 종료 되었으면..
+                    clearInterval(this.timer);		// 타이머 해제
+                    alert("인증시간이 초과하였습니다. 다시 인증해주시기 바랍니다.")
+                }
+            }
+            , fnStop: function () {
+                clearInterval(this.timer);
+            }
+        }
+	</script>
+
+	<script>
+        function sendMail() {
+            $.ajax({
+                url: '/auth/email/send.do',
+                type: 'GET',
+                data: {
+                    realName: $('input[name=realName]').val(),
+                    email: $('input[name=email]').val()
+                },
+                success: function (data) {
+                    var AuthTimer = new $ComTimer()
+                    AuthTimer.comSecond = 599;
+                    AuthTimer.fnCallback = function () {
+                        alert("다시 인증을 시도해주세요.");
+                    }
+                    AuthTimer.timer = setInterval(function () {
+                        AuthTimer.fnTimer()
+                    }, 1000);
+                    AuthTimer.domId = document.getElementById("emailVerifyTime");
+
+                    $('#emailVerifyDiv').show();
+                },
+                error: function (data) {
+                    alert('[오류] \n' + data.responseText);
+                }
+            });
+        }
+
+        function verifyCode() {
+            $.ajax({
+                url: '/account/forgot/verify.do',
+                type: 'GET',
+                data: {
+                    username: $('input[name=email]').val(),
+                    verifyCode: $('input[name=verifyCode]').val()
+                },
+                success: function (data) {
+                    location.href = '/account/forgot/' + data;
+                },
+                error: function (data) {
+                    alert('[오류] \n' + data.responseText);
+                }
+            });
+        }
+	</script>
 </div>
 
 

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+
+<div layout:fragment="content" class="content">
+
+	<div class="login_register_wrap section">
+		<div class="container">
+			<div class="row justify-content-center g-0">
+				<div class="col-xl-6 col-md-10">
+					<div class="login_wrap">
+						<div class="padding_eight_all bg-white">
+							<div class="heading_s1">
+								<h4 class="mb-1">비밀번호 재설정</h4>
+								<span>새로운 비밀번호를 만들어 주세요.</span><br/>
+								<span>* 6자 이상 영문, 숫자 혼용 필수 (특수문자 가능)</span>
+							</div>
+							<div class="row" th:if="${error == null}">
+								<input class="form-control" id="hash" name="hash" th:value="${hash}" type="hidden">
+
+								<div class="col-12 form-group mb-3">
+									<input type="password" required="" class="form-control" name="password"
+									       placeholder="신규 비밀번호">
+								</div>
+								<div class="col-12 form-group mb-3">
+									<input type="password" required="" class="form-control" name="passwordConfirm"
+									       placeholder="신규 비밀번호 확인">
+								</div>
+
+								<div class="col-md-12 col-4">
+									<button type="button" class="btn btn-shiftBtn w-100" onclick="changePassword()">변경
+									</button>
+								</div>
+
+								<script>
+                                    function changePassword() {
+                                        // check password same
+                                        if ($("input[name=password]").val() !== $("input[name=passwordConfirm]").val()) {
+                                            alert("비밀번호가 일치하지 않습니다.");
+                                            return;
+                                        }
+
+                                        // 6자 이상 영문, 숫자 혼용 필수 (특수문자 가능)
+                                        var regExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
+                                        if (!regExp.test($("input[name=password]").val())) {
+                                            alert("비밀번호는 6자 이상 영문, 숫자 혼용 필수입니다.\n다시 입력해주세요.");
+                                            return;
+                                        }
+
+                                        // ajax
+                                        $.ajax({
+                                            url: "/account/forgot/change.do",
+                                            type: "GET",
+                                            data: {
+                                                hash: $("input[name=hash]").val(),
+                                                password: $("input[name=password]").val()
+                                            },
+                                            success: function (data) {
+                                                alert("비밀번호가 변경되었습니다.");
+                                                location.href = "/login";
+                                            },
+                                            error: function (e) {
+                                                alert("비밀번호 변경에 실패하였습니다.");
+                                            }
+                                        });
+
+
+                                    }
+								</script>
+							</div>
+
+							<div class="row" th:unless="${error == null}">
+								<span class="text-danger" th:text="${error}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</html>

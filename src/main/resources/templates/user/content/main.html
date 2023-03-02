@@ -156,7 +156,7 @@
 					<div class="card hover-big" th:each="feed: ${clothes_category}">
 						<div class="img-container43">
 							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top rounded"
-							     alt="피드 썸네일 이미지">
+							     alt="피드 썸네일 이미지" loading=lazy>
 						</div>
 						<div class="card-body" data-same-height='true'>
 							<h5 class="card-title" th:text="${feed.title}"></h5>
@@ -191,7 +191,7 @@
 					<div class="card hover-big circle-top" th:each="feed: ${ele_category}">
 						<div class="img-container43">
 							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top circle-top"
-							     alt="피드 썸네일 이미지">
+							     alt="피드 썸네일 이미지" loading=lazy>
 						</div>
 						<div class="card-body" data-same-height='true'>
 							<h5 class="card-title" th:text="${feed.title}"></h5>

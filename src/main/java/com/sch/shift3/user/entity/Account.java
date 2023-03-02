@@ -90,4 +90,19 @@ public class Account {
     public void changeRole(String role){
         this.role = role;
     }
+
+    public Boolean isBan() {
+        return ban;
+    }
+
+    public boolean isSocialLogin() {
+        if (this.provider == null)
+            return false;
+
+        return !this.provider.isEmpty();
+    }
+
+    public void changePassword(String encode) {
+        this.password = encode;
+    }
 }

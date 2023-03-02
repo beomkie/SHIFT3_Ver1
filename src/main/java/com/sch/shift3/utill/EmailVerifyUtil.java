@@ -30,7 +30,7 @@ public class EmailVerifyUtil {
 
     public boolean verify(String email, String code){
         LocalDateTime now = LocalDateTime.now();
-        return emailAuthLogRepository.findByEmailAndCodeAndExpireAtGreaterThanEqual(email, code, now).isPresent();
+        return emailAuthLogRepository.findTop1ByEmailAndCodeAndExpireAtGreaterThanEqual(email, code, now).isPresent();
     }
 
     public String getClientIP(HttpServletRequest request){
@@ -79,4 +79,12 @@ public class EmailVerifyUtil {
         return numStr.toString();
     }
 
+    public void removeAuthLog(String username) {
+        LocalDateTime now = LocalDateTime.now();
+        // minusDays(1) : 하루 전
+        LocalDateTime yesterday = now.minusDays(1);
+
+        // set All ExpireAt to yesterday
+        emailAuthLogRepository.updateExpireAt(yesterday, username);
+    }
 }

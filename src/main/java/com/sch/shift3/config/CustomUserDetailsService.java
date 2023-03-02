@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("called loadUserByUsername. username: {}", username);
         Account account = accountRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Account not found."));
+
+        if (account.isBan() && !Objects.equals(account.getRole(), "ROLE_ADMIN")) {
+            throw new UsernameNotFoundException("계정이 정지되었습니다. 관리자에게 문의해주세요.");
+        }
 
         return new SecurityUser(account);
     }
