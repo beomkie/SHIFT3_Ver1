@@ -141,7 +141,9 @@
 
                         ele.innerHTML = `
                         <div style="height: 0; padding-bottom: 100%; position: relative;" class="hover-small">
-                            <img src="/file/${imageUrl}" class="img-fluid h-100 w-100 position-absolute" alt="${shop.name}" style="object-fit: cover;">
+                            <a href="/shop-detail/${shop.id}" target="_blank">
+                                <img src="/file/${imageUrl}" class="img-fluid h-100 w-100 position-absolute" alt="${shop.name}" style="object-fit: cover;">
+                            </a>
                         </div>
 				        `;
 

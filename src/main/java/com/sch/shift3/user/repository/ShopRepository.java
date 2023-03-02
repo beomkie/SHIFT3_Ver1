@@ -53,8 +53,6 @@ public class ShopRepository {
 
         query.where(builder);
 
-        log.info("query: {}", query);
-
         switch (shopRequest.getFilter()) {
             case "인기순" -> query.orderBy(qSelectShop.hitCount.desc().nullsLast());
 //            case "최신순" -> query.orderBy(qSelectShop.id.desc());
@@ -70,5 +68,15 @@ public class ShopRepository {
             default -> query.orderBy(qSelectShop.id.desc());
         }
         return query.fetch();
+    }
+
+
+    public SelectShop getShopById(Integer shopId) {
+        QSelectShop qSelectShop = QSelectShop.selectShop;
+        JPAQuery<SelectShop> query = queryFactory.selectFrom(qSelectShop);
+        query.leftJoin(qSelectShop.imageSelectShops).fetchJoin();
+        query.leftJoin(qSelectShop.selectShopBrands).fetchJoin();
+        query.where(qSelectShop.id.eq(shopId));
+        return query.fetchOne();
     }
 }

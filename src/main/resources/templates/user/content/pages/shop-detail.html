@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/layout/default_layout}" lang="ko">
+<!--<script>-->
+
+
+<div layout:fragment="content" class="content">
+	<style>
+        .section .container .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .section .container .subtitle {
+            font-size: 1.25rem;
+            font-weight: 470;
+            margin-bottom: 0.5rem;
+        }
+
+        .section .container .content {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .mapWrap {
+            width: auto;
+            height: 200px;
+        }
+
+        /*mobile*/
+        @media (max-width: 767px) {
+            .mapWrap {
+                width: auto;
+                height: 200px;
+            }
+
+            .col-6 {
+                width: 100%;
+            }
+
+            .col-3 {
+                width: 50%;
+            }
+        }
+	</style>
+	<div class="section" style="padding-top: 2em !important;">>
+		<div class="container">
+
+			<script type="text/javascript"
+			        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+
+			<script th:inline="javascript">
+                // lat, lng
+                /*<![CDATA[*/
+                var lat = /*[[${shop.latitude}]]*/ 0;
+                var lng = /*[[${shop.longitude}]]*/ 0;
+
+                /*]]>*/
+
+                function initMap() {
+                    var map = new naver.maps.Map('naverMap', {
+                        center: new naver.maps.LatLng(lat, lng),
+                        zoom: 14
+                    });
+                    // pin
+                    var marker = new naver.maps.Marker({
+                        position: new naver.maps.LatLng(lat, lng),
+                        map: map
+                    });
+                }
+			</script>
+
+			<div id="shopImages" class="carousel slide mb-4" data-bs-ride="carousel">
+				<div class="carousel-inner">
+					<th:block th:each="image : ${shop.imageSelectShops}">
+						<div class="carousel-item" th:classappend="${imageStat.index == 0 ? 'active' : ''}">
+							<img th:src="'/file/' + ${image.imageName}" class="d-block w-100"
+							     alt="...">
+						</div>
+					</th:block>
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#shopImages"
+				        data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#shopImages"
+				        data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+
+			<div class="row">
+				<div class="col-6">
+					<p class="title">편집샵 이름</p>
+					<p class="content" th:text="${shop.name}"></p>
+				</div>
+
+				<div class="col-6">
+					<p class="title">한줄소개</p>
+					<p class="content" th:text="${shop.introduce}"></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<p class="title">정보</p>
+				<div class="col-6">
+					<p class="subtitle">연락처</p>
+					<p class="content" th:text="${shop.contactNumber}"></p>
+				</div>
+				<div class="col-6">
+					<p class="subtitle">운영시간</p>
+					<p class="content" th:text="${shop.operatingTime}">00:00 ~ 01:00</p>
+				</div>
+				<div class="col-6">
+					<p class="subtitle">위치</p>
+					<div class="mapWrap">
+						<div id="naverMap" class="w-100 h-100"></div>
+					</div>
+					<p class="content" th:text="${shop.streetAddressClear + ' ' + shop.streetAddressDetail}"></p>
+				</div>
+				<div class="col-6">
+					<p class="subtitle">취급 브랜드</p>
+					<p id="brandList">
+					<span class="badge bg-secondary m-2" th:each="brand: ${shop.selectShopBrands}">
+						<th:block th:text="${brand.brandName}">
+						</th:block>
+					</span>
+					</p>
+				</div>
+			</div>
+
+
+			<div class="row" id="contentFeedDiv">
+				<p class="title" id="contentFeedTitle">컨텐츠 피드</p>
+				<div id="contentFeedList" class="contentFeedList row g-1">
+					<div class="col-3" th:each="feed: ${relatedFeed}">
+						<div class="card">
+							<div class="card-img-top square-image"
+							     th:style="'background-image: url(/file/' + ${feed.thumbnailFileName} + ')'"></div>
+							<div class="card-body"
+							     data-same-height="true">
+								<h5 class="card-title" th:text="${feed.title}"></h5>
+								<p class="card-text" th:text="${feed.description}"></p>
+								<a th:href="'/feed/' + ${feed.id}" class="btn btn-more">더 알아보기</a>
+							</div>
+						</div>
+					</div>
+
+					<div th:if="${relatedFeed.size() == 0}">
+						<p class="content">컨텐츠가 없습니다.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+</html>

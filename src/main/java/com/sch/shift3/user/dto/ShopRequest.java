@@ -84,6 +84,14 @@ public class ShopRequest {
         }
     }
 
+    public String getSubLocation() {
+        if (subLocation.isEmpty()){
+            return "전체";
+        }
+
+        return subLocation;
+    }
+
     public List<String> getFullLocationList() {
         if (this.subLocation.contains("/")) {
             // return list of location + " " + subLocation.split
@@ -93,5 +101,9 @@ public class ShopRequest {
         } else {
             return List.of(this.getLocation() + " " + this.subLocation);
         }
+    }
+
+    public boolean isEmpty(){
+        return this.location.equals("내위치") && this.subLocation.isEmpty() && this.keyword.isEmpty();
     }
 }

@@ -84,11 +84,29 @@ public class UserView {
     }
 
     @GetMapping("/shop-list")
-    public String shopListPage(Model model){
+    public String shopListPage(Model model, ShopRequest shopRequest){
         model.addAttribute("disableLoading", true);
         model.addAttribute("disableFooter", true);
-        model.addAttribute("shopList", shopRepository.getShopList(new ShopRequest()));
+
+        model.addAttribute("shopRequest", shopRequest);
+
+        if (shopRequest.isEmpty()){
+            model.addAttribute("shopList", shopRepository.getShopList(new ShopRequest()));
+        } else {
+            model.addAttribute("shopList", shopRepository.getShopList(shopRequest));
+        }
+
         return "user/content/pages/shop-list";
+    }
+
+    @GetMapping("/shop-detail/{shopId}")
+    public String shopDetailPage(Model model, @PathVariable Integer shopId){
+        model.addAttribute("disableLoading", true);
+
+        model.addAttribute("shop", shopRepository.getShopById(shopId));
+        model.addAttribute("relatedFeed", feedService.getRelatedFeedByShopId(shopId));
+
+        return "user/content/pages/shop-detail";
     }
 
     @GetMapping("/content-list")

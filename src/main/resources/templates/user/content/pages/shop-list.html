@@ -243,7 +243,8 @@
 
 				<div class="row mb-3 g-0">
 					<div class="col-lg-9 col-md-8 col-sm-6 col-6">
-						<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+						<input type="text" class="form-control" placeholder="검색어를 입력하세요"
+						       th:value="${shopRequest.keyword}">
 					</div>
 
 					<div class="mobile-show col-sm-3 col-3">
@@ -287,45 +288,76 @@
 
 
 						<div id="location" class="product_size_switch address_filter mb-3">
-							<span class="active" data-enable-hover="true">내위치</span>
-							<span class="" data-enable-hover="true">서울</span>
-							<span class="" data-enable-hover="true">경기</span>
-							<span class="" data-enable-hover="true">인천</span>
-							<span class="" data-enable-hover="true">강원</span>
-							<span class="" data-enable-hover="true">대전</span>
-							<span class="" data-enable-hover="true">세종</span>
-							<span class="" data-enable-hover="true">충남</span>
-							<span class="" data-enable-hover="true">충북</span>
-							<span class="" data-enable-hover="true">부산</span>
-							<span class="" data-enable-hover="true">울산</span>
-							<span class="" data-enable-hover="true">경남</span>
-							<span class="" data-enable-hover="true">경북</span>
-							<span class="" data-enable-hover="true">대구</span>
-							<span class="" data-enable-hover="true">광주</span>
-							<span class="" data-enable-hover="true">전남</span>
-							<span class="" data-enable-hover="true">전북</span>
-							<span class="" data-enable-hover="true">제주</span>
+							<span th:classappend="${shopRequest.getLocation() == '내위치' ? 'active' : ''}"
+							      data-enable-hover="true">내위치</span>
+							<span th:classappend="${shopRequest.getLocation() == '서울특별시' ? 'active' : ''}"
+							      data-enable-hover="true">서울</span>
+							<span th:classappend="${shopRequest.getLocation() == '경기도' ? 'active' : ''}"
+							      data-enable-hover="true">경기</span>
+							<span th:classappend="${shopRequest.getLocation() == '인천광역시' ? 'active' : ''}"
+							      data-enable-hover="true">인천</span>
+							<span th:classappend="${shopRequest.getLocation() == '강원도' ? 'active' : ''}"
+							      data-enable-hover="true">강원</span>
+							<span th:classappend="${shopRequest.getLocation() == '대전광역시' ? 'active' : ''}"
+							      data-enable-hover="true">대전</span>
+							<span th:classappend="${shopRequest.getLocation() == '세종특별자치시' ? 'active' : ''}"
+							      data-enable-hover="true">세종</span>
+							<span th:classappend="${shopRequest.getLocation() == '충청남도' ? 'active' : ''}"
+							      data-enable-hover="true">충남</span>
+							<span th:classappend="${shopRequest.getLocation() == '충청북도' ? 'active' : ''}"
+							      data-enable-hover="true">충북</span>
+							<span th:classappend="${shopRequest.getLocation() == '부산광역시' ? 'active' : ''}"
+							      data-enable-hover="true">부산</span>
+							<span th:classappend="${shopRequest.getLocation() == '울산광역시' ? 'active' : ''}"
+							      data-enable-hover="true">울산</span>
+							<span th:classappend="${shopRequest.getLocation() == '경상남도' ? 'active' : ''}"
+							      data-enable-hover="true">경남</span>
+							<span th:classappend="${shopRequest.getLocation() == '경상북도' ? 'active' : ''}"
+							      data-enable-hover="true">경북</span>
+							<span th:classappend="${shopRequest.getLocation() == '대구광역시' ? 'active' : ''}"
+							      data-enable-hover="true">대구</span>
+							<span th:classappend="${shopRequest.getLocation() == '광주광역시' ? 'active' : ''}"
+							      data-enable-hover="true">광주</span>
+							<span th:classappend="${shopRequest.getLocation() == '전라남도' ? 'active' : ''}"
+							      data-enable-hover="true">전남</span>
+							<span th:classappend="${shopRequest.getLocation() == '전라북도' ? 'active' : ''}"
+							      data-enable-hover="true">전북</span>
+							<span th:classappend="${shopRequest.getLocation() == '제주특별자치도' ? 'active' : ''}"
+							      data-enable-hover="true">제주</span>
 						</div>
 
-						<div id="subLocation" class="mb-2" style="display: none">
+						<div id="subLocation" class="mb-2"
+						     th:style="${shopRequest.getLocation() == '서울특별시' ? 'display:block' : 'display:none'}">
 							<div class="name mb-2">
 								상세지역
 							</div>
 
 
 							<div class="product_size_switch sub_address_filter">
-								<span class="active" data-enable-hover="true">전체</span>
-								<span class="" data-enable-hover="true">서초구</span>
-								<span class="" data-enable-hover="true">강남구</span>
-								<span class="" data-enable-hover="true">송파구</span>
-								<span class="" data-enable-hover="true">강서구/양천구</span>
-								<span class="" data-enable-hover="true">구로구/금천구</span>
-								<span class="" data-enable-hover="true">용등포구/동작구</span>
-								<span class="" data-enable-hover="true">관악구</span>
-								<span class="" data-enable-hover="true">강동구</span>
-								<span class="" data-enable-hover="true">도봉구/강북구</span>
-								<span class="" data-enable-hover="true">성북구/종로구/서대문구</span>
-								<span class="" data-enable-hover="true">은평구/마포구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '전체' ? 'active' : ''}"
+								      data-enable-hover="true">전체</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '서초구' ? 'active' : ''}"
+								      data-enable-hover="true">서초구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '강남구' ? 'active' : ''}"
+								      data-enable-hover="true">강남구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '송파구' ? 'active' : ''}"
+								      data-enable-hover="true">송파구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '강서구/양천구' ? 'active' : ''}"
+								      data-enable-hover="true">강서구/양천구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '구로구/금천구' ? 'active' : ''}"
+								      data-enable-hover="true">구로구/금천구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '영등포구/동작구' ? 'active' : ''}"
+								      data-enable-hover="true">영등포구/동작구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '관악구' ? 'active' : ''}"
+								      data-enable-hover="true">관악구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '강동구' ? 'active' : ''}"
+								      data-enable-hover="true">강동구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '도봉구/강북구' ? 'active' : ''}"
+								      data-enable-hover="true">도봉구/강북구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '성북구/종로구/서대문구' ? 'active' : ''}"
+								      data-enable-hover="true">성북구/종로구/서대문구</span>
+								<span th:classappend="${shopRequest.getSubLocation() == '은평구/마포구' ? 'active' : ''}"
+								      data-enable-hover="true">은평구/마포구</span>
 							</div>
 
 							<script>
