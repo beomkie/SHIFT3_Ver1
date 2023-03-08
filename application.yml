@@ -51,7 +51,7 @@ spring:
           kakao:
             client-id: c9c99f2b755d05ff320b48f64b530849
             client-secret: 10b4089090b3c8756eb564cabf6e1c81
-            redirect-uri: http://shift3.kr/login/oauth2/code/kakao
+            redirect-uri: https://shift3.co.kr/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             scope:
               - account_email
@@ -61,14 +61,14 @@ spring:
           naver:
             client-id: sAcKuXt60ESOGETn6xtp
             client-secret: QK7mKWNgUF
-            redirect-uri: http://shift3.kr/login/oauth2/code/naver
+            redirect-uri: https://shift3.co.kr/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope: nickname,email,name
             client-name: Naver
           facebook:
-            client-id: 1255723775019147
-            client-secret: 5eb9a9593cd1515126638fc2562a6098
-            redirect-uri: http://shift3.kr/login/oauth2/code/facebook
+            client-id: 190358776967881
+            client-secret: 1a6498f8af2f30e167d06578eb06c7b7
+            redirect-uri: https://shift3.co.kr/login/oauth2/code/facebook
             authorization-grant-type: authorization_code
             scope: email
             client-name: Facebook
@@ -92,10 +92,13 @@ spring:
             user-name-attribute: id
             client-authentication-method: post
 
-
-
 server:
-  port: 8080
+  port: 443
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: rlqjashift32022@
+    key-store-type: PKCS12
+    key-alias: tomcat
 
 
 
