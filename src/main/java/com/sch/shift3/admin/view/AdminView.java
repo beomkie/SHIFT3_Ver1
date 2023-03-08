@@ -37,8 +37,10 @@ public class AdminView {
     private final AdminAccountService adminAccountService;
 
     @GetMapping("")
-    public String mainPage(){
-        return "admin/content/main";
+    public String mainPage(Model model){
+//        return "admin/content/main";
+        model.addAttribute("questionList", questionService.getAllQuestionList());
+        return "admin/content/pages/cs/list";
     }
 
     @GetMapping("/account/list")

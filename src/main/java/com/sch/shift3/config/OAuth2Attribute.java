@@ -25,6 +25,7 @@ public class OAuth2Attribute {
             case "google" -> ofGoogle(attributeKey, attributes);
             case "kakao" -> ofKakao("email", attributes);
             case "naver" -> ofNaver("id", attributes);
+            case "facebook" -> ofFacebook("id", attributes);
             default -> throw new RuntimeException();
         };
     }
@@ -37,6 +38,17 @@ public class OAuth2Attribute {
                 .attributes(attributes)
                 .attributeKey(attributeKey)
                 .provider("google")
+                .build();
+    }
+
+    private static OAuth2Attribute ofFacebook(String attributeKey,
+                                              Map<String, Object> attributes) {
+        return OAuth2Attribute.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .attributes(attributes)
+                .attributeKey(attributeKey)
+                .provider("facebook")
                 .build();
     }
 

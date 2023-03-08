@@ -132,6 +132,7 @@
                         let shop = shops[i];
                         let ele = document.createElement("div");
                         ele.classList.add("col-4");
+                        ele.classList.add("p-2");
                         row.appendChild(ele);
 
                         let imageUrl = "/no-image-square.png";
@@ -145,6 +146,9 @@
                                 <img src="/file/${imageUrl}" class="img-fluid h-100 w-100 position-absolute" alt="${shop.name}" style="object-fit: cover;">
                             </a>
                         </div>
+                        <span>
+                            ${shop.name}
+                        </span>
 				        `;
 
                         shopItemList.push(ele);

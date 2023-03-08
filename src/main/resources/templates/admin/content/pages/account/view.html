@@ -21,8 +21,8 @@
 					</tr>
 					<tr>
 						<th scope="row">계정 유형</th>
-						<td th:if="${account.provider == ''}">자체 가입 회원</td>
-						<td th:unless="${account.provider == ''}">SNS 로그인 계정
+						<td th:if="${account.provider == null}">자체 가입 회원</td>
+						<td th:unless="${account.provider == null}">SNS 로그인 계정
 							<a th:text="${account.provider}"></a>
 						</td>
 					</tr>

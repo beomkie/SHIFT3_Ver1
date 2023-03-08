@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{/user/layout/default_layout}" lang="ko">
 <!--<script>-->
 
@@ -229,6 +230,36 @@
                 });
                 window.clusteringMap();
             });
+        }
+
+        window.hideInfo = function () {
+            // 모든 <p hidden> 태그를 선택합니다.
+            var hiddenPs = document.querySelectorAll("p[hidden]");
+            var mosaicImage = document.querySelector("#mosaic-image");
+
+            // 각 <p hidden> 태그에 대해 모자이크 처리합니다.
+            for (var i = 0; i < hiddenPs.length; i++) {
+                // 현재 <p hidden> 태그의 내용을 가져옵니다.
+                var text = hiddenPs[i].textContent;
+
+                // <p hidden> 태그를 모자이크 처리된 이미지로 대체합니다.
+                hiddenPs[i].innerHTML = mosaicImage.innerHTML;
+
+                // 대체된 이미지의 크기와 위치를 설정합니다.
+                hiddenPs[i].style.width = "100%";
+                hiddenPs[i].style.height = "100%";
+                hiddenPs[i].style.position = "relative";
+                hiddenPs[i].style.display = "inline-block";
+
+                // 이미지의 크기와 위치를 설정합니다.
+                var mosaicSVG = hiddenPs[i].querySelector("svg");
+                mosaicSVG.style.width = "100%";
+                mosaicSVG.style.height = "100%";
+                mosaicSVG.style.position = "absolute";
+                mosaicSVG.style.top = "0";
+                mosaicSVG.style.left = "0";
+                mosaicSVG.style.pointerEvents = "none";
+            }
         }
 	</script>
 
@@ -546,22 +577,44 @@
 					<p class="title">주소</p>
 					<p class="content" id="address"></p>
 
-					<div class="row">
-						<p class="title">기본 정보</p>
-						<div class="col-6">
-							<p class="subtitle">연락처</p>
-							<p class="content" id="contact"></p>
+					<th:block sec:authorize="isAuthenticated()">
+						<div class="row">
+							<p class="title">기본 정보</p>
+							<div class="col-6">
+								<p class="subtitle">연락처</p>
+								<p class="content" id="contact"></p>
+							</div>
+							<div class="col-6">
+								<p class="subtitle">운영시간</p>
+								<p class="content" id="operatingTime">00:00 ~ 01:00</p>
+							</div>
 						</div>
-						<div class="col-6">
-							<p class="subtitle">운영시간</p>
-							<p class="content" id="operatingTime">00:00 ~ 01:00</p>
-						</div>
-					</div>
 
-					<div class="row">
-						<p class="title">취급 브랜드</p>
-						<p id="brandList"></p>
-					</div>
+						<div class="row">
+							<p class="title">취급 브랜드</p>
+							<p id="brandList"></p>
+						</div>
+					</th:block>
+
+					<th:block sec:authorize="isAnonymous()">
+						<div class="row p-2 mt-2 mb-3">
+							로그인하여 더 많은 정보를 확인하세요.
+						</div>
+
+						<div class="row" hidden>
+							<div class="col-6">
+								<p class="content" id="contact" hidden></p>
+							</div>
+							<div class="col-6">
+								<p class="content" id="operatingTime" hidden>00:00 ~ 01:00</p>
+							</div>
+						</div>
+
+						<div class="row" hidden>
+							<p id="brandList" hidden></p>
+						</div>
+
+					</th:block>
 
 					<div class="row" id="contentFeedDiv">
 						<p class="title" id="contentFeedTitle">컨텐츠 피드</p>
@@ -687,7 +740,7 @@
                         shop.selectShopBrands.forEach(function (item) {
                             brandList.append(`<span class="badge bg-secondary m-2">${item.brandName}</span>`);
                         });
-
+                        window.hideInfo();
                         $('#shopDetail').loading('stop');
                     }
 
@@ -703,6 +756,19 @@
 				<div id="naverMap" class="w-100 h-100"></div>
 			</div>
 		</div>
+	</div>
+
+
+	<!-- 모자이크 이미지를 포함하는 <div> 태그 -->
+	<div id="mosaic-image" style="display: none;">
+		<svg viewBox="0 0 10 10">
+			<!-- 검은색 사각형 -->
+			<rect x="0" y="0" width="5" height="5" fill="black"/>
+			<rect x="5" y="5" width="5" height="5" fill="black"/>
+			<!-- 하얀색 사각형 -->
+			<rect x="0" y="5" width="5" height="5" fill="white"/>
+			<rect x="5" y="0" width="5" height="5" fill="white"/>
+		</svg>
 	</div>
 </div>
 

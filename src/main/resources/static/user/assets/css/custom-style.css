@@ -32,9 +32,9 @@
     color: whitesmoke;
 }
 
-.navbar-login-btn:hover {
-    color: black;
-}
+/*.navbar-login-btn:hover a {
+    color: white;
+}*/
 
 
 .btn-fill-dark {
@@ -348,3 +348,12 @@ div.card .card-body[data-same-height='true'] .card-text {
 }
 
 /*카드뷰 길이 일정하게 만들기 끝*/
+
+
+.navbar-login-btn a:hover {
+    color: white !important;
+}
+
+.navbar-login-btn:hover a {
+    color: white !important;
+}

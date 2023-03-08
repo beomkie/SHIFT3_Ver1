@@ -210,13 +210,12 @@
 			<hr/>
 
 			<div class="row">
-				<div class="col-3 mobile-full">
-					<div class="card" th:each="relatedFeed : ${relatedFeedList}">
+				<div class="col-3 mobile-full" th:each="relatedFeed : ${relatedFeedList}">
+					<div class="card">
 						<div class="img-container43">
-							<img th:src="'/file/' + ${relatedFeed.thumbnailFileName}" class="card-img-top rounded"
-							     alt="your-image-alt">
+							<img th:src="'/file/' + ${relatedFeed.thumbnailFileName}" class="card-img-top rounded">
 						</div>
-						<div class="card-body">
+						<div class="card-body" data-same-height='true'>
 							<h5 class="card-title" th:text="${relatedFeed.title}"></h5>
 							<p class="card-text" th:text="${relatedFeed.description}"></p>
 							<a th:href="'/feed/' + ${relatedFeed.id}" class="btn btn-primary btn-more rounded-pill">더
