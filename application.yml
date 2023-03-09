@@ -2,8 +2,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: 'peneksoft@gmail.com'
-    password: 'roqxrsaenjwefeup'
+    username: 'shift3official@gmail.com'
+    password: 'tmyleuqjgzlomphn'
     properties:
       mail:
         smtp:
@@ -59,15 +59,15 @@ spring:
             client-name: kakao
             client-authentication-method: POST
           naver:
-            client-id: sAcKuXt60ESOGETn6xtp
-            client-secret: QK7mKWNgUF
+            client-id: E1Ny46L4v554MQG45UoX
+            client-secret: fM1En__YfP
             redirect-uri: https://shift3.co.kr/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope: nickname,email,name
             client-name: Naver
           facebook:
-            client-id: 190358776967881
-            client-secret: 1a6498f8af2f30e167d06578eb06c7b7
+            client-id: 711844397353468
+            client-secret: 904ff93012f4f97a859cafca6f0d0bed
             redirect-uri: https://shift3.co.kr/login/oauth2/code/facebook
             authorization-grant-type: authorization_code
             scope: email
