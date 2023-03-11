@@ -61,7 +61,7 @@ public class UserView {
 
     @GetMapping("/introduce")
     public String introducePage(Model model) {
-        model.addAttribute("disableLoading", true);
+//        model.addAttribute("disableLoading", true);
         return "user/content/pages/introduce";
     }
 

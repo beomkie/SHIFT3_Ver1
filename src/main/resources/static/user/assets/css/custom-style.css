@@ -357,3 +357,7 @@ div.card .card-body[data-same-height='true'] .card-text {
 .navbar-login-btn:hover a {
     color: white !important;
 }
+
+.btn-hover-white:hover {
+    color: white !important;
+}
