@@ -88,13 +88,13 @@ public class UserView {
         model.addAttribute("disableLoading", true);
         model.addAttribute("disableFooter", true);
 
-        model.addAttribute("shopRequest", shopRequest);
+        /*model.addAttribute("shopRequest", shopRequest);
 
         if (shopRequest.isEmpty()){
             model.addAttribute("shopList", shopRepository.getShopList(new ShopRequest()));
         } else {
             model.addAttribute("shopList", shopRepository.getShopList(shopRequest));
-        }
+        }*/
 
         return "user/content/pages/shop-list";
     }

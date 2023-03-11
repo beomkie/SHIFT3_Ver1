@@ -12,8 +12,8 @@ public class ShopRequest {
     private String keyword;
     private String filter;
 
-    private Double latitude;
-    private Double longitude;
+    private Double lat;
+    private Double lng;
 
     public ShopRequest() {
         this.location = "내위치";

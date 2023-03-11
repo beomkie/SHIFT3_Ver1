@@ -28,8 +28,16 @@ public class ShopRepository {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (shopRequest.getLocation().equals("내위치")) {
-//            todo 위치 기반 검색
-//            builder.and(qSelectShop.streetAddress.));
+            // 내 위치 반경 5km
+            builder.and(Expressions.stringTemplate("ST_Distance_Sphere({0}, {1})",
+                    Expressions.stringTemplate("POINT({0}, {1})",
+                            shopRequest.getLng(),
+                            shopRequest.getLat()
+                    ),
+                    Expressions.stringTemplate("POINT({0}, {1})",
+                            qSelectShop.longitude,
+                            qSelectShop.latitude
+                    )).lt(String.valueOf(5000)));
         } else {
             if (shopRequest.getLocation().equals("서울특별시")) {
                 // subLocation 검사
@@ -58,8 +66,8 @@ public class ShopRepository {
 //            case "최신순" -> query.orderBy(qSelectShop.id.desc());
             case "거리순" -> query.orderBy(Expressions.stringTemplate("ST_Distance_Sphere({0}, {1})",
                     Expressions.stringTemplate("POINT({0}, {1})",
-                            shopRequest.getLongitude(),
-                            shopRequest.getLatitude()
+                            shopRequest.getLat(),
+                            shopRequest.getLng()
                     ),
                     Expressions.stringTemplate("POINT({0}, {1})",
                             qSelectShop.longitude,

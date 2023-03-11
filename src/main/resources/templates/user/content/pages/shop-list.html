@@ -150,6 +150,8 @@
                 border-radius: 10px;
                 width: 25vw;
                 max-width: 450px;
+
+                opacity: 0.9122;
             }
 
             #shopDetail {
@@ -211,6 +213,7 @@
 
 	<script type="text/javascript">
         window.initMap = function () {
+
             let mapDiv = document.getElementById('naverMap');
             window.map = new naver.maps.Map(mapDiv, {
                 zoom: 16,
@@ -221,16 +224,45 @@
             window.markerClusterer.setOptions({
                 map: map
             });
-
-            // when dom is ready
-            $(document).ready(function () {
-                // get all shop-item data-shop
-                $('.shop-item').map(function () {
-                    window.drawMap($(this).data('shop'));
-                });
-                window.clusteringMap();
-            });
         }
+
+
+        $(document).ready(function () {
+
+            window.myLocate = {
+                lat: 37.566826,
+                lng: 126.9786567
+            };
+
+            // 내위치 체크 여부 확인
+            if ('geolocation' in navigator) {
+                /* 위치정보 사용 가능 */
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    window.myLocate = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    if (getRequest().location === '내위치') {
+                        search();
+                    }
+                });
+                window.isGeolocation = true;
+            } else {
+                /* 위치정보 사용 불가능 */
+                //[37.566826, 126.9786567];
+                window.myLocate = {
+                    lat: 37.566826,
+                    lng: 126.9786567
+                }
+                window.isGeolocation = true;
+            }
+
+            if (getRequest().location !== '내위치') {
+                console.log('내위치 아님')
+                search();
+            }
+        });
 	</script>
 
 	<div class="container-fluid shop_list"
@@ -369,6 +401,8 @@
                                         "subLocation": $('.sub_address_filter span.active').text(),
                                         "keyword": $('input[type=text]').val(),
                                         "filter": $(".sort_filter span.active").text(),
+                                        "lat": window.isGeolocation ? window.myLocate.lat : 37.566826,
+                                        "lng": window.isGeolocation ? window.myLocate.lng : 126.9786567
                                     }
                                 }
 
@@ -391,7 +425,6 @@
                                                 $('#subLocation').slideUp();
                                             }
                                         }
-
                                         search();
                                     });
                                 });
