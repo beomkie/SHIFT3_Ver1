@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -56,8 +58,18 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Transactional
     Account saveOrUpdate(OAuth2Attribute attributes) {
-        Account user = accountRepository.findByUsername(attributes.getEmail())
-                .orElse(attributes.toEntity());
+        Optional<Account> userOptional = accountRepository.findByUsername(attributes.getEmail());
+        Account user = userOptional.orElse(attributes.toEntity());
+
+        if (userOptional.isPresent()) {
+            if (!user.isSocialLogin()){
+                // SNS 로그인이 아닌 경우 로그인 불가
+                throw new IllegalArgumentException("SNS 로그인 사용자가 아닙니다. 비밀번호를 입력하여 로그인을 다시 시도해주세요.");
+            } else if (Boolean.TRUE.equals(user.getBan())){
+                // SNS 로그인이 아닌 경우 로그인 불가
+                throw new IllegalArgumentException("차단된 계정입니다.");
+            }
+        }
 
         return accountRepository.save(user);
     }

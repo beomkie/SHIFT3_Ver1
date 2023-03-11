@@ -164,7 +164,7 @@
 
 					<div class="card hover-big" th:each="feed: ${clothes_category}">
 						<div class="img-container43">
-							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top rounded"
+							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top"
 							     alt="피드 썸네일 이미지" loading=lazy>
 						</div>
 						<div class="card-body" data-same-height='true'>

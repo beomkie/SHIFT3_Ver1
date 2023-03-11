@@ -231,36 +231,6 @@
                 window.clusteringMap();
             });
         }
-
-        window.hideInfo = function () {
-            // 모든 <p hidden> 태그를 선택합니다.
-            var hiddenPs = document.querySelectorAll("p[hidden]");
-            var mosaicImage = document.querySelector("#mosaic-image");
-
-            // 각 <p hidden> 태그에 대해 모자이크 처리합니다.
-            for (var i = 0; i < hiddenPs.length; i++) {
-                // 현재 <p hidden> 태그의 내용을 가져옵니다.
-                var text = hiddenPs[i].textContent;
-
-                // <p hidden> 태그를 모자이크 처리된 이미지로 대체합니다.
-                hiddenPs[i].innerHTML = mosaicImage.innerHTML;
-
-                // 대체된 이미지의 크기와 위치를 설정합니다.
-                hiddenPs[i].style.width = "100%";
-                hiddenPs[i].style.height = "100%";
-                hiddenPs[i].style.position = "relative";
-                hiddenPs[i].style.display = "inline-block";
-
-                // 이미지의 크기와 위치를 설정합니다.
-                var mosaicSVG = hiddenPs[i].querySelector("svg");
-                mosaicSVG.style.width = "100%";
-                mosaicSVG.style.height = "100%";
-                mosaicSVG.style.position = "absolute";
-                mosaicSVG.style.top = "0";
-                mosaicSVG.style.left = "0";
-                mosaicSVG.style.pointerEvents = "none";
-            }
-        }
 	</script>
 
 	<div class="container-fluid shop_list"
@@ -450,13 +420,13 @@
 
                                     let html = `<div class="shop-item card mb-3" data-shop='${shopJson}'>
 													<div class="row g-0">
-														<div class="col-md-4">
-										${(shop.imageSelectShops.length !== 0) ?
+														<div class="col-md-4 col-4">
+															${(shop.imageSelectShops.length !== 0) ?
                                         `<img src="/file/${shop.imageSelectShops[0].imageName}" class="img-fluid rounded-start">` :
                                         `<img src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg" class="img-fluid rounded-start">`}
 														</div>
 
-														<div class="col-md-8">
+														<div class="col-md-8 col-8">
 															<div class="card-body">
 															<h5 class="name">${shop.name}</h5>
 															<ul><li class="introduce">${shop.introduce}</li>
@@ -487,7 +457,7 @@
 					</div>
 
 
-					<div class="menu mb-3 pc-show">
+					<div class="menu mb-3">
 						<div class="name mb-1">
 							검색 결과
 						</div>
@@ -498,7 +468,7 @@
 							     th:data-shop="${shop.toJson()}">
 
 								<div class="row g-0">
-									<div class="col-md-4">
+									<div class="col-md-4 col-4">
 										<!--								<img th:unless="${Object.nonNull(shop.imageSelectShops)}"-->
 										<img th:if="${#lists.isEmpty(shop.imageSelectShops)}"
 										     src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg"
@@ -508,7 +478,7 @@
 										     th:src="'/file/' + ${shop.imageSelectShops[0].imageName}"
 										     class="img-fluid rounded-start">
 									</div>
-									<div class="col-md-8">
+									<div class="col-md-8 col-8">
 										<div class="card-body">
 											<h5 class="name" th:text="${shop.name}"></h5>
 											<ul>
@@ -717,7 +687,7 @@
                                     let html = `
                                          <div class="col-6">
                                              <div class="card">
-                                             <div class="card-img-top square-image" style="background-image: url('/file/${item.thumbnailFileName}')"></div>
+                                             <div class="card-img-top square-image" style="background-image: url('/file/${item.thumbnailFileName}');background-size: cover;"></div>
                                                  <div class="card-body" onclick="location.href='/feed/${item.id}'" data-same-height='true'>
                                                      <h5 class="card-title">${item.title}</h5>
                                                      <p class="card-text">${item.description}</p>
@@ -740,7 +710,6 @@
                         shop.selectShopBrands.forEach(function (item) {
                             brandList.append(`<span class="badge bg-secondary m-2">${item.brandName}</span>`);
                         });
-                        window.hideInfo();
                         $('#shopDetail').loading('stop');
                     }
 
@@ -756,19 +725,6 @@
 				<div id="naverMap" class="w-100 h-100"></div>
 			</div>
 		</div>
-	</div>
-
-
-	<!-- 모자이크 이미지를 포함하는 <div> 태그 -->
-	<div id="mosaic-image" style="display: none;">
-		<svg viewBox="0 0 10 10">
-			<!-- 검은색 사각형 -->
-			<rect x="0" y="0" width="5" height="5" fill="black"/>
-			<rect x="5" y="5" width="5" height="5" fill="black"/>
-			<!-- 하얀색 사각형 -->
-			<rect x="0" y="5" width="5" height="5" fill="white"/>
-			<rect x="5" y="0" width="5" height="5" fill="white"/>
-		</svg>
 	</div>
 </div>
 

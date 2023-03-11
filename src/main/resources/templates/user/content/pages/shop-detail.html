@@ -139,7 +139,7 @@
 					<div class="col-3" th:each="feed: ${relatedFeed}">
 						<div class="card">
 							<div class="card-img-top square-image"
-							     th:style="'background-image: url(/file/' + ${feed.thumbnailFileName} + ')'"></div>
+							     th:style="'background-image: url(/file/' + ${feed.thumbnailFileName} + ');    background-size: cover;'"></div>
 							<div class="card-body"
 							     data-same-height="true">
 								<h5 class="card-title" th:text="${feed.title}"></h5>
