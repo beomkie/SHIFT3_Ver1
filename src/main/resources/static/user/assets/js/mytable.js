@@ -26,10 +26,17 @@ var lang_kor = {
 
 $(document).ready(function () {
     $('#myTable').DataTable({
+        "responsive": true,
+        // "details": {
+        //     "display": $.fn.dataTable.Responsive.display.childRowImmediate,
+        //     "type": 'none',
+        //     "target": ''
+        // }
+        // },
         // order
-        "order": [
+        order: [
             [0, "desc"]
         ],
-        "language": lang_kor
+        language: lang_kor
     });
 });
