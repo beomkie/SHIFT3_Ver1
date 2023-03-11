@@ -85,7 +85,7 @@ public class UserView {
 
     @GetMapping("/shop-list")
     public String shopListPage(Model model, ShopRequest shopRequest){
-        model.addAttribute("disableLoading", true);
+//        model.addAttribute("disableLoading", true);
         model.addAttribute("disableFooter", true);
 
         /*model.addAttribute("shopRequest", shopRequest);
