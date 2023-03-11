@@ -31,7 +31,7 @@ public class Qna {
     @Column(name = "answer", length = 1000)
     private String answer;
 
-    @Column(name = "question_type", nullable = false, length = 10)
+    @Column(name = "question_type", nullable = false, length = 20)
     private String questionType;
 
     @ManyToOne
