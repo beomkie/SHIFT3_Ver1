@@ -37,6 +37,9 @@ public class SelectShop {
     @Column(name = "introduce", length = 70)
     private String introduce;
 
+    @Column(name = "introduce_sub", length = 400)
+    private String introduceSub;
+
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 
@@ -85,6 +88,7 @@ public class SelectShop {
                 .id(id)
                 .name(name)
                 .introduce(introduce)
+                .introduceSub(introduceSub)
                 .latitude(latitude)
                 .longitude(longitude)
                 .streetAddress(streetAddress)
@@ -102,6 +106,7 @@ public class SelectShop {
     public void update(SelectShopDto selectShopDto) {
         this.name = selectShopDto.getName();
         this.introduce = selectShopDto.getIntroduce();
+        this.introduceSub = selectShopDto.getIntroduceSub();
         this.streetAddress = selectShopDto.getStreetAddress();
         this.streetAddressDetail = selectShopDto.getStreetAddressDetail();
         this.contactNumber = selectShopDto.getContactNumber();
@@ -118,17 +123,20 @@ public class SelectShop {
         // json Object
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
-        jsonObject.put("name", name);
-        jsonObject.put("introduce", introduce);
+        jsonObject.put("name", escapeQuote(name));
+        jsonObject.put("introduce", escapeQuote(introduce));
+        jsonObject.put("introduceSub", escapeQuote(introduceSub));
         jsonObject.put("latitude", latitude);
         jsonObject.put("longitude", longitude);
-        jsonObject.put("streetAddress", streetAddress);
-        jsonObject.put("streetAddressDetail", streetAddressDetail);
+        jsonObject.put("streetAddress", escapeQuote(streetAddress));
+        jsonObject.put("streetAddressDetail", escapeQuote(streetAddressDetail));
         jsonObject.put("contactNumber", contactNumber);
         jsonObject.put("operatingTime", operatingTime);
         jsonObject.put("hitCount", hitCount);
         jsonObject.put("createdAt", createdAt);
         jsonObject.put("streetAddressClear", getStreetAddressClear());
+
+        log.info("jsonObject : {}", jsonObject);
 
         JSONArray imageSelectShops = new JSONArray();
         this.imageSelectShops.forEach(imageSelectShop -> {
@@ -140,7 +148,7 @@ public class SelectShop {
         JSONArray brandArray = new JSONArray();
         this.selectShopBrands.forEach(selectShopBrand -> {
             JSONObject brandObj = new JSONObject();
-            brandObj.put("brandName", selectShopBrand.getBrandName());
+            brandObj.put("brandName", escapeQuote(selectShopBrand.getBrandName()));
             brandArray.put(brandObj);
         });
 
@@ -149,5 +157,10 @@ public class SelectShop {
         jsonObject.put("selectShopBrands", brandArray);
 
         return jsonObject.toString();
+    }
+
+    public String escapeQuote(String str) {
+        return str.replaceAll("[\"']", "&quot;")
+                .replaceAll("'", "&#39;");
     }
 }

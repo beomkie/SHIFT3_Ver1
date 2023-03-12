@@ -25,6 +25,7 @@ public class SelectShopDto{
     private Integer id;
     private String name;
     private String introduce;
+    private String introduceSub;
     private Double latitude;
     private Double longitude;
     private String streetAddress;
@@ -45,6 +46,7 @@ public class SelectShopDto{
             .id(id)
             .name(name)
             .introduce(introduce)
+            .introduceSub(introduceSub)
             .latitude(latitude)
             .longitude(longitude)
             .streetAddress(streetAddress)

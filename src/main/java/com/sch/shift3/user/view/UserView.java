@@ -17,6 +17,7 @@ import com.sch.shift3.user.service.QuestionService;
 import com.sch.shift3.utill.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -105,6 +106,10 @@ public class UserView {
 
         model.addAttribute("shop", shopRepository.getShopById(shopId));
         model.addAttribute("relatedFeed", feedService.getRelatedFeedByShopId(shopId));
+
+        //controller
+        val nlString = System.getProperty("line.separator").toString();
+        model.addAttribute("nlString", nlString);
 
         return "user/content/pages/shop-detail";
     }

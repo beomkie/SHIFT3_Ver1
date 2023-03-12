@@ -35,10 +35,9 @@
                 height: 200px;
             }
 
-            .col-6 {
-                width: 100%;
-            }
-
+            /*.col-6 {*/
+            /*    width: 100%;*/
+            /*}*/
             .col-3 {
                 width: 50%;
             }
@@ -48,7 +47,7 @@
 		<div class="container">
 
 			<script type="text/javascript"
-			        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+			        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b6eeyiwg1r&callback=initMap"></script>
 
 			<script th:inline="javascript">
                 // lat, lng
@@ -99,8 +98,51 @@
 				</div>
 
 				<div class="col-6">
-					<p class="title">한줄소개</p>
-					<p class="content" th:text="${shop.introduce}"></p>
+					<a class="me-3 float-end">
+						<a class="add_wishlist">
+							<span class="me-2" id="dipBtn"
+							      style="font-weight: bold;"
+							      th:data-shop-id="${shop.id}"
+							      th:onclick="'shopDip(' + ${shop.id} + ')'">
+								찜하기
+								<i class="icon-heart"></i>
+							</span>
+						</a>
+					</a>
+					<script>
+                        let dipBtn = $("#dipBtn");
+
+
+                        // 찜 버튼
+                        let shopId = dipBtn.data("shop-id");
+                        let heartBtn = dipBtn.find("i");
+
+                        $.ajax({
+                            url: "/dib/shop/check/" + shopId,
+                            type: "GET",
+                            success: function (data) {
+                                data = JSON.parse(data);
+                                $(dipBtn).show();
+
+                                if (data.isDib == true) {
+                                    heartBtn.attr("style", "color: red; font-weight: bold;");
+                                    dipBtn.attr("onclick", "shopUnDip(" + shopId + ")");
+                                } else {
+                                    heartBtn.attr("style", "color: black; font-weight: normal;");
+                                    dipBtn.attr("onclick", "shopDip(" + shopId + ")");
+                                }
+                            },
+                            fail: function (error) {
+                                dipBtn.attr("onclick", "alert('로그인이 필요합니다.');");
+                            }
+                        });
+					</script>
+				</div>
+
+				<div class="col-12">
+					<p class="title" th:text="${shop.introduce}"></p>
+					<p class="content"
+					   th:utext="${#strings.replace(shop.introduceSub, nlString, '&lt;br /&gt;')}"></p>
 				</div>
 			</div>
 

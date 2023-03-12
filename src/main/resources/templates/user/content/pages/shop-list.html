@@ -205,7 +205,7 @@
 
 	</style>
 	<script type="text/javascript"
-	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b6eeyiwg1r&callback=initMap"></script>
 
 	<script th:src="@{/user/assets/js/custom-overlay.js}"></script>
 	<script th:src="@{/user/assets/js/MarkerClustering.js}"></script>
@@ -488,6 +488,8 @@
 
                                 function renderShop(shop) {
                                     let shopJson = JSON.stringify(shop);
+                                    shopJson = shopJson.replace(/"/g, '&quot;');
+                                    shopJson = shopJson.replace(/'/g, '&apos;');
 
                                     let html = `<div class="shop-item card mb-3" data-shop='${shopJson}'>
 													<div class="row g-0">
@@ -535,33 +537,7 @@
 
 						<div class="result" id="shopList">
 							<!--/*@thymesVar id="shop" type="com.sch.shift3.user.entity.SelectShop"*/-->
-							<div class="shop-item card mb-3" th:each="shop : ${shopList}"
-							     th:data-shop="${shop.toJson()}">
 
-								<div class="row g-0">
-									<div class="col-md-4 col-4">
-										<!--								<img th:unless="${Object.nonNull(shop.imageSelectShops)}"-->
-										<img th:if="${#lists.isEmpty(shop.imageSelectShops)}"
-										     src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg"
-										     class="img-fluid rounded-start">
-
-										<img th:unless="${#lists.isEmpty(shop.imageSelectShops)}"
-										     th:src="'/file/' + ${shop.imageSelectShops[0].imageName}"
-										     class="img-fluid rounded-start">
-									</div>
-									<div class="col-md-8 col-8">
-										<div class="card-body">
-											<h5 class="name" th:text="${shop.name}"></h5>
-											<ul>
-												<li class="introduce" th:text="${shop.introduce}">한줄소개</li>
-												<li class="address"
-												    th:text="${shop.getStreetAddressClear()}">주소
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -612,15 +588,15 @@
 
 					<input type="hidden" id="shopId" hidden>
 
-					<p class="title">한줄소개</p>
-					<p class="content" id="introduce"></p>
+					<p class="title mb-1" id="introduce"></p>
+					<p class="content mb-3" id="introduceSub"></p>
 
-					<p class="title">주소</p>
+					<p class="title mb-1">주소</p>
 					<p class="content" id="address"></p>
 
 					<th:block sec:authorize="isAuthenticated()">
 						<div class="row">
-							<p class="title">기본 정보</p>
+							<p class="title mb-1">기본 정보</p>
 							<div class="col-6">
 								<p class="subtitle">연락처</p>
 								<p class="content" id="contact"></p>
@@ -632,7 +608,7 @@
 						</div>
 
 						<div class="row">
-							<p class="title">취급 브랜드</p>
+							<p class="title mb-1">취급 브랜드</p>
 							<p id="brandList"></p>
 						</div>
 					</th:block>
@@ -658,7 +634,7 @@
 					</th:block>
 
 					<div class="row" id="contentFeedDiv">
-						<p class="title" id="contentFeedTitle">컨텐츠 피드</p>
+						<p class="title mb-1" id="contentFeedTitle">컨텐츠 피드</p>
 
 						<div id="feedLoading" class="spinner-border text-primary m-3" role="status">
 							<span class="visually-hidden">Loading...</span>
@@ -698,6 +674,7 @@
                         $("#shopDetail #shopId").val(shop.id);
                         $("#shopDetail #name").text(shop.name);
                         $("#shopDetail #introduce").text(shop.introduce);
+                        $("#shopDetail #introduceSub").html(shop.introduceSub.replaceAll('\n', '<br>'));
                         $("#shopDetail #address").text(shop.streetAddressClear + ' ' + shop.streetAddressDetail);
                         $("#shopDetail #contact").text(shop.contactNumber);
                         $("#shopDetail #operatingTime").text(shop.operatingTime);

@@ -62,9 +62,16 @@
 						<span class="text-muted">예시) 09:00 ~ 18:00</span>
 					</div>
 
-					<div class="col-6 mb-3">
-						<label class="form-label" for="description">한줄 소개란</label>
-						<textarea id="description" th:field="*{introduce}" class="form-control" required></textarea>
+					<br/>
+
+					<div class="col-12 mb-3">
+						<label class="form-label" for="title">스토어 소개 제목</label>
+						<input type="text" id="title" th:field="*{introduce}" class="form-control" required>
+					</div>
+
+					<div class="col-12 mb-3">
+						<label class="form-label" for="description">스토어 소개 내용</label>
+						<textarea id="description" th:field="*{introduceSub}" class="form-control"></textarea>
 					</div>
 
 				</div>
@@ -375,7 +382,7 @@
 					<!-- col-2 -->
 					<!--					<i class="fa fa-plus imgAdd"></i>-->
 				</div><!-- row -->
-				<span class="text-warning">1대1 비율의 이미지를 업로드해주세요. 그외에 이미지엔 이미지가 제대로 표시되지 않을 수 있습니다.</span>
+				<span class="text-warning">최대한 1대1 비율의 이미지를 업로드해주세요. 그외에 이미지엔 이미지가 제대로 표시되지 않을 수 있습니다.</span>
 			</div>
 		</div>
 
