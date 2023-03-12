@@ -162,11 +162,9 @@ body{
 }
 
 .btn-more {
-    border-bottom: 10px solid black;
     border-radius: 50px;
     background-color: black;
     color: white;
-    padding: 10px 70px 0px 20px !important;
     text-align: center;
 }
 
