@@ -18,8 +18,9 @@
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="Anil z" name="author">
-	<meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+	<meta content="yes" name="apple-mobile-web-app-capable"/>
+	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" name="viewport"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1">
 	<!--  todo -->
 	<meta name="description"
 	      content="SHIFT3에서 뉴스피드를 기반으로 현명한 쇼핑을 하세요.">
@@ -30,6 +31,18 @@
 	<title>SHIFT3 - 이 세상 모든 스토어를 연결하다</title>
 	<!-- Favicon Icon -->
 
+	<style>
+        /*mobile*/
+        @media screen and (max-width: 767px) {
+            body {
+                overflow-x: hidden;
+                width: 100%;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+        }
+	</style>
 
 	<link rel="shortcut icon" th:href="@{/favicon.ico}">
 	<!-- Animation CSS -->
