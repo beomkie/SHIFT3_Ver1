@@ -25,6 +25,9 @@ var lang_kor = {
 };
 
 $(document).ready(function () {
+    if (typeof window.tableOption === 'undefined') {
+        window.tableOption = {};
+    }
     $('#myTable').DataTable({
         "responsive": true,
         // "details": {
@@ -37,6 +40,7 @@ $(document).ready(function () {
         order: [
             [0, "desc"]
         ],
-        language: lang_kor
+        language: lang_kor,
+        ...window.tableOption
     });
 });

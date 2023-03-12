@@ -7,6 +7,17 @@
 </th:block>
 
 <th:block layout:fragment="script">
+	<script>
+        // #myTable 5번째 컬럼을 숨기기
+        window.tableOption = {
+            "columnDefs": [
+                {
+                    "targets": [5],
+                    "visible": false
+                }
+            ]
+        };
+	</script>
 	<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 	<script th:src="@{/user/assets/js/mytable.js}"></script>
 </th:block>
@@ -18,8 +29,6 @@
         // modal image lazy load
         $(function () {
             $('.modal').on('shown.bs.modal', function (e) {
-                console.log(e.relatedTarget);
-
                 // get modal number from e
                 var modal = $(e.relatedTarget).attr('data-bs-target');
 
