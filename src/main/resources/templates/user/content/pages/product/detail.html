@@ -25,6 +25,15 @@
                 width: 50% !important;
             }
         }
+
+        p.introduce_title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        p.introduce_content {
+            font-size: 1rem;
+        }
 	</style>
 
 	<script>
@@ -238,14 +247,26 @@
 						<!--						vertical table-->
 						<div class="table-responsive">
 							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th scope="col" style="width: 5rem;"></th>
+									<th scope="col"></th>
+								</tr>
+
+								</thead>
 								<tbody>
 								<tr>
 									<th scope="row">상호명</th>
 									<td th:text="${product.selectShop.name}"></td>
 								</tr>
 								<tr>
-									<th scope="row">한줄소개</th>
-									<td th:text="${product.selectShop.introduce}"></td>
+									<th scope="row">소개말</th>
+									<td>
+										<p class="introduce_title mb-0" th:text="${product.selectShop.introduce}"></p>
+										<p class="introduce_content mb-0"
+										   th:text="${product.selectShop.introduceSub}"></p>
+									</td>
+
 								</tr>
 								<tr>
 									<th scope="row">운영시간</th>

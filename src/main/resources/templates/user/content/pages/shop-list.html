@@ -272,8 +272,8 @@
                     // });
                 }, {
                     enableHighAccuracy: false,
-                    maximumAge: 10000,
-                    timeout: 4000
+                    maximumAge: 1000,
+                    timeout: Infinity
                 });
             } else {
                 /* 위치정보 사용 불가능 */
@@ -674,6 +674,10 @@
                         $("#shopDetail #shopId").val(shop.id);
                         $("#shopDetail #name").text(shop.name);
                         $("#shopDetail #introduce").text(shop.introduce);
+                        if (shop.introduceSub === null) {
+                            shop.introduceSub = '';
+                        }
+
                         $("#shopDetail #introduceSub").html(shop.introduceSub.replaceAll('\n', '<br>'));
                         $("#shopDetail #address").text(shop.streetAddressClear + ' ' + shop.streetAddressDetail);
                         $("#shopDetail #contact").text(shop.contactNumber);
