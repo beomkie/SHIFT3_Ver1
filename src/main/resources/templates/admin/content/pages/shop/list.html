@@ -36,7 +36,7 @@
 	</script>
 
 	<div class="modal" tabindex="-1" th:each="shop : ${shops}" th:attr="id=${'detailModal' + shop.id}">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-fullscreen-xl-down">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" th:text="${shop.name}"></h5>

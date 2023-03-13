@@ -15,7 +15,7 @@
 
 	<!--/*@thymesVar id="product" type="com.sch.shift3.user.dto.QnaRequest"*/-->
 	<div class="modal" tabindex="-1" th:each="question : ${questionList}" th:attr="id=${'detailModal' + question.id}">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-fullscreen-xl-down">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" th:text="${question.questionTitle}"></h5>

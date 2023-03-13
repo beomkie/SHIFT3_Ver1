@@ -37,7 +37,7 @@
 
 	<!--/*@thymesVar id="product" type="com.sch.shift3.user.dto.ProductDto"*/-->
 	<div class="modal" tabindex="-1" th:each="product : ${products}" th:attr="id=${'detailModal' + product.id}">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-fullscreen-xl-down">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" th:text="${product.name}"></h5>
