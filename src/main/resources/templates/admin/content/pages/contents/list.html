@@ -23,27 +23,6 @@
 </th:block>
 
 <div layout:fragment="content">
-
-
-	<script>
-        // modal image lazy load
-        $(function () {
-            $('.modal').on('shown.bs.modal', function (e) {
-                // get modal number from e
-                var modal = $(e.relatedTarget).attr('data-bs-target');
-
-                var images = $(modal).find('img[data-src]');
-                // images lazy load
-
-                for (var i = 0; i < images.length; i++) {
-                    var image = images[i];
-                    image.src = image.getAttribute('data-src');
-                    image.removeAttribute('data-src');
-                }
-            });
-        });
-	</script>
-
 	<h1 class="mt-4">피드 컨텐츠 리스트</h1>
 	<ol class="breadcrumb mb-4">
 		<li class="breadcrumb-item active">Overview Contents</li>

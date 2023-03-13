@@ -218,11 +218,4 @@ public class AdminView {
         model.addAttribute("editMode", true);
         return "admin/content/pages/notice/create";
     }
-
-    @GetMapping("/banner/list")
-    public String bannerListPage(Model model){
-        model.addAttribute("bannerList", null);
-        return "admin/content/pages/banner/list";
-    }
-
 }
