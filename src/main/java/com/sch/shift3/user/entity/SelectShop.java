@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -58,6 +56,9 @@ public class SelectShop {
     @Column(name = "operating_time")
     private String operatingTime;
 
+    @Column(name = "break_time")
+    private String breakTime;
+
     @Column(name = "hit_count")
     private Integer hitCount;
 
@@ -86,17 +87,18 @@ public class SelectShop {
     public SelectShopDto of() {
         return SelectShopDto.builder()
                 .id(id)
-                .name(name)
-                .introduce(introduce)
-                .introduceSub(introduceSub)
+                .name(escapeQuote(name))
+                .introduce(escapeQuote(introduce))
+                .introduceSub(escapeQuote(introduceSub))
                 .latitude(latitude)
                 .longitude(longitude)
-                .streetAddress(streetAddress)
-                .streetAddressDetail(streetAddressDetail)
+                .streetAddress(escapeQuote(streetAddress))
+                .streetAddressDetail(escapeQuote(streetAddressDetail))
                 .imageList(new ArrayList<>(imageSelectShops))
                 .brand(selectShopBrands.stream().map(SelectShopBrand::getBrandName).toList())
-                .contactNumber(contactNumber)
-                .operatingTime(operatingTime)
+                .contactNumber(escapeQuote(contactNumber))
+                .operatingTime(escapeQuote(operatingTime))
+                .breakTime(escapeQuote(breakTime))
                 .hitCount(hitCount)
                 .createdAt(createdAt)
                 .build();
@@ -111,6 +113,7 @@ public class SelectShop {
         this.streetAddressDetail = selectShopDto.getStreetAddressDetail();
         this.contactNumber = selectShopDto.getContactNumber();
         this.operatingTime = selectShopDto.getOperatingTime();
+        this.breakTime = selectShopDto.getBreakTime();
         this.hitCount = selectShopDto.getHitCount();
     }
 
@@ -119,47 +122,10 @@ public class SelectShop {
         return streetAddress.replaceAll("\\(.*\\)", "");
     }
 
-    public String toJson(){
-        // json Object
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        jsonObject.put("name", escapeQuote(name));
-        jsonObject.put("introduce", escapeQuote(introduce));
-        jsonObject.put("introduceSub", escapeQuote(introduceSub));
-        jsonObject.put("latitude", latitude);
-        jsonObject.put("longitude", longitude);
-        jsonObject.put("streetAddress", escapeQuote(streetAddress));
-        jsonObject.put("streetAddressDetail", escapeQuote(streetAddressDetail));
-        jsonObject.put("contactNumber", contactNumber);
-        jsonObject.put("operatingTime", operatingTime);
-        jsonObject.put("hitCount", hitCount);
-        jsonObject.put("createdAt", createdAt);
-        jsonObject.put("streetAddressClear", getStreetAddressClear());
-
-        log.info("jsonObject : {}", jsonObject);
-
-        JSONArray imageSelectShops = new JSONArray();
-        this.imageSelectShops.forEach(imageSelectShop -> {
-            JSONObject imageObj = new JSONObject();
-            imageObj.put("imageName", imageSelectShop.getImageName());
-            imageSelectShops.put(imageObj);
-        });
-
-        JSONArray brandArray = new JSONArray();
-        this.selectShopBrands.forEach(selectShopBrand -> {
-            JSONObject brandObj = new JSONObject();
-            brandObj.put("brandName", escapeQuote(selectShopBrand.getBrandName()));
-            brandArray.put(brandObj);
-        });
-
-
-        jsonObject.put("imageSelectShops", imageSelectShops);
-        jsonObject.put("selectShopBrands", brandArray);
-
-        return jsonObject.toString();
-    }
-
     public String escapeQuote(String str) {
+        if (str == null){
+            return null;
+        }
         return str.replaceAll("[\"']", "&quot;")
                 .replaceAll("'", "&#39;");
     }

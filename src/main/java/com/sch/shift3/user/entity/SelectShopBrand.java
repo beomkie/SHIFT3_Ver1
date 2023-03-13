@@ -38,6 +38,13 @@ public class SelectShopBrand {
         this.selectShop = selectShop;
     }
 
+
+    public String getBrandName() {
+        if (brandName == null)
+            return null;
+        return brandName.replaceAll("\"", "").replaceAll("'", "");
+    }
+
     public SelectShopBrand(String brandName, SelectShop selectShop) {
         this.brandName = brandName;
         this.selectShop = selectShop;

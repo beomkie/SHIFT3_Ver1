@@ -32,6 +32,7 @@ public class SelectShopDto{
     private String streetAddressDetail;
     private String contactNumber;
     private String operatingTime;
+    private String breakTime;
     private Integer hitCount;
     private Instant createdAt;
 
@@ -44,17 +45,26 @@ public class SelectShopDto{
     public SelectShop toEntity(){
         return SelectShop.builder()
             .id(id)
-            .name(name)
-            .introduce(introduce)
-            .introduceSub(introduceSub)
+            .name(escapeQuote(name))
+            .introduce(escapeQuote(introduce))
+            .introduceSub(escapeQuote(introduceSub))
             .latitude(latitude)
             .longitude(longitude)
-            .streetAddress(streetAddress)
-            .streetAddressDetail(streetAddressDetail)
-            .contactNumber(contactNumber)
-            .operatingTime(operatingTime)
+            .streetAddress(escapeQuote(streetAddress))
+            .streetAddressDetail(escapeQuote(streetAddressDetail))
+            .contactNumber(escapeQuote(contactNumber))
+            .operatingTime(escapeQuote(operatingTime))
+            .breakTime(escapeQuote(breakTime))
             .hitCount(hitCount)
             .createdAt(createdAt)
             .build();
+    }
+
+    public String escapeQuote(String str) {
+        if (str == null){
+            return null;
+        }
+        return str.replaceAll("[\"']", "&quot;")
+                .replaceAll("'", "&#39;");
     }
 }

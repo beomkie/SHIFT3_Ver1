@@ -55,11 +55,19 @@
 
 				<div class="row mb-3">
 					<!--			운영시간-->
-					<div class="col-6">
+					<div class="col-6 mb-3">
 						<label class="form-label" for="openTime">운영시간</label>
 						<input type="text" id="openTime" th:field="*{operatingTime}" class="form-control"
 						       placeholder="00:00 ~ 00:00" required/>
 						<span class="text-muted">예시) 09:00 ~ 18:00</span>
+					</div>
+
+					<div class="col-6 mb-3">
+						<label class="form-label" for="breakTime">휴무일</label>
+						<input type="text" id="breakTime" th:field="*{breakTime}" class="form-control"
+						       placeholder=""/>
+						<span class="text-muted">예시) 매주 월요일 / 2주차 토요일</span><br/>
+						<span class="text-muted">* 최대한 간결히 입력</span>
 					</div>
 
 					<br/>

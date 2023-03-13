@@ -604,6 +604,8 @@
 							<div class="col-6">
 								<p class="subtitle">운영시간</p>
 								<p class="content" id="operatingTime">00:00 ~ 01:00</p>
+								<p class="subtitle" id="breakTimeTitle">휴무일</p>
+								<p class="content" id="breakTime"></p>
 							</div>
 						</div>
 
@@ -624,6 +626,7 @@
 							</div>
 							<div class="col-6">
 								<p class="content" id="operatingTime" hidden>00:00 ~ 01:00</p>
+								<p class="content" id="breakTime" hidden></p>
 							</div>
 						</div>
 
@@ -678,10 +681,18 @@
                             shop.introduceSub = '';
                         }
 
+                        if (shop.breakTime === null) {
+                            shop.breakTime = '';
+                            $("#breakTimeTitle").hide();
+                        } else {
+                            $("#breakTimeTitle").show();
+                        }
+
                         $("#shopDetail #introduceSub").html(shop.introduceSub.replaceAll('\n', '<br>'));
                         $("#shopDetail #address").text(shop.streetAddressClear + ' ' + shop.streetAddressDetail);
                         $("#shopDetail #contact").text(shop.contactNumber);
                         $("#shopDetail #operatingTime").text(shop.operatingTime);
+                        $("#shopDetail #breakTime").text(shop.breakTime);
                         $("#shopDetail #shopImages .carousel-inner").empty();
 
                         shop.imageSelectShops.forEach(function (image, index) {
