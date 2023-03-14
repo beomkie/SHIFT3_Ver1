@@ -1,6 +1,6 @@
 window.loadingTag = function (ele) {
     new Tagify(ele, {
-        whitelist: ["옷", "신발", "전자기기"], // 화이트리스트 배열
+        whitelist: ["편집샵", "패션", "레코드", "소품", "리빙"], // 화이트리스트 배열
         maxTags: 10, // 최대 허용 태그 갯수
         userInput: false,
 
