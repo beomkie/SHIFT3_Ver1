@@ -35,7 +35,7 @@ public class SelectShop {
     @Column(name = "introduce", length = 70)
     private String introduce;
 
-    @Column(name = "introduce_sub", length = 400)
+    @Column(name = "introduce_sub", length = 10000)
     private String introduceSub;
 
     @Column(name = "latitude", nullable = false)
@@ -44,7 +44,7 @@ public class SelectShop {
     @Column(name = "longitude", nullable = false)
     private Double longitude;
 
-    @Column(name = "street_address", nullable = false, length = 100)
+    @Column(name = "street_address", nullable = false, length = 150)
     private String streetAddress;
 
     @Column(name = "street_address_detail", length = 20)
@@ -67,12 +67,10 @@ public class SelectShop {
     private Instant createdAt;
 
     @Builder.Default
-//    @JoinColumn(name = "select_shop_id")
     @OneToMany(mappedBy = "selectShop", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ImageSelectShop> imageSelectShops = new HashSet<>();
 
     @Builder.Default
-//    @JoinColumn(name = "select_shop_id")
     @OneToMany(mappedBy = "selectShop", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<SelectShopBrand> selectShopBrands = new HashSet<>();
 
@@ -126,6 +124,7 @@ public class SelectShop {
         if (str == null){
             return null;
         }
+
         return str.replaceAll("[\"']", "&quot;")
                 .replaceAll("'", "&#39;");
     }

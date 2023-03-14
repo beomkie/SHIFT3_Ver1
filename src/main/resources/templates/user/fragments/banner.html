@@ -2,6 +2,15 @@
 <html lang="ko">
 <!-- START SECTION BANNER -->
 <div class="banner_section slide_wrap shop_banner_slider staggered-animation-wrap" th:fragment="banner">
+
+	<style>
+        .banner_slide_content .banner_content2 .banner_description {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+	</style>
 	<div id="carouselExampleControls" class="carousel slide carousel-fade light_arrow" data-bs-ride="carousel"
 	     data-bs-interval="2000">
 		<div class="carousel-inner">
@@ -21,8 +30,8 @@
 									<h2 class="staggered-animation" data-animation="fadeInDown"
 									    data-animation-delay="0.3s" th:text="${banner.title}"
 									    style="text-shadow: 0 0 20px black; color: white;"></h2>
-									<p class="staggered-animation" data-animation="fadeInUp"
-									   data-animation-delay="0.4s" th:text="${banner.description}"
+									<p class="staggered-animation banner_description" data-animation="fadeInUp"
+									   data-animation-delay="0.4s" th:text="${banner.descriptionNoHtml}"
 									   style="text-shadow: 0 0 10px black; color: white;"></p>
 									<a class="btn btn-line-fill btn-radius staggered-animation text-uppercase"
 									   th:href="'/feed/' + ${banner.id}" data-animation="fadeInUp"

@@ -151,19 +151,8 @@
 				<div class="col-6">
 					<p class="subtitle">연락처</p>
 					<p class="content" th:text="${shop.contactNumber}"></p>
-				</div>
-				<div class="col-6">
-					<p class="subtitle">운영시간</p>
-					<p class="content" th:text="${shop.operatingTime}">00:00 ~ 01:00</p>
-				</div>
-				<div class="col-6">
-					<p class="subtitle">위치</p>
-					<div class="mapWrap">
-						<div id="naverMap" class="w-100 h-100"></div>
-					</div>
-					<p class="content" th:text="${shop.streetAddressClear + ' ' + shop.streetAddressDetail}"></p>
-				</div>
-				<div class="col-6">
+
+
 					<p class="subtitle">취급 브랜드</p>
 					<p id="brandList">
 					<span class="badge bg-secondary m-2" th:each="brand: ${shop.selectShopBrands}">
@@ -171,6 +160,22 @@
 						</th:block>
 					</span>
 					</p>
+				</div>
+				<div class="col-6">
+					<p class="subtitle">운영시간</p>
+					<p class="content" th:text="${shop.operatingTime}">00:00 ~ 01:00</p>
+
+					<th:block th:if="${shop.breakTime != null}">
+						<p class="subtitle">휴무일</p>
+						<p class="content" th:text="${shop.breakTime}">00:00 ~ 01:00</p>
+					</th:block>
+				</div>
+				<div class="col-6">
+					<p class="subtitle">위치</p>
+					<div class="mapWrap">
+						<div id="naverMap" class="w-100 h-100"></div>
+					</div>
+					<p class="content" th:text="${shop.streetAddressClear + ' ' + shop.streetAddressDetail}"></p>
 				</div>
 			</div>
 

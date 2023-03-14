@@ -159,7 +159,6 @@ public class FeedRepository{
                 .selectFrom(QContentFeed.contentFeed)
                 .where(QContentFeed.contentFeed.isBanner.eq(true))
                 .orderBy(QContentFeed.contentFeed.id.desc())
-                .limit(3)
                 .fetch();
     }
 }

@@ -204,13 +204,20 @@
 						<div class="widget">
 							<h5 class="widget_title">카테고리</h5>
 							<div class="tags" style="display:grid">
+								<!--								편집샵 스토리, 패션, 레코즈, 소품, 리빙, 기타-->
 								<a th:classappend="${category == '전체' ? 'active' : ''}"
 								   onclick="window.feedSearchOption.category = '전체'; searchFeed();">전체
 									보기</a>
-								<a th:classappend="${category == '옷' ? 'active' : ''}"
-								   onclick="window.feedSearchOption.category = '옷'; searchFeed();">옷</a>
-								<a th:classappend="${category == '전자기기' ? 'active' : ''}"
-								   onclick="window.feedSearchOption.category = '전자기기'; searchFeed();">전자기기</a>
+								<a th:classappend="${category == '편집샵 스토리' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '편집샵 스토리'; searchFeed();">편집샵 스토리</a>
+								<a th:classappend="${category == '패션' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '패션'; searchFeed();">패션</a>
+								<a th:classappend="${category == '레코드' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '레코드'; searchFeed();">레코드</a>
+								<a th:classappend="${category == '소품' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '소품'; searchFeed();">소품</a>
+								<a th:classappend="${category == '리빙' ? 'active' : ''}"
+								   onclick="window.feedSearchOption.category = '리빙'; searchFeed();">리빙</a>
 								<a th:classappend="${category == '기타' ? 'active' : ''}"
 								   onclick="window.feedSearchOption.category = '기타'; searchFeed();">기타</a>
 								<script>

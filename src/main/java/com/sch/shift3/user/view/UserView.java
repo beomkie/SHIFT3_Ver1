@@ -46,11 +46,15 @@ public class UserView {
 
         model.addAttribute("disableLoading", true);
         model.addAttribute("popupList", popupService.getAllPopupList());
-        model.addAttribute("recentFeed", feedService.getRecentFeed());
         model.addAttribute("bannerFeed", feedService.getBannerFeed());
+
         // category Feed
-        model.addAttribute("clothes_category", feedService.getFeedByCategory("옷"));
-        model.addAttribute("ele_category", feedService.getFeedByCategory("전자기기"));
+        // 최근 피드, 패션, 편집샵 스토리, 소품, 레코드 (순서대로)
+//        model.addAttribute("recentFeed", feedService.getRecentFeed());
+        model.addAttribute("fashion_category", feedService.getFeedByCategory("패션"));
+        model.addAttribute("story_category", feedService.getFeedByCategory("편집샵 스토리"));
+        model.addAttribute("goods_category", feedService.getFeedByCategory("소품"));
+        model.addAttribute("record_category", feedService.getFeedByCategory("래코드"));
 
         return "user/content/main";
     }

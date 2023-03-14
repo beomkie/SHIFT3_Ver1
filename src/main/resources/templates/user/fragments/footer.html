@@ -8,17 +8,11 @@
 				<div class="col-lg-4 col-md-6 col-sm-12">
 					<div class="widget">
 						<img class="widget_title" th:src="@{/user/assets/images/logo_light.png}" alt="logo"
-						     width="120"/>
+						     width="180"/>
 						<ul class="contact_info contact_info_light">
-							<li>
-								우리는 이런 회사입니다.
-							</li>
-							<li>
-								이런것을 잘합니다.
-							</li>
-							<li>
-								이런 비전을 갖고 있습니다.
-							</li>
+							<p>
+								이 세상 모든 스토어를 연결하다
+							</p>
 							<!--<li>
 							  <i class="ti-location-pin"></i>
 							  <p>123 Street, Old Trafford, NewYork, USA</p>
@@ -31,6 +25,11 @@
 							  <i class="ti-mobile"></i>
 							  <p>+ 457 789 789 65</p>
 							</li>-->
+
+							<li>
+								<i class="ti-email"></i>
+								<a href="mailto:shift3official@gmail.com">shift3official@gmail.com</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -64,9 +63,13 @@
 					<div class="widget">
 						<h6 class="widget_title">컨텐츠 모아보기</h6>
 						<ul class="widget_links">
+							<!--								편집샵 스토리, 패션, 레코즈, 소품, 리빙, 기타-->
 							<li><a href="/content-list">전체</a></li>
-							<li><a href="/content-list?category=옷">옷</a></li>
-							<li><a href="/content-list?category=전자기기">전자기기</a></li>
+							<li><a href="/content-list?category=편집샵 스토리">편집샵 스토리</a></li>
+							<li><a href="/content-list?category=패션">패션</a></li>
+							<li><a href="/content-list?category=레코드">레코드</a></li>
+							<li><a href="/content-list?category=소품">소품</a></li>
+							<li><a href="/content-list?category=리빙">리빙</a></li>
 							<li><a href="/content-list?category=기타">기타</a></li>
 						</ul>
 					</div>
@@ -108,12 +111,18 @@
 				</div>
 				<div class="col-md-6">
 					<ul class="footer_sns footer_payment text-center text-md-end">
-						<li><a href="#"><img th:src="@{/user/assets/images/icon_facebook_white.png}" alt="facebook"></a>
-						</li>
+						<!--<li><a href="#"><img th:src="@{/user/assets/images/icon_facebook_white.png}" alt="facebook"></a>
+						</li>-->
 						<li><a href="https://www.instagram.com/shift3_official/"><img
 								th:src="@{/user/assets/images/icon_instagram_white.png}" alt="instagram"></a></li>
-						<li><a href="#"><img th:src="@{/user/assets/images/icon_twitter_white.png}" alt="twitter"></a>
-						</li>
+						<li><a href="https://cafe.naver.com/shift3official">
+							<svg style="color: white" role="img" viewBox="0 0 31 24" xmlns="http://www.w3.org/2000/svg">
+								<path d="M1.6 0S0 0 0 1.6v20.8S0 24 1.6 24h20.8s1.6 0 1.6-1.6V1.6S24 0 22.4 0zm3.415 5.6h4.78l4.425 6.458V5.6h4.765v12.8h-4.78L9.78 11.943V18.4H5.015Z"
+								      fill="white"></path>
+							</svg>
+						</a></li>
+						<!--<li><a href="#"><img th:src="@{/user/assets/images/icon_twitter_white.png}" alt="twitter"></a>
+						</li>-->
 					</ul>
 				</div>
 			</div>

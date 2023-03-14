@@ -42,127 +42,164 @@
 
 	<!-- START 최근 피드 -->
 	<div>
-		<div class="section small_pt pb_20" th:if="${recentFeed.size() >= 3}">
-			<div class="container">
-				<div class="row justify-content-start">
-					<div class="col-md-6">
-						<div class="text-start mb-2">
-							<span class="category_split">
-								<a href="/content-list" style="color:white">
-									<b>#</b>최근 피드
-								</a>
-							</span>
-						</div>
-						<div class="small_divider clearfix"></div>
-					</div>
-				</div>
-				<div class="row shop_container main-card-group">
+		<!--		<div class="section small_pt pb_20" th:if="${recentFeed.size() >= 3}">-->
+		<!--			<div class="container">-->
+		<!--				<div class="row justify-content-start">-->
+		<!--					<div class="col-md-6">-->
+		<!--						<div class="text-start mb-2">-->
+		<!--							<span class="category_split">-->
+		<!--								<a href="/content-list" style="color:white">-->
+		<!--									<b>#</b>최근 피드-->
+		<!--								</a>-->
+		<!--							</span>-->
+		<!--						</div>-->
+		<!--						<div class="small_divider clearfix"></div>-->
+		<!--					</div>-->
+		<!--				</div>-->
+		<!--				<div class="row shop_container main-card-group">-->
 
-					<div class="col-6 p-3" th:with="feed=${recentFeed.get(0)}">
-						<div class="main-card">
-							<!--						div hover right top with category-->
-							<div class="hover-right-top">
-								<div class="hover-right-top-category" th:text="${feed.category}"></div>
-							</div>
+		<!--					<div class="col-6 p-3" th:with="feed=${recentFeed.get(0)}">-->
+		<!--						<div class="main-card">-->
+		<!--							&lt;!&ndash;						div hover right top with category&ndash;&gt;-->
+		<!--							<div class="hover-right-top">-->
+		<!--								<div class="hover-right-top-category" th:text="${feed.category}"></div>-->
+		<!--							</div>-->
 
-							<div class="img-container43">
-								<a th:href="'/feed/' + ${feed.id}">
-									<img th:src="'/file/' + ${feed.thumbnailFileName}" class="w-100">
-								</a>
-							</div>
+		<!--							<div class="img-container43">-->
+		<!--								<a th:href="'/feed/' + ${feed.id}">-->
+		<!--									<img th:src="'/file/' + ${feed.thumbnailFileName}" class="w-100">-->
+		<!--								</a>-->
+		<!--							</div>-->
 
-							<div class="product_info mobile-mt-3">
-								<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"
-								                                 th:text="${feed.title}"></a></h6>
-								<div class="recent_feed_subtitle mh-2 mb-2" th:text="${feed.descriptionNoHtml}">
-								</div>
-								<a th:href="'/feed/' + ${feed.id}"
-								   class="btn btn-primary btn-more rounded-pill mobile-mb-3">더
-									알아보기</a>
-							</div>
-						</div>
-					</div>
+		<!--							<div class="product_info mobile-mt-3">-->
+		<!--								<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"-->
+		<!--								                                 th:text="${feed.title}"></a></h6>-->
+		<!--								<div class="recent_feed_subtitle mh-2 mb-2" th:text="${feed.descriptionNoHtml}">-->
+		<!--								</div>-->
+		<!--								<a th:href="'/feed/' + ${feed.id}"-->
+		<!--								   class="btn btn-primary btn-more rounded-pill mobile-mb-3">더-->
+		<!--									알아보기</a>-->
+		<!--							</div>-->
+		<!--						</div>-->
+		<!--					</div>-->
 
-					<div class="main-card-split col-6 p-3">
-						<div class="main-card" th:with="feed=${recentFeed.get(1)}">
-							<div class="row">
-								<div class="col-6">
-									<div class="img-container43">
-										<a th:href="'/feed/' + ${feed.id}">
-											<img th:src="'/file/' + ${feed.thumbnailFileName}">
-										</a>
-									</div>
-								</div>
+		<!--					<div class="main-card-split col-6 p-3">-->
+		<!--						<div class="main-card" th:with="feed=${recentFeed.get(1)}">-->
+		<!--							<div class="row">-->
+		<!--								<div class="col-6">-->
+		<!--									<div class="img-container43">-->
+		<!--										<a th:href="'/feed/' + ${feed.id}">-->
+		<!--											<img th:src="'/file/' + ${feed.thumbnailFileName}">-->
+		<!--										</a>-->
+		<!--									</div>-->
+		<!--								</div>-->
 
-								<div class="col-6 p-3">
-									<div class="row">
-										<div class="product_info">
-											<div class="recent_feed_category" th:text="${feed.category}"></div>
-											<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"
-											                                 th:text="${feed.title}"></a></h6>
-											<div class="recent_feed_subtitle mb-4" th:text="${feed.descriptionNoHtml}">
-											</div>
-											<a th:href="'/feed/' + ${feed.id}"
-											   class="btn btn-primary btn-more rounded-pill">더
-												알아보기</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+		<!--								<div class="col-6 p-3">-->
+		<!--									<div class="row">-->
+		<!--										<div class="product_info">-->
+		<!--											<div class="recent_feed_category" th:text="${feed.category}"></div>-->
+		<!--											<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"-->
+		<!--											                                 th:text="${feed.title}"></a></h6>-->
+		<!--											<div class="recent_feed_subtitle mb-4" th:text="${feed.descriptionNoHtml}">-->
+		<!--											</div>-->
+		<!--											<a th:href="'/feed/' + ${feed.id}"-->
+		<!--											   class="btn btn-primary btn-more rounded-pill">더-->
+		<!--												알아보기</a>-->
+		<!--										</div>-->
+		<!--									</div>-->
+		<!--								</div>-->
+		<!--							</div>-->
+		<!--						</div>-->
 
-						<div class="main-card" th:with="feed=${recentFeed.get(2)}">
-							<div class="row">
-								<div class="col-6">
-									<div class="img-container43">
-										<a th:href="'/feed/' + ${feed.id}">
-											<img th:src="'/file/' + ${feed.thumbnailFileName}">
-										</a>
-									</div>
-								</div>
+		<!--						<div class="main-card" th:with="feed=${recentFeed.get(2)}">-->
+		<!--							<div class="row">-->
+		<!--								<div class="col-6">-->
+		<!--									<div class="img-container43">-->
+		<!--										<a th:href="'/feed/' + ${feed.id}">-->
+		<!--											<img th:src="'/file/' + ${feed.thumbnailFileName}">-->
+		<!--										</a>-->
+		<!--									</div>-->
+		<!--								</div>-->
 
-								<div class="col-6 p-3">
-									<div class="row">
-										<div class="product_info">
-											<div class="recent_feed_category" th:text="${feed.category}"></div>
-											<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"
-											                                 th:text="${feed.title}"></a></h6>
-											<div class="recent_feed_subtitle mb-4" th:text="${feed.descriptionNoHtml}">
-											</div>
-											<a th:href="'/feed/' + ${feed.id}"
-											   class="btn btn-primary btn-more rounded-pill">더
-												알아보기</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+		<!--								<div class="col-6 p-3">-->
+		<!--									<div class="row">-->
+		<!--										<div class="product_info">-->
+		<!--											<div class="recent_feed_category" th:text="${feed.category}"></div>-->
+		<!--											<h6 class="recent_feed_title"><a th:href="'/feed/' + ${feed.id}"-->
+		<!--											                                 th:text="${feed.title}"></a></h6>-->
+		<!--											<div class="recent_feed_subtitle mb-4" th:text="${feed.descriptionNoHtml}">-->
+		<!--											</div>-->
+		<!--											<a th:href="'/feed/' + ${feed.id}"-->
+		<!--											   class="btn btn-primary btn-more rounded-pill">더-->
+		<!--												알아보기</a>-->
+		<!--										</div>-->
+		<!--									</div>-->
+		<!--								</div>-->
+		<!--							</div>-->
+		<!--						</div>-->
+		<!--					</div>-->
 
-				</div>
-			</div>
-		</div>
+		<!--				</div>-->
+		<!--			</div>-->
+		<!--		</div>-->
 		<!-- END 최근 피드 -->
 
-		<!-- START 카테고리별 피드 1-->
-		<div class="section small_pt pb_20 mb-5">
+		<!-- START 카테고리별 피드 0-->
+		<div class="section small_pt pb_20 mb-5" th:if="${story_category.size() > 0}">
 			<div class="container">
 				<div class="row justify-content-start mb-3">
 					<div class="col-md-6">
 						<div class="text-start">
 							<span class="category_split">
-								<a href="/content-list?category=옷" style="color:white">
-									<b>#</b>옷
+								<a href="/content-list?category=편집샵 스토리" style="color:white">
+									<b>#</b>편집샵 스토리
 								</a>
 							</span>
-						</a>
 						</div>
 					</div>
 				</div>
 
 				<div class="card-group flex-wrap">
 
-					<div class="card hover-big" th:each="feed: ${clothes_category}">
+					<div class="card hover-big circle-top" th:each="feed: ${story_category}">
+						<div class="img-container43">
+							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top circle-top"
+							     alt="피드 썸네일 이미지" loading=lazy>
+						</div>
+						<div class="card-body" data-same-height='true'>
+							<h5 class="card-title" th:text="${feed.title}"></h5>
+							<th:block>
+								<p class="card-text" th:text="${feed.description}">
+									<!--						   th:inline="text">-->
+									<!--							[[${#strings.abbreviate(feed.feed.description, 40)}]]-->
+								</p>
+							</th:block>
+							<a th:href="'/feed/' + *{feed.id}" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END 카테고리별 피드 0-->
+
+		<!-- START 카테고리별 피드 1-->
+		<div class="section small_pt pb_20 mb-5" th:if="${fashion_category.size() > 0}">
+			<div class="container">
+				<div class="row justify-content-start mb-3">
+					<div class="col-md-6">
+						<div class="text-start">
+							<span class="category_split">
+								<a href="/content-list?category=패션" style="color:white">
+									<b>#</b>패션
+								</a>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-group flex-wrap">
+
+					<div class="card hover-big" th:each="feed: ${fashion_category}">
 						<div class="img-container43">
 							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top"
 							     alt="피드 썸네일 이미지" loading=lazy>
@@ -185,14 +222,14 @@
 
 
 		<!-- START 카테고리별 피드 2-->
-		<div class="section small_pt pb_20 mb-5">
+		<div class="section small_pt pb_20 mb-5" th:if="${record_category.size() > 0}">
 			<div class="container">
 				<div class="row justify-content-start mb-3">
 					<div class="col-md-6">
 						<div class="text-start">
 							<span class="category_split">
-								<a href="/content-list?category=전자기기" style="color:white">
-									<b>#</b>전자기기
+								<a href="/content-list?category=레코드" style="color:white">
+									<b>#</b>레코드
 								</a>
 							</span>
 						</div>
@@ -201,7 +238,7 @@
 
 				<div class="card-group flex-wrap">
 
-					<div class="card hover-big circle-top" th:each="feed: ${ele_category}">
+					<div class="card hover-big circle-top" th:each="feed: ${record_category}">
 						<div class="img-container43">
 							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top circle-top"
 							     alt="피드 썸네일 이미지" loading=lazy>
@@ -221,6 +258,83 @@
 			</div>
 		</div>
 		<!-- END 카테고리별 피드 2-->
+
+
+		<!-- START 카테고리별 피드 3-->
+		<div class="section small_pt pb_20 mb-5" th:if="${goods_category.size() > 0}">
+			<div class="container">
+				<div class="row justify-content-start mb-3">
+					<div class="col-md-6">
+						<div class="text-start">
+							<span class="category_split">
+								<a href="/content-list?category=소품" style="color:white">
+									<b>#</b>소품
+								</a>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-group flex-wrap">
+
+					<div class="card hover-big circle-top" th:each="feed: ${goods_category}">
+						<div class="img-container43">
+							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top circle-top"
+							     alt="피드 썸네일 이미지" loading=lazy>
+						</div>
+						<div class="card-body" data-same-height='true'>
+							<h5 class="card-title" th:text="${feed.title}"></h5>
+							<th:block>
+								<p class="card-text" th:text="${feed.description}">
+									<!--						   th:inline="text">-->
+									<!--							[[${#strings.abbreviate(feed.feed.description, 40)}]]-->
+								</p>
+							</th:block>
+							<a th:href="'/feed/' + *{feed.id}" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END 카테고리별 피드 3-->
+
+		<!-- START 카테고리별 피드 4-->
+		<div class="section small_pt pb_20 mb-5" th:if="${record_category.size() > 0}">
+			<div class="container">
+				<div class="row justify-content-start mb-3">
+					<div class="col-md-6">
+						<div class="text-start">
+							<span class="category_split">
+								<a href="/content-list?category=레코드" style="color:white">
+									<b>#</b>레코드
+								</a>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="card-group flex-wrap">
+
+					<div class="card hover-big circle-top" th:each="feed: ${record_category}">
+						<div class="img-container43">
+							<img th:src="'/file/' + *{feed.getThumbnailFileName()}" class="card-img-top circle-top"
+							     alt="피드 썸네일 이미지" loading=lazy>
+						</div>
+						<div class="card-body" data-same-height='true'>
+							<h5 class="card-title" th:text="${feed.title}"></h5>
+							<th:block>
+								<p class="card-text" th:text="${feed.description}">
+									<!--						   th:inline="text">-->
+									<!--							[[${#strings.abbreviate(feed.feed.description, 40)}]]-->
+								</p>
+							</th:block>
+							<a th:href="'/feed/' + *{feed.id}" class="btn btn-primary btn-more rounded-pill">더 알아보기</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END 카테고리별 피드 4-->
 	</div>
 </div>
 

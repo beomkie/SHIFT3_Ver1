@@ -205,7 +205,9 @@
 
 	</style>
 	<script type="text/javascript"
-	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b6eeyiwg1r&callback=initMap"></script>
+	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2wow7wgs7e&callback=initMap"></script>
+	<!--	        src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=b6eeyiwg1r&callback=initMap"></script> shif3-->
+
 
 	<script th:src="@{/user/assets/js/custom-overlay.js}"></script>
 	<script th:src="@{/user/assets/js/MarkerClustering.js}"></script>
@@ -598,13 +600,15 @@
 						<div class="row">
 							<p class="title mb-1">기본 정보</p>
 							<div class="col-6">
-								<p class="subtitle">연락처</p>
+								<p class="subtitle mb-1">연락처</p>
 								<p class="content" id="contact"></p>
 							</div>
 							<div class="col-6">
-								<p class="subtitle">운영시간</p>
+								<p class="subtitle mb-1">운영시간</p>
 								<p class="content" id="operatingTime">00:00 ~ 01:00</p>
-								<p class="subtitle" id="breakTimeTitle">휴무일</p>
+							</div>
+							<div class="col-12">
+								<p class="subtitle mb-1" id="breakTimeTitle">휴무일</p>
 								<p class="content" id="breakTime"></p>
 							</div>
 						</div>
