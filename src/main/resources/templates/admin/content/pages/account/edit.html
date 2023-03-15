@@ -100,7 +100,7 @@
                     }
 
                     window.editAccount = function () {
-                        let data = {
+                        let postData = {
                             'id': $('#id').val(),
                             'name': $('#name').val(),
                             'phoneNumber': $("#phoneNumber").val(),
@@ -108,15 +108,15 @@
                             'ban': $("#ban").val(),
                         }
 
-                        if (!validateData(data))
+                        if (!validateData(postData))
                             return;
 
                         $.ajax({
-                            url: `/admin/account/edit/${data.id}`,
+                            url: `/admin/account/edit/${postData.id}`,
                             type: 'POST',
-                            data: data,
+                            data: postData,
                             success: function (data) {
-                                window.location.href = `/admin/account/detail/${data.id}`;
+                                window.location.href = `/admin/account/detail/${postData.id}`;
                             },
                             error: function (data) {
                                 alert('에러 : ' + data.responseText);
