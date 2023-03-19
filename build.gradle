@@ -39,6 +39,8 @@ dependencies {
 
     // === QueryDsl 끝 ===
 
+    // Thumbnailator
+    implementation 'net.coobird:thumbnailator:0.4.14'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'

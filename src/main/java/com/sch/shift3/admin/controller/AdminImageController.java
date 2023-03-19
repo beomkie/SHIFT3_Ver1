@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -25,29 +28,47 @@ public class AdminImageController {
     @Transactional
     @PostMapping("/uploadShop")
     public ResponseEntity<String> uploadShopImage(@ModelAttribute MultipartFile file){
-        log.info("file: {}", file);
-        String fileName = ImageUtil.upload(file);
+        File originalFile = ImageUtil.upload(file);
+        String originalFileName = originalFile.getName();
+
+        try {
+            ImageUtil.uploadImageCompressed(originalFile);
+        } catch (IOException e) {
+            // remove original file
+            ImageUtil.removeImage(originalFileName);
+            return ResponseEntity.badRequest().body("썸네일 생성 오류");
+        }
         ImageSelectShop imageSelectShop = ImageSelectShop.builder()
-                .imageName(fileName)
+                .imageName(originalFileName)
                 .build();
 
         imageRepository.save(imageSelectShop);
 
         // return image.id
         return ResponseEntity.ok("{\"id\":" + imageSelectShop.getId() +
-                ", \"fileName\":\"" + fileName + "\"}"); // json
+                ", \"fileName\":\"" + originalFileName + "\"}"); // json
     }
     @PostMapping("/uploadFeed")
     public ResponseEntity<String> uploadFeedImage(@ModelAttribute MultipartFile file){
-        String fileName = ImageUtil.upload(file);
-        return ResponseEntity.ok("{\"fileName\":\"" + fileName + "\"}"); // json
+        File originalFile = ImageUtil.upload(file);
+        String originalFileName = originalFile.getName();
+
+        try {
+            ImageUtil.uploadImageCompressed(originalFile);
+        } catch (IOException e) {
+            // remove original file
+            ImageUtil.removeImage(originalFile.getName());
+            return ResponseEntity.badRequest().body("썸네일 생성 오류");
+        }
+
+        return ResponseEntity.ok("{\"fileName\":\"" + originalFileName + "\"}"); // json
     }
 
     @Transactional
     @PostMapping("/uploadProduct")
     public ResponseEntity<String> uploadProductImage(@ModelAttribute MultipartFile file){
 
-        String fileName = ImageUtil.upload(file);
+        String fileName = ImageUtil.upload(file).getName();
         ImageProduct productImage = ImageProduct.builder()
                 .imageName(fileName)
                 .build();

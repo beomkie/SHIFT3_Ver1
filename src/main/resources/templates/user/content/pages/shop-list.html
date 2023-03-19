@@ -214,13 +214,16 @@
 	<script th:src="@{/user/assets/js/shop-list.js}"></script>
 
 	<script type="text/javascript">
+
+        window.firstSearch = true;
+
         window.initMap = function () {
 
             let mapDiv = document.getElementById('naverMap');
             window.map = new naver.maps.Map(mapDiv, {
                 zoom: 16,
                 maxZoom: 16,
-                minZoom: 6,
+                minZoom: 9,
             });
 
             window.markerClusterer.setOptions({
@@ -235,7 +238,6 @@
         };
 
         $(document).ready(function () {
-
             // 내위치 체크 여부 확인
             if ('geolocation' in navigator) {
 
@@ -466,26 +468,82 @@
                                     });
                                 });
 
-                                function search() {
+                                function search(option) {
 
                                     removeAllMarker();
+
+                                    let requestData = getRequest();
+                                    if (option) {
+                                        if (option.overwriteLocation) {
+                                            requestData.lat = option.overwriteLocation.lat;
+                                            requestData.lng = option.overwriteLocation.lng;
+                                            requestData.distance = option.overwriteLocation.distance;
+                                            window.noPanTo = true;
+                                        } else {
+                                            window.noPanTo = false;
+                                        }
+                                    }
+
+                                    if (firstSearch && requestData.location === '내위치') {
+                                        window.noPanTo = true;
+                                    }
+
                                     // ajax
-                                    $.ajax({
+                                    if (window.isSearching) {
+                                        window.isSearching.abort();
+                                    }
+
+                                    window.isSearching = $.ajax({
                                         url: '/shop-list/search.do',
                                         type: 'GET',
-                                        data: getRequest(),
+                                        data: requestData,
                                         success: function (data) {
                                             $("#shopList").html("");
+                                            // let shopList = [];
                                             data.forEach(function (item) {
                                                 $("#shopList").append(renderShop(item));
                                                 drawMap(item);
+                                                // shopList.push(item);
                                             });
                                             window.clusteringMap();
+                                            window.markerClusterer._redraw();
 
                                             //loading #shopList
                                             $('#shopList').loading('stop');
                                         }
                                     });
+
+
+                                    if (window.firstSearch) {
+                                        $(document).ready(function () {
+                                            setTimeout(function () {
+                                                if (getRequest().location === '내위치') {
+                                                    map.setCenter(new naver.maps.LatLng(window.myLocate.lat, window.myLocate.lng));
+                                                    map.setZoom(12);
+                                                }
+
+                                                naver.maps.Event.addListener(map, 'dragend', function () {
+                                                    // ajax 요청 코드 작성
+                                                    if (window.detailShopEvent)
+                                                        return;
+
+                                                    console.log("dragend");
+                                                    reloadShopList();
+                                                });
+
+                                                naver.maps.Event.addListener(map, 'zoom_changed', function () {
+                                                    // ajax 요청 코드 작성
+                                                    if (window.detailShopEvent)
+                                                        return;
+
+                                                    console.log("zoom_changed");
+                                                    reloadShopList();
+                                                });
+
+                                            }), 1000
+                                        });
+                                    }
+                                    window.firstSearch = false;
                                 }
 
                                 function renderShop(shop) {
@@ -493,11 +551,11 @@
                                     shopJson = shopJson.replace(/"/g, '&quot;');
                                     shopJson = shopJson.replace(/'/g, '&apos;');
 
-                                    let html = `<div class="shop-item card mb-3" data-shop='${shopJson}'>
+                                    let html = `<div class="shop-item card mb-3" data-shop='${shopJson}' data-shop-id="${shopJson.id}">
 													<div class="row g-0">
 														<div class="col-md-4 col-4">
 															${(shop.imageSelectShops.length !== 0) ?
-                                        `<img src="/file/${shop.imageSelectShops[0].imageName}" class="img-fluid rounded-start">` :
+                                        `<img src="/thumb/${shop.imageSelectShops[0].imageName}" class="img-fluid rounded-start" loading="lazy">` :
                                         `<img src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg" class="img-fluid rounded-start">`}
 														</div>
 
@@ -655,12 +713,11 @@
 
 				<script>
                     function detailShop(shop) {
+                        window.detailShopEvent = true;
                         let lat = shop.latitude;
                         let lng = shop.longitude;
                         let position = new naver.maps.LatLng(lat, lng);
                         map.panTo(position);
-                        map.setZoom(12);
-
 
                         $("#shopDetail").show();
 
@@ -702,7 +759,7 @@
                         shop.imageSelectShops.forEach(function (image, index) {
                             let html = `
 								<div class="carousel-item ${index === 0 ? "active" : ""}">
-									<img class="d-block w-100" src="/file/${image.imageName}">
+									<img class="d-block w-100" src="/thumb/${image.imageName}">
 								</div>
 							`;
                             $("#shopDetail #shopImages .carousel-inner").append(html);
@@ -767,6 +824,7 @@
                                 });
                                 feedLoading.hide();
                                 document.getElementById('shopDetail').scrollIntoView();
+                                window.detailShopEvent = false;
                             }
                         });
                         // }));

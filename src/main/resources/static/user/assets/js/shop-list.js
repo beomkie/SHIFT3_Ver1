@@ -75,7 +75,7 @@ window.drawMap = function (shop) {
                 <div class="row g-0">
                     <div class="col-4">
                     ${(shop.imageSelectShops.length !== 0) ?
-                `<img src="/file/${shop.imageSelectShops[0].imageName}" alt="편집샵 미리보기" class="thumbnail"/>` :
+                `<img src="/thumb/${shop.imageSelectShops[0].imageName}" alt="편집샵 미리보기" class="thumbnail" loading="lazy"/>` :
                 `<img src="https://icon-library.com/images/no-picture-available-icon/no-picture-available-icon-20.jpg" class="thumbnail" alt="no-image">`}
                     </div>
                     <div class="col-8" style="align-self: center;    padding-left: 0.2rem;">
@@ -142,13 +142,100 @@ window.drawMap = function (shop) {
         }
     });*/
 
-    map.setZoom(13);
-    map.panTo(position);
+    if (!window.noPanTo) {
+        // map.setZoom(13);
+        console.log("panTo");
+        map.panTo(position);
+    }
 }
 
 window.clusteringMap = function () {
     window.markerClusterer.setOptions({
         markers: infowindow
     });
+
 }
+
+function reloadShopList() {
+    if (getRequest().location !== "내위치")
+        return;
+
+    let lat = map.getCenter().lat();
+    let lng = map.getCenter().lng();
+
+    search({
+        overwriteLocation: {
+            lat: lat,
+            lng: lng,
+            distance: calcDistanceAtZoom()
+        }
+    });
+}
+
+function calcDistanceAtZoom() {
+    var zoom = map.getZoom();
+    var distance = 25.0;
+
+    switch (zoom) {
+        case 9:
+            distance = 100.0;
+            break;
+        case 10:
+            distance = 80.0;
+            break;
+        case 11:
+            distance = 60.0;
+            break;
+        case 12:
+            distance = 50.0;
+            break;
+        case 13:
+            distance = 30.0;
+            break;
+        case 14:
+            distance = 25.0;
+            break;
+        case 15:
+            distance = 19.0;
+            break;
+        case 16:
+            distance = 10.0;
+            break;
+    }
+
+    console.log("zoom : " + zoom + "    distance : " + distance)
+
+    return distance;
+}
+
+function updateMarkers(map, markers) {
+
+    var mapBounds = map.getBounds();
+    var marker, position;
+
+    for (var i = 0; i < markers.length; i++) {
+
+        marker = markers[i]
+        position = marker.getPosition();
+
+        if (mapBounds.hasLatLng(position)) {
+            showMarker(map, marker);
+        } else {
+            hideMarker(map, marker);
+        }
+    }
+}
+
+function showMarker(map, marker) {
+
+    if (marker.getMap()) return;
+    marker.setMap(map);
+}
+
+function hideMarker(map, marker) {
+
+    if (!marker.getMap()) return;
+    marker.setMap(null);
+}
+
 // initMap();

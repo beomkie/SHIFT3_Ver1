@@ -14,6 +14,7 @@ public class ShopRequest {
 
     private Double lat;
     private Double lng;
+    private Double distance;
 
     public ShopRequest() {
         this.location = "내위치";

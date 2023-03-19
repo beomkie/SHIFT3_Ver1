@@ -20,6 +20,7 @@ public class ShopRepository {
     private final JPAQueryFactory queryFactory;
 
     public List<SelectShop> getShopList(ShopRequest shopRequest) {
+
         QSelectShop qSelectShop = QSelectShop.selectShop;
         JPAQuery<SelectShop> query = queryFactory.selectFrom(qSelectShop);
         query.leftJoin(qSelectShop.imageSelectShops).fetchJoin();
@@ -28,7 +29,10 @@ public class ShopRepository {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (shopRequest.getLocation().equals("내위치")) {
-            // 내 위치 반경 5km
+            if (shopRequest.getDistance() == null){
+                shopRequest.setDistance(25.0);
+            }
+
             builder.and(Expressions.stringTemplate("ST_Distance_Sphere({0}, {1})",
                     Expressions.stringTemplate("POINT({0}, {1})",
                             shopRequest.getLng(),
@@ -37,7 +41,7 @@ public class ShopRepository {
                     Expressions.stringTemplate("POINT({0}, {1})",
                             qSelectShop.longitude,
                             qSelectShop.latitude
-                    )).lt(String.valueOf(5000)));
+                    )).lt(String.valueOf(shopRequest.getDistance() * 1000)));
         } else {
             if (shopRequest.getLocation().equals("서울특별시")) {
                 // subLocation 검사

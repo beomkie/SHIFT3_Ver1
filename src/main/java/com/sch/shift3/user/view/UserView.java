@@ -64,6 +64,11 @@ public class UserView {
         return ImageUtil.display(fileName);
     }
 
+    @GetMapping("/thumb/{fileName}")
+    public ResponseEntity<Resource> getThumbImageFile(@PathVariable String fileName){
+        return ImageUtil.displayThumb(fileName);
+    }
+
     @GetMapping("/introduce")
     public String introducePage(Model model) {
 //        model.addAttribute("disableLoading", true);
