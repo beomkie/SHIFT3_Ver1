@@ -350,6 +350,14 @@
                             } else {
                                 window.isMobile = true;
                             }
+
+                            // wait for window.myLocate set
+                            setTimeout(function () {
+                                if (getRequest().location === '내위치') {
+                                    map.setCenter(new naver.maps.LatLng(window.myLocate.lat, window.myLocate.lng));
+                                    map.setZoom(12);
+                                }
+                            }, 1000);
                         }
 					</script>
 
@@ -515,33 +523,24 @@
 
 
                                     if (window.firstSearch) {
-                                        $(document).ready(function () {
-                                            setTimeout(function () {
-                                                if (getRequest().location === '내위치') {
-                                                    map.setCenter(new naver.maps.LatLng(window.myLocate.lat, window.myLocate.lng));
-                                                    map.setZoom(12);
-                                                }
+                                        naver.maps.Event.addListener(map, 'dragend', function () {
+                                            // ajax 요청 코드 작성
+                                            if (window.detailShopEvent)
+                                                return;
 
-                                                naver.maps.Event.addListener(map, 'dragend', function () {
-                                                    // ajax 요청 코드 작성
-                                                    if (window.detailShopEvent)
-                                                        return;
-
-                                                    console.log("dragend");
-                                                    reloadShopList();
-                                                });
-
-                                                naver.maps.Event.addListener(map, 'zoom_changed', function () {
-                                                    // ajax 요청 코드 작성
-                                                    if (window.detailShopEvent)
-                                                        return;
-
-                                                    console.log("zoom_changed");
-                                                    reloadShopList();
-                                                });
-
-                                            }), 1000
+                                            console.log("dragend");
+                                            reloadShopList();
                                         });
+
+                                        naver.maps.Event.addListener(map, 'zoom_changed', function () {
+                                            // ajax 요청 코드 작성
+                                            if (window.detailShopEvent)
+                                                return;
+
+                                            console.log("zoom_changed");
+                                            reloadShopList();
+                                        });
+
                                     }
                                     window.firstSearch = false;
                                 }
