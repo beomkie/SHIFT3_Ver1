@@ -360,3 +360,7 @@ div.card .card-body[data-same-height='true'] .card-text {
 .btn-hover-white:hover {
     color: white !important;
 }
+
+.note-btn.dropdown-toggle:after {
+    content: none;
+}
