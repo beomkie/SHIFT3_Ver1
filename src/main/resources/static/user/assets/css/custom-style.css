@@ -364,3 +364,7 @@ div.card .card-body[data-same-height='true'] .card-text {
 .note-btn.dropdown-toggle:after {
     content: none;
 }
+
+button[data-bs-original-title="Full Screen"] {
+    display: none;
+}
