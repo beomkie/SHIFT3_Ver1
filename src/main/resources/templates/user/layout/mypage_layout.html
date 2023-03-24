@@ -12,6 +12,13 @@
 <th:block layout:fragment="css"></th:block>
 
 <style>
+
+    /* 모바일 수평 스크롤 금지 */
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
     /*mobile*/
     @media (max-width: 767px) {
         .col-6 {
