@@ -29,10 +29,29 @@ public class ShopRepository {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (shopRequest.getLocation().equals("내위치")) {
+//            if (shopRequest.getLat() == null || shopRequest.getLng() == null) {
+//                shopRequest.setLng(37.566826);
+//                shopRequest.setLat(126.9786567);
+//            }
+
             if (shopRequest.getDistance() == null){
                 shopRequest.setDistance(25.0);
             }
 
+            if (!shopRequest.getKeyword().isBlank()) {
+                // 검색어 존재시 검색어 검색
+                builder.and(qSelectShop.name.contains(shopRequest.getKeyword()));
+                query.orderBy(Expressions.stringTemplate("ST_Distance_Sphere({0}, {1})",
+                        Expressions.stringTemplate("POINT({0}, {1})",
+                                shopRequest.getLng(),
+                                shopRequest.getLat()
+                        ),
+                        Expressions.stringTemplate("POINT({0}, {1})",
+                                qSelectShop.longitude,
+                                qSelectShop.latitude
+                        )).asc());
+            } else {
+                // 아니라면, 내 위치 검색
             builder.and(Expressions.stringTemplate("ST_Distance_Sphere({0}, {1})",
                     Expressions.stringTemplate("POINT({0}, {1})",
                             shopRequest.getLng(),
@@ -42,6 +61,7 @@ public class ShopRepository {
                             qSelectShop.longitude,
                             qSelectShop.latitude
                     )).lt(String.valueOf(shopRequest.getDistance() * 1000)));
+            }
         } else {
             if (shopRequest.getLocation().equals("서울특별시")) {
                 // subLocation 검사

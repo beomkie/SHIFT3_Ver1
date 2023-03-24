@@ -128,4 +128,8 @@ public class SelectShop {
         return str.replaceAll("[\"']", "&quot;")
                 .replaceAll("'", "&#39;");
     }
+
+    public void setHitCount(int i) {
+        this.hitCount = i;
+    }
 }

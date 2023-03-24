@@ -65,12 +65,29 @@ public class DibService {
     }
     @Transactional
     public void removeDibShop(Integer id, Integer shopId) {
+
         dibRepository.removeDibShop(id, shopId);
+        selectShopRepository.findById(shopId).ifPresent(selectShop -> {
+            Integer hitCnt = selectShop.getHitCount();
+            if (hitCnt == null) {
+                selectShop.setHitCount(0);
+            } else {
+                selectShop.setHitCount(hitCnt - 1);
+            }
+        });
+
     }
 
     @Transactional
     public void dibShop(Integer id, Integer shopId) {
         dibRepository.dibShop(id, shopId);
+        selectShopRepository.findById(shopId).ifPresent(selectShop -> {
+            Integer hitCnt = selectShop.getHitCount();
+            if (hitCnt == null) {
+                hitCnt = 0;
+            }
+            selectShop.setHitCount(hitCnt + 1);
+        });
     }
 
     public PageImpl<SelectShop> getDibShopList(Integer id, Pageable pageRequest) {
