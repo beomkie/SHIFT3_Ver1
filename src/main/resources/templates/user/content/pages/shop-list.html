@@ -471,6 +471,66 @@
                                             } else {
                                                 $('#subLocation').slideUp();
                                             }
+
+                                            switch ($(this).text()) {
+                                                case '서울':
+                                                    map.setCenter(new naver.maps.LatLng(37.566826, 126.9786567));
+                                                    break;
+                                                case '경기':
+                                                    map.setCenter(new naver.maps.LatLng(37.275278, 127.009444));
+                                                    break;
+                                                case '인천':
+                                                    map.setCenter(new naver.maps.LatLng(37.456111, 126.705278));
+                                                    break;
+                                                case '대전':
+                                                    map.setCenter(new naver.maps.LatLng(36.350833, 127.384444));
+                                                    break;
+                                                case '대구':
+                                                    map.setCenter(new naver.maps.LatLng(35.871389, 128.601389));
+                                                    break;
+                                                case '부산':
+                                                    map.setCenter(new naver.maps.LatLng(35.179444, 129.075556));
+                                                    break;
+                                                case '광주':
+                                                    map.setCenter(new naver.maps.LatLng(35.160556, 126.851667));
+                                                    break;
+                                                case '충청':
+                                                    map.setCenter(new naver.maps.LatLng(36.350833, 127.384444));
+                                                    break;
+                                                case '강원':
+                                                    map.setCenter(new naver.maps.LatLng(37.275278, 127.009444));
+                                                    break;
+                                                case '제주':
+                                                    map.setCenter(new naver.maps.LatLng(33.361667, 126.529722));
+                                                    break;
+                                                case '울산':
+                                                    map.setCenter(new naver.maps.LatLng(35.5383773, 129.3113596));
+                                                    break;
+                                                case '경북':
+                                                    map.setCenter(new naver.maps.LatLng(36.560118, 128.463385));
+                                                    break;
+                                                case '경남':
+                                                    map.setCenter(new naver.maps.LatLng(35.556809, 129.247284));
+                                                    break;
+                                                case '전남':
+                                                    map.setCenter(new naver.maps.LatLng(35.824722, 127.148611));
+                                                    break;
+                                                case '전북':
+                                                    map.setCenter(new naver.maps.LatLng(35.824722, 127.148611));
+                                                    break;
+                                                case '충북':
+                                                    map.setCenter(new naver.maps.LatLng(36.350833, 127.384444));
+                                                    break;
+                                                case '충남':
+                                                    map.setCenter(new naver.maps.LatLng(36.350833, 127.384444));
+                                                    break;
+                                                case '세종':
+                                                    map.setCenter(new naver.maps.LatLng(36.5040736, 127.2494855));
+                                                    break;
+                                                default:
+                                                    console.log('default');
+                                                    break;
+                                            }
                                         }
                                         search();
                                     });
