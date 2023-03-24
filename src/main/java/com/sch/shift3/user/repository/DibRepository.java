@@ -151,7 +151,7 @@ public class DibRepository {
         queryFactory
                 .delete(dib)
                 .where(dib.selectShopId.eq(id)
-                        .and(dib.selectShopId.isNull()))
+                        .and(dib.productId.isNull()))
                 .execute();
     }
 
